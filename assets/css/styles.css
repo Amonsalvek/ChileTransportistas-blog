@@ -8,7 +8,7 @@ p {
     padding: 20px 40px;
 }
 
-img {
+article img {
     max-width: 700px !important;
     width:100% !important;
     height: auto;
