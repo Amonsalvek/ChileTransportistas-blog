@@ -1,0 +1,158 @@
+<style>
+  .bg-main img {
+  max-width: 700px !important;
+  width:100% !important;
+  }
+  </style>
+  
+  <!-- bottom banner -->
+  <!-- Ionicons CDN -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  
+  <style>
+    /* Reset banner styles */
+    #engagement-banner {
+      display: none;
+      position: fixed !important;
+      bottom: 0;
+      left: 0;
+      width: 100vw !important;
+      background: #fefdf9;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 9999;
+      padding: 5px 20px;
+      box-sizing: border-box;
+    }
+  
+    #engagement-banner .banner-content {
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  
+    #engagement-banner img {
+      width: 200px;
+      height: auto;
+      border-radius: 8px;
+    }
+  
+    #engagement-banner h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.4rem;
+      color: #000;
+    }
+  
+    #engagement-banner p {
+      margin: 0 0 12px 0;
+      font-size: 1rem;
+      color: #333;
+    }
+  
+    #engagement-banner a {
+      text-decoration: none !important;
+      background: #d50032;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+  
+    #engagement-banner a:hover {
+      background: #b00028;
+    }
+  
+    #engagement-banner ion-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #555;
+    }
+  
+    .banner-content-left {
+      display: flex;
+      transform: translateX(50%);
+      gap: 20px;
+      align-items: center;
+      order: 1;
+    }
+  
+    .banner-content-right {
+      display: flex;
+      height: 100%;
+      order: 2;
+    }
+  
+    @media (max-width: 600px) {
+      #engagement-banner .banner-content {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+  
+      .banner-content-left {
+        margin-left: 0;
+        transform: none;
+        order: 2;
+      }
+  
+      .banner-content-right {
+        order: 1;
+      }
+  
+      #engagement-banner img {
+        width: 80px;
+      }
+  
+      #engagement-banner h2 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+  
+  <!-- Fixed Bottom Banner -->
+  <div id="engagement-banner">
+    <div class="banner-content">
+      <div class="banner-content-left">
+        <img src="https://github.com/Amonsalvek/ChileTransportistas/blob/main/ebook%20mockup%20chile%20transportistas.webp?raw=true" alt="Promo Image">
+        <div class="text-block">
+          <h2>Se el primero en obtenerlo</h2>
+          <p>Reporte de empresas transportistas. Cuánto cuesta en promedio el transporte de carga por kilómetro.</p>
+          <a href="/reporte-2025/" target="_blank">Ver reporte</a>
+        </div>
+        </div>
+      <div class="banner-content-right">
+        <ion-icon name="close-outline" id="close-banner"></ion-icon>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Show after scroll or 20 seconds
+    let bannerShown = false;
+  
+    document.querySelector
+  
+    function showBanner() {
+      if (!bannerShown) {
+        document.getElementById('engagement-banner').style.display = 'block';
+        document.body.classList.add('banner-visible');
+        bannerShown = true;
+      }
+    }
+  
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY / document.body.scrollHeight;
+      if (scrollPosition > 0.5) showBanner();
+    });
+  
+    setTimeout(showBanner, 20000);
+  
+    document.getElementById('close-banner').addEventListener('click', () => {
+      document.getElementById('engagement-banner').style.display = 'none';
+      document.body.classList.remove('banner-visible');
+    });
+  </script>

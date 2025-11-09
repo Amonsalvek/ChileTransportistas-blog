@@ -1,0 +1,74 @@
+<!-- Sticky button for mobile only -->
+<style>
+    .sticky-quote-mobile {
+      position: fixed;
+      display: flex;
+      align-items: center;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #303030;
+      padding: 20px 10px;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  
+    .sticky-quote-mobile a {
+      flex-grow: 1;
+      display: block;
+      padding: 20px 0;
+      border-radius: 6px;
+      background-color: #d50032;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+      user-select: none;
+    }
+  
+    .sticky-quote-mobile a:hover {
+      background-color: #b00028;
+      transition: background-color 0.3s ease;
+    }
+  
+    @media (min-width: 768px) {
+      .sticky-quote-mobile {
+        display: none;
+      }
+    }
+  </style>
+  
+  <div class="sticky-quote-mobile" style="display: none;">
+    <a href="/registrar/">Publicar mi empresa</a>
+  </div>
+
+<script>
+  const scrollPercentageStickyQuote = 10;
+
+  function isMobile() {
+    return window.innerWidth < 768;
+  }
+
+  function handleStickyQuoteVisibility() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+
+    const stickyQuote = document.querySelector('.sticky-quote-mobile');
+    if (!stickyQuote) return;
+
+    if (isMobile() && scrollPercent > scrollPercentageStickyQuote && window.location.pathname.includes('/blog/')) {
+      stickyQuote.style.display = 'flex';
+    } else {
+      stickyQuote.style.display = 'none';
+    }  }
+
+  window.addEventListener('load', () => {
+    handleStickyQuoteVisibility(); // initial check on load
+    window.addEventListener('scroll', handleStickyQuoteVisibility);
+    window.addEventListener('resize', handleStickyQuoteVisibility); // update on resize
+  });
+</script>

@@ -1,0 +1,263 @@
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Remix Icon -->
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+<style>
+/* Footer Styling */
+footer {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    padding: 60px 150px 40px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.footer__container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.footer__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    gap: 40px;
+}
+
+.footer__section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer__section--resources {
+    align-items: center;
+    text-align: left;
+    max-width: 180px;
+}
+
+.footer__section--resources .footer__title,
+.footer__section--resources .footer__links {
+    align-self: flex-start;
+}
+
+.footer__section--social {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.footer__logo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer__logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.footer__logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.footer__copyright {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    color: #b0b0b0;
+    margin-top: 10px;
+}
+
+.footer__title {
+    font-family: 'Exo', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.footer__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 0;
+}
+
+.footer__links li {
+    margin-bottom: 12px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.footer__links a {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding-left: 0;
+    margin-left: 0;
+    display: block;
+}
+
+.footer__links a:hover {
+    color: #ffffff;
+}
+
+.footer__social {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.footer__social-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    background-color: transparent;
+}
+
+.footer__social-icon:hover {
+    transform: translateY(-2px);
+}
+
+.footer__social-icon--facebook {
+    background-color: transparent;
+    color: #1877f2;
+}
+
+.footer__social-icon--twitter {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.footer__social-icon i {
+    font-size: 18px;
+}
+
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.footer__cta-button {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 14px 28px;
+    background-color: #d50032;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(213, 0, 50, 0.3);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer__cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(213, 0, 50, 0.4);
+}
+
+.footer__email {
+    text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
+    color: #b0b0b0;
+    text-align: right;
+}
+
+.footer__email:hover {
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    footer {
+        padding: 40px 20px 30px;
+    }
+    
+    .footer__top {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .footer__bottom {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    
+    .footer__email {
+        text-align: left;
+    }
+}
+</style>
+
+<footer>
+    <div class="footer__container">
+        <div class="footer__top">
+            <!-- Logo Section -->
+            <div class="footer__section footer__logo-section">
+                <div class="footer__logo">
+                    <img src="https://unicorn-images.b-cdn.net/75b5393a-2275-4e97-8a42-bfecb57feb8d?optimizer=gif" alt="Chile Transportistas Logo">
+                </div>
+                <div class="footer__copyright">
+                    © 2025 Chile Transportistas.
+                </div>
+            </div>
+            
+            <!-- Resources Section -->
+            <div class="footer__section footer__section--resources">
+                <h3 class="footer__title">Recursos para transportistas</h3>
+                <ul class="footer__links">
+                    <li><a href="https://www.chiletransportistas.com/registrar/">Registrar empresa</a></li>
+                    <li><a href="https://www.chiletransportistas.com/sobre-nosotros/">Sobre nosotros</a></li>
+                </ul>
+            </div>
+            
+            <!-- Social Media Section -->
+            <div class="footer__section footer__section--social">
+                <h3 class="footer__title">Síguenos en redes sociales</h3>
+                <div class="footer__social">
+                    <a href="https://www.facebook.com/profile.php?id=61581715376312" target="_blank" class="footer__social-icon footer__social-icon--facebook" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://x.com/ale_monsalve" target="_blank" class="footer__social-icon footer__social-icon--twitter" aria-label="Twitter/X">
+                        <i class="ri-twitter-x-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer__bottom">
+            <a href="https://www.chiletransportistas.com/registrar/" class="footer__cta-button">Publicar mi empresa</a>
+            <a href="mailto:alejandro.monsalve@procounsel.io" class="footer__email">Correo electrónico</a>
+        </div>
+    </div>
+</footer>

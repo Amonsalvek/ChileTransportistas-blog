@@ -1,0 +1,142 @@
+<style>
+  /* === LATERAL BANNER === */
+  #side-banner {
+    position: absolute;
+    right: 20px;
+    top: 600px;
+    width: 260px;
+    text-decoration: none;
+    background: #fefdf9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    z-index: 1000;
+    transition: top 0.3s ease; /* Smooth transition for top changes */
+  }
+
+  #side-banner.fixed {
+    position: fixed;
+    right: 20px;
+    top: 10%;
+  }
+
+  #side-banner h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #000;
+  }
+
+  #side-banner p {
+    margin: 0;
+    color: #333;
+    font-size: 1rem;
+  }
+
+  #side-banner button {
+    background: #d50032;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+
+  #side-banner button:hover {
+    background: #b00028;
+  }
+
+  #side-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  /* Hide on smaller screens */
+  @media (max-width: 900px) {
+    #side-banner {
+      display: none;
+    }
+  }
+
+  /* === CONTENT PADDING FOR LATERAL BANNER === */
+  .container-p--large {
+    padding-left: 20px;
+    padding-right: 300px; /* space for banner */
+  }
+
+  @media (min-width: 1400px) {
+    .container-p--large {
+      padding-left: 200px;
+      padding-right: 200px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .container-p--large {
+      padding-right: 250px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container-p--large {
+      padding-right: 200px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container-p--large {
+      padding-right: 50px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container-p--large {
+      padding-right: 20px;
+    }
+  }
+</style>
+
+<!-- === LATERAL STICKY/FIXED BANNER === -->
+<a id="side-banner" href="/reporte-2025/" target="_blank">
+  <h2>Reporte Transporte 2025</h2>
+  <p>Conoce las tendencias y cifras más importantes del transporte.</p>
+  <button>Ver reporte</button>
+  <img src="https://cdn.chiletransportistas.com/ebook%20mockup%20chile%20transportistas.webp" alt="Reporte 2025">
+</a>
+
+<script>
+  const banner = document.getElementById("side-banner");
+
+  window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const scrollPercent = scrollTop / docHeight;
+
+    if (scrollPercent > 0.07 && scrollPercent < 0.8) {
+      // Fixed position while scrolling through middle of page
+      banner.classList.add("fixed");
+      banner.style.top = ""; // clear inline style to let CSS handle top
+    } else {
+      banner.classList.remove("fixed");
+    }
+
+    // Position the banner 80px from the bottom when near the page end
+    // if (scrollPercent >= 0.8) {
+    //   banner.style.top = (window.scrollY + window.innerHeight - banner.offsetHeight - 80) + "px";
+    // } else {
+    //   banner.style.top = "600px";
+    // }
+
+  });
+</script>
