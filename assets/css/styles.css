@@ -2,10 +2,10 @@ p {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.1rem;
     color: #333;
-    line-height: 1.6;
+    line-height: 1.7;
     height: auto;
     margin: 0 0 1.2em 0;
-    padding: 20px;
+    padding: 20px 40px;
 }
 
 img {
