@@ -1,11 +1,11 @@
 p {
     font-family: 'Quicksand', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: #333;
     line-height: 1.6;
     height: auto;
     margin: 0 0 1.2em 0;
-    padding: 0;
+    padding: 20px;
 }
 
 img {
@@ -13,6 +13,13 @@ img {
     height: auto;
     display: block;
     margin: 0 auto;
+}
+
+.linea {
+    border: 1px solid lightgray;
+    margin: 20px 0;
+    height: 1px;
+    width: 100%;
 }
 
 article {
@@ -40,7 +47,7 @@ h1, h2, h3 {
 h1 {
     font-size: 3.2rem;
     margin-top: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 h2 {
     font-size: 2.1rem;
