@@ -1,51 +1,85 @@
 p {
     font-family: 'Quicksand', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     color: #333;
-    line-height: 1.5;
-    height:auto;
-    margin:0;
-    padding:0;
+    line-height: 1.6;
+    height: auto;
+    margin: 0 0 1.2em 0;
+    padding: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 article {
     font-family: 'Quicksand', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     color: #333;
-    width:100%;
+    width: 100%;
     max-width: 1200px;
-    margin:0 auto;
-    padding:200px;
-    height:auto;
-}
-
-@media (max-width: 768px) {
-    article {
-        padding:100px 50px;
-    }
-}
-
-@media (max-width: 480px) {
-    article {
-        padding:100px 20px;
-    }
+    margin: 0 auto;
+    padding: 80px 48px;
+    box-sizing: border-box;
+    height: auto;
 }
 
 h1, h2, h3 {
     font-family: 'Exo', sans-serif;
     font-weight: 700;
     color: #333;
-    height:auto;
-    padding:0;
-    margin:0;
+    height: auto;
+    padding: 0;
+    margin: 0 0 0.7em 0;
+    line-height: 1.15;
 }
 
 h1 {
-    font-size: 56px;
+    font-size: 3.2rem;
 }
 h2 {
-    font-size: 36px;
+    font-size: 2.1rem;
 }
 h3 {
-    font-size: 24px;
+    font-size: 1.3rem;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    article {
+        padding: 56px 24px;
+    }
+    h1 {
+        font-size: 2.4rem;
+    }
+    h2 {
+        font-size: 1.6rem;
+    }
+    h3 {
+        font-size: 1.1rem;
+    }
+    p {
+        font-size: 0.98rem;
+    }
+}
+
+@media (max-width: 600px) {
+    article {
+        padding: 32px 8px;
+    }
+    h1 {
+        font-size: 1.65rem;
+    }
+    h2 {
+        font-size: 1.18rem;
+    }
+    h3 {
+        font-size: 1rem;
+    }
+    p {
+        font-size: 0.94rem;
+    }
 }
