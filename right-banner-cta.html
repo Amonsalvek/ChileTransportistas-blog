@@ -1,9 +1,13 @@
+<!-- Ionicons (optional if you want icons inside) -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 <style>
   /* === LATERAL BANNER === */
-  #side-banner {
-    position: absolute;
+#side-banner {
+    position: fixed;
     right: 20px;
-    top: 600px;
+    top: 10%;
     width: 260px;
     text-decoration: none;
     background: #fefdf9;
@@ -20,13 +24,9 @@
     box-sizing: border-box;
     cursor: pointer;
     z-index: 1000;
-    transition: top 0.3s ease; /* Smooth transition for top changes */
-  }
-
-  #side-banner.fixed {
-    position: fixed;
-    right: 20px;
-    top: 10%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
 
   #side-banner h2 {
@@ -62,19 +62,58 @@
     border-radius: 8px;
   }
 
-  /* Hide on smaller screens */
+  /* Tablet and smaller screens */
+  @media (max-width: 1024px) {
+    #side-banner {
+      right: 10px;
+      width: 220px;
+      padding: 15px;
+    }
+    
+    #side-banner h2 {
+      font-size: 1.1rem;
+    }
+    
+    #side-banner p {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Specific range where banner still overlaps content */
+  @media (min-width: 901px) and (max-width: 1000px) {
+    #side-banner {
+      right: 5px;
+      width: 180px;
+      padding: 12px;
+    }
+    
+    #side-banner h2 {
+      font-size: 1rem;
+    }
+    
+    #side-banner p {
+      font-size: 0.8rem;
+    }
+    
+    #side-banner button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+  }
+
   @media (max-width: 900px) {
     #side-banner {
-      display: none;
+      display: none; /* hides banner on smaller devices */
     }
   }
 
   /* === CONTENT PADDING FOR LATERAL BANNER === */
   .container-p--large {
-    padding-left: 20px;
-    padding-right: 300px; /* space for banner */
+    padding-left: 20px; /* Small padding for readability */
+    padding-right: 300px; /* Right padding to avoid banner overlap */
   }
 
+  /* Only add large left padding on very large screens */
   @media (min-width: 1400px) {
     .container-p--large {
       padding-left: 200px;
@@ -82,61 +121,58 @@
     }
   }
 
+  /* Responsive padding adjustments */
   @media (max-width: 1200px) {
     .container-p--large {
+      padding-left: 20px;
       padding-right: 250px;
     }
   }
 
   @media (max-width: 1024px) {
     .container-p--large {
+      padding-left: 20px;
       padding-right: 200px;
     }
   }
 
   @media (max-width: 768px) {
     .container-p--large {
+      padding-left: 20px;
       padding-right: 50px;
     }
   }
 
   @media (max-width: 480px) {
     .container-p--large {
+      padding-left: 15px;
       padding-right: 20px;
     }
   }
 </style>
 
 <!-- === LATERAL STICKY/FIXED BANNER === -->
-<a id="side-banner" href="/reporte-2025/" target="_blank">
-  <h2>Reporte Transporte 2025</h2>
-  <p>Conoce las tendencias y cifras más importantes del transporte.</p>
-  <button>Ver reporte</button>
-  <img src="https://cdn.chiletransportistas.com/ebook%20mockup%20chile%20transportistas.webp" alt="Reporte 2025">
+<a id="side-banner" href="/guia-para-conseguir-carga" target="_blank">
+  <h2>La guía para Empresas de Transporte Chilenas que Quieren Crecer sin depender de contactos: Cómo conseguir carga por internet</h2>
+  <p>Descarga gratis la guía que usamos en ChileTransportistas para conectar transportistas con carga todos los días.</p>
+  <button>Descargar guía gratis</button>
+  <img src="https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/ebook-guia-para-cargas.png" alt="guia-conseguir-carga">
 </a>
 
 <script>
-  const banner = document.getElementById("side-banner");
+const banner = document.getElementById("side-banner");
 
   window.addEventListener("scroll", () => {
     const scrollTop = window.scrollY;
     const docHeight = document.body.scrollHeight - window.innerHeight;
     const scrollPercent = scrollTop / docHeight;
 
-    if (scrollPercent > 0.07 && scrollPercent < 0.8) {
-      // Fixed position while scrolling through middle of page
-      banner.classList.add("fixed");
-      banner.style.top = ""; // clear inline style to let CSS handle top
+if (scrollPercent > 0.07 && scrollPercent < 0.90) {
+      banner.style.opacity = "1";
+      banner.style.pointerEvents = "auto";
     } else {
-      banner.classList.remove("fixed");
+      banner.style.opacity = "0";
+      banner.style.pointerEvents = "none";
     }
-
-    // Position the banner 80px from the bottom when near the page end
-    // if (scrollPercent >= 0.8) {
-    //   banner.style.top = (window.scrollY + window.innerHeight - banner.offsetHeight - 80) + "px";
-    // } else {
-    //   banner.style.top = "600px";
-    // }
-
   });
 </script>
