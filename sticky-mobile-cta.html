@@ -1,4 +1,4 @@
-<!-- Sticky button for mobile only -->
+<!-- Sticky button for mobile only — pista transportistas -->
 <style>
     .sticky-quote-mobile {
       position: fixed;
@@ -42,7 +42,7 @@
   </style>
   
   <div class="sticky-quote-mobile" style="display: none;">
-    <a href="/registrar/">Publicar mi empresa</a>
+    <a href="https://www.chiletransportistas.com/mi-cuenta/registrar/">Aparecer en el Directorio</a>
   </div>
 
 <script>
@@ -50,6 +50,17 @@
 
   function isMobile() {
     return window.innerWidth < 768;
+  }
+
+  /* El sticky va en artículos, no en la portada ni en los hubs: ahí taparía
+     las tarjetas. Antes esto comprobaba pathname.includes('/blog/'), que en
+     blog.chiletransportistas.com no se cumple nunca y dejaba el CTA invisible
+     en todo el subdominio. */
+  function isArticlePage() {
+    const p = window.location.pathname;
+    if (p === '/' || p === '/transportistas/' || p === '/contratar-transporte/') return false;
+    return /^\/(articulos|transportistas|contratar-transporte)\/.+/.test(p)
+        || p.includes('/blog/'); // www.chiletransportistas.com/blog/{slug}/
   }
 
   function handleStickyQuoteVisibility() {
@@ -60,7 +71,7 @@
     const stickyQuote = document.querySelector('.sticky-quote-mobile');
     if (!stickyQuote) return;
 
-    if (isMobile() && scrollPercent > scrollPercentageStickyQuote && window.location.pathname.includes('/blog/')) {
+    if (isMobile() && scrollPercent > scrollPercentageStickyQuote && isArticlePage()) {
       stickyQuote.style.display = 'flex';
     } else {
       stickyQuote.style.display = 'none';
