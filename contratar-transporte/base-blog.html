@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- ===================================================================
+         PLANTILLA — pista "generadores de carga" (/contratar-transporte/)
+         ===================================================================
+         Copia este archivo a contratar-transporte/{slug}.html y reemplaza
+         todos los {{...}}. Las diferencias con articulos/base-blog.html son
+         solo tres, pero son las que importan:
+
+           1. Los includes SSI apuntan a las variantes -carga:
+              sticky-mobile-cta-carga / right-banner-cta-carga /
+              content-cta-carga. Empujan al COTIZADOR, no al registro.
+              Servirle el CTA de transportista a un shipper convierte cero.
+           2. Las migas de pan usan la pista "Contratar transporte".
+           3. El canonical vive en blog.chiletransportistas.com, no en www:
+              esta pista nace en el subdominio y no tiene legado que respetar.
+
+         Regla dura del silo: cada keyword vive en UNA sola pista, definida
+         por intención. Acá van "cómo contratar", "cuánto cuesta transportar
+         X", "qué camión necesito para...". Nunca "cómo conseguir carga" ni
+         "costo por kilómetro": eso es de /transportistas/.
+         =================================================================== -->
+    <title>{{TÍTULO SEO — máx. 60 caracteres}}</title>
+    <meta name="twitter:title" content="{{TÍTULO SEO}}" />
+		<link rel="icon" type="image/png" href="https://cdn.chiletransportistas.com/ChileTransportistas-assets/favicon-chiletransportistas.ico" sizes="32x32">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{TÍTULO SEO}}" />
+    <meta property="og:image" content="https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/{{SLUG}}.webp"/>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/{{SLUG}}.webp">
+    <meta name="description" content="{{META DESCRIPTION — 150-160 caracteres}}">
+    <meta name="twitter:description" content="{{META DESCRIPTION}}" />
+    <meta property="og:description" content="{{META DESCRIPTION}}"/>
+
+    <link href="https://blog.chiletransportistas.com/contratar-transporte/{{SLUG}}/" rel="canonical">
+    <meta name="twitter:url" content="https://blog.chiletransportistas.com/contratar-transporte/{{SLUG}}/">
+    <meta property="og:url" content="https://blog.chiletransportistas.com/contratar-transporte/{{SLUG}}/">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{TITULAR COMPLETO}}",
+        "image": "https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/{{SLUG}}.webp",
+        "author": {
+          "@type": "Person",
+          "name": "Alejandro Monsalve"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "ChileTransportistas.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://cdn.chiletransportistas.com/ChileTransportistas-assets/logo-chiletransportistas.webp"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://blog.chiletransportistas.com/contratar-transporte/{{SLUG}}/"
+        },
+        "isPartOf": {
+          "@type": "CollectionPage",
+          "@id": "https://blog.chiletransportistas.com/contratar-transporte/#hub"
+        },
+        "datePublished": "{{AAAA-MM-DD}}T12:00:00+00:00",
+        "dateModified": "{{AAAA-MM-DD}}T12:00:00+00:00",
+        "description": "{{META DESCRIPTION}}"
+      }
+    </script>
+
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="FYolLf4UKdbvvbq2cg2/lw" async></script>
+
+<!-- Sticky button for mobile only inject -->
+<!--#include file="/sticky-mobile-cta-carga.html" -->
+
+<!-- right banner cta inject -->
+<!--#include file="/right-banner-cta-carga.html" -->
+
+</head>
+<!--#include file="/navbar.html" -->
+
+<article>
+
+  <!-- Migas de pan: pista + título corto. El snippet SSI imprime
+       la navegación visible y el JSON-LD BreadcrumbList. -->
+  <!--#set var="bc_hub_name" value="Contratar transporte" -->
+  <!--#set var="bc_hub_url" value="/contratar-transporte/" -->
+  <!--#set var="bc_title" value="{{TÍTULO CORTO SIN COMILLAS}}" -->
+  <!--#include file="/breadcrumbs.html" -->
+
+  <h1>{{TITULAR COMPLETO}}</h1>
+
+  <p>{{Respuesta directa a la consulta en el primer párrafo: quien busca
+  "cómo contratar transporte" quiere la respuesta, no una introducción.}}</p>
+
+  <figure>
+    <img src="https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/{{SLUG}}.webp" alt="{{alt descriptivo}}" width="600" height="600" style="max-width:600px;height:auto;display:block;margin:0 auto;">
+  </figure>
+
+  <h2 id="contents">En este artículo</h2>
+  <ul>
+    <li><a href="#s1">{{Sección 1}}</a></li>
+    <li><a href="#s2">{{Sección 2}}</a></li>
+    <li><a href="#faq">Preguntas frecuentes</a></li>
+  </ul>
+
+  <h2 id="s1">{{Sección 1}}</h2>
+  <p>{{...}}</p>
+
+  <h2 id="s2">{{Sección 2}}</h2>
+  <p>{{...}}</p>
+
+  <!--#include file="/content-cta-carga.html" -->
+
+  <h2 id="faq">Preguntas frecuentes</h2>
+  <h3>{{Pregunta}}</h3>
+  <p>{{Respuesta}}</p>
+
+  <h2>Conclusión</h2>
+  <p>{{...}}</p>
+
+</article>
+<!--#include file="/footer.html" -->
+
+</body>
+</html>
