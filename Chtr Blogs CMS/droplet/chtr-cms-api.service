@@ -1,0 +1,40 @@
+[Unit]
+Description=CHTR Blog CMS API (pull requests y lectura del repositorio)
+Documentation=file:/opt/chtr-cms-api/INSTALL.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/chtr-cms-api
+Environment=NODE_ENV=production
+Environment=CMS_ENV_FILE=/opt/chtr-cms-api/.env
+Environment=BLOG_ENV_FILE=/opt/chtr-blog-api/.env
+ExecStart=/usr/bin/node /opt/chtr-cms-api/chtr-cms-api.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=chtr-cms-api
+
+# El droplet tiene 512 MB: se le pone techo para que nunca compita
+# con el servicio de publicación ni con nginx.
+MemoryMax=192M
+LimitNOFILE=4096
+
+# Endurecimiento
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+# Solo necesita escribir si ALLOW_DEPLOY=true (git pull en /var/www/blog)
+ReadWritePaths=/var/www/blog
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,3504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHTR Blog CMS — ChileTransportistas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Ionicons: mismo origen y versión que usa el sitio en right-banner-cta.html -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<style>
+/* ============================================================
+   CHTR Blog CMS — estilos
+   ============================================================ */
+:root{
+  --brand:#d50032;
+  --brand-dark:#a80028;
+  --brand-soft:#fff1f4;
+  --ink:#141a21;
+  --ink-2:#3d4854;
+  --ink-3:#6b7885;
+  --line:#e3e8ee;
+  --line-2:#eef2f6;
+  --bg:#f6f8fa;
+  --panel:#ffffff;
+  --ok:#0f8f4b;
+  --ok-soft:#e8f7ee;
+  --warn:#b26a00;
+  --warn-soft:#fff5e2;
+  --err:#c62828;
+  --err-soft:#fdeceb;
+  --info:#1565c0;
+  --info-soft:#e9f2fd;
+  --radius:10px;
+  --shadow:0 1px 2px rgba(16,24,40,.05), 0 4px 14px rgba(16,24,40,.06);
+  --shadow-lg:0 10px 40px rgba(16,24,40,.16);
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:"Exo",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --body:"Quicksand",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --topbar-h:56px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--body);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--sans);margin:0;line-height:1.2}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#cdd5de;border-radius:8px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:#b6c0cb}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ---------- iconos ---------- */
+ion-icon{
+  font-size:16px;               /* Ionicons se dimensiona con font-size */
+  vertical-align:-.16em;
+  flex:none;
+  pointer-events:none;
+}
+.btn ion-icon{font-size:15px}
+.btn.sm ion-icon{font-size:14px}
+.side button ion-icon{font-size:17px}
+.tabs button ion-icon{font-size:15px}
+.toolbar .tb ion-icon{font-size:15px;vertical-align:-.2em}
+.vitem .ic ion-icon{font-size:15px}
+.mh ion-icon{font-size:19px}
+/* Sin conexión el componente no llega a definirse: se colapsa el hueco
+   en vez de dejar cajas vacías descuadrando la interfaz. */
+body.sin-iconos ion-icon{display:none}
+
+/* ---------- primitivos ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;justify-content:center;
+  border:1px solid var(--line);background:#fff;color:var(--ink);
+  padding:7px 13px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;
+  transition:background .12s,border-color .12s,box-shadow .12s,transform .05s;
+  white-space:nowrap;user-select:none;
+}
+.btn:hover{background:#f7f9fb;border-color:#cfd8e2}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-dark);border-color:var(--brand-dark)}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:#eef2f6}
+.btn.danger{color:var(--err);border-color:#f3c9c7}
+.btn.danger:hover{background:var(--err-soft);border-color:#e8a9a6}
+.btn.sm{padding:4px 9px;font-size:12px;border-radius:7px}
+.btn.icon{padding:6px;width:30px;height:30px}
+.btn .sp{width:13px;height:13px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.field > label{font-size:12px;font-weight:700;color:var(--ink-2);letter-spacing:.01em}
+.field .hint{font-size:11.5px;color:var(--ink-3);line-height:1.45}
+.field .hint code{background:var(--line-2);padding:1px 4px;border-radius:4px;font-family:var(--mono);font-size:11px}
+input[type=text],input[type=url],input[type=password],input[type=date],input[type=number],select,textarea{
+  width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;
+  outline:none;transition:border-color .12s,box-shadow .12s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(213,0,50,.10)}
+input[readonly]{background:#f7f9fb;color:var(--ink-3)}
+textarea{resize:vertical;min-height:70px}
+textarea.code{font-family:var(--mono);font-size:12.5px;line-height:1.6;tab-size:2}
+.row{display:flex;gap:12px}
+.row > *{flex:1;min-width:0}
+.checkline{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;cursor:pointer}
+.checkline input{margin-top:2px;accent-color:var(--brand);width:15px;height:15px;flex:none}
+.checkline span{font-size:13px}
+.checkline small{display:block;color:var(--ink-3);font-size:11.5px;line-height:1.4}
+
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.02em}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.err{background:var(--err-soft);color:var(--err)}
+.chip.info{background:var(--info-soft);color:var(--info)}
+.chip.mute{background:var(--line-2);color:var(--ink-3)}
+.chip.brand{background:var(--brand-soft);color:var(--brand)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.panel > h3{font-size:14px;margin-bottom:4px}
+.panel > .sub{font-size:12px;color:var(--ink-3);margin-bottom:14px}
+.sep{height:1px;background:var(--line);margin:16px 0}
+.empty{text-align:center;padding:56px 20px;color:var(--ink-3)}
+.empty h3{font-size:16px;color:var(--ink-2);margin-bottom:6px}
+.empty p{margin:0 auto 16px;max-width:420px;font-size:13px}
+
+/* ---------- topbar ---------- */
+.topbar{
+  height:var(--topbar-h);display:flex;align-items:center;gap:12px;padding:0 14px;
+  background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:60;
+}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:-.01em}
+.brand .mark{width:26px;height:26px;border-radius:7px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.brand small{display:block;font-size:10px;color:var(--ink-3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-family:var(--body)}
+.topbar .spacer{flex:1}
+.conn{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--ink-2);
+  padding:4px 10px;border-radius:999px;background:var(--line-2);cursor:pointer;border:1px solid transparent}
+.conn:hover{border-color:var(--line)}
+.conn .dot{background:#b6c0cb}
+.conn.on .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(15,143,75,.15)}
+.conn.off .dot{background:var(--err)}
+.conn.busy .dot{background:var(--warn);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+/* ---------- layout ---------- */
+.shell{display:flex;height:calc(100vh - var(--topbar-h));overflow:hidden}
+.side{
+  width:210px;flex:none;background:#fff;border-right:1px solid var(--line);
+  padding:12px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;
+}
+.side .grp{font-size:10.5px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;padding:12px 8px 5px}
+.side button{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:7px 9px;border-radius:8px;
+  border:none;background:transparent;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink-2)
+}
+.side button:hover{background:var(--line-2)}
+.side button.active{background:var(--brand-soft);color:var(--brand)}
+.side button .cnt{margin-left:auto;font-size:11px;font-weight:700;color:var(--ink-3);background:var(--line-2);padding:1px 7px;border-radius:999px}
+.side button.active .cnt{background:#fff;color:var(--brand)}
+.main{flex:1;overflow-y:auto;min-width:0}
+.wrap{max-width:1180px;margin:0 auto;padding:20px}
+.page-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.page-head h1{font-size:20px;margin-bottom:3px}
+.page-head p{margin:0;font-size:12.5px;color:var(--ink-3)}
+.page-head .acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+</style>
+<style>
+/* ---------- biblioteca ---------- */
+.libbar{display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:200px;max-width:360px}
+.search input{padding-left:31px}
+.search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);opacity:.45;pointer-events:none}
+.libbar select{width:auto;min-width:132px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:14px}
+.acard{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;transition:box-shadow .15s,border-color .15s,transform .12s;
+}
+.acard:hover{box-shadow:var(--shadow-lg);border-color:#cfd8e2;transform:translateY(-2px)}
+.acard .thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#eef2f6,#e3e8ee);position:relative;overflow:hidden}
+.acard .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.acard .thumb .ph{position:absolute;inset:0;display:grid;place-items:center;color:#b6c0cb;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.acard .badges{position:absolute;top:8px;left:8px;display:flex;gap:5px;flex-wrap:wrap;max-width:calc(100% - 16px)}
+.acard .body{padding:12px 13px;flex:1;display:flex;flex-direction:column;gap:6px}
+.acard h3{font-size:14px;line-height:1.3;font-family:var(--sans);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.acard .slug{font-family:var(--mono);font-size:11px;color:var(--ink-3);word-break:break-all}
+.acard .desc{font-size:12px;color:var(--ink-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.acard .foot{margin-top:auto;padding-top:9px;display:flex;gap:6px;align-items:center;border-top:1px solid var(--line-2)}
+.acard .foot .when{font-size:11px;color:var(--ink-3);margin-right:auto}
+
+table.list{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+table.list th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);
+  padding:9px 12px;border-bottom:1px solid var(--line);background:#fafbfc;font-weight:700}
+table.list td{padding:10px 12px;border-bottom:1px solid var(--line-2);vertical-align:middle;font-size:13px}
+table.list tr:last-child td{border-bottom:none}
+table.list tr:hover td{background:#fafbfc}
+table.list .t{font-weight:600}
+table.list .s{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+table.list td.acts{text-align:right;white-space:nowrap}
+
+/* ---------- editor ---------- */
+.ed{display:flex;flex-direction:column;height:calc(100vh - var(--topbar-h))}
+.ed-head{
+  display:flex;align-items:center;gap:10px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line);flex:none;flex-wrap:wrap
+}
+.ed-head .ttl{min-width:0;flex:1}
+.ed-head .ttl h2{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-head .ttl .m{font-size:11.5px;color:var(--ink-3);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-head .acts{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;padding:0 16px;background:#fff;border-bottom:1px solid var(--line);flex:none;overflow-x:auto}
+.tabs button{
+  border:none;background:transparent;padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink-3);
+  cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;display:flex;align-items:center;gap:6px
+}
+.tabs button:hover{color:var(--ink)}
+.tabs button.active{color:var(--brand);border-bottom-color:var(--brand)}
+.tabs button .n{background:var(--err);color:#fff;border-radius:999px;font-size:10px;padding:0 5px;font-weight:700}
+.ed-body{flex:1;overflow:hidden;position:relative}
+.pane{position:absolute;inset:0;overflow-y:auto;display:none}
+.pane.active{display:block}
+.pane-inner{max-width:920px;margin:0 auto;padding:18px}
+.pane-wide{max-width:1180px}
+
+/* editor de contenido */
+.ed-split{display:flex;height:100%;overflow:hidden}
+.ed-col{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.ed-col + .ed-col{border-left:1px solid var(--line)}
+.ed-col .colhead{display:flex;align-items:center;gap:6px;padding:7px 12px;background:#fafbfc;border-bottom:1px solid var(--line);flex:none}
+.ed-col .colhead .lb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);margin-right:auto}
+.toolbar{display:flex;gap:3px;padding:6px 10px;background:#fff;border-bottom:1px solid var(--line);flex-wrap:wrap;flex:none;align-items:center}
+.toolbar .tb{
+  border:1px solid transparent;background:transparent;border-radius:6px;padding:4px 8px;cursor:pointer;
+  font-size:12px;font-weight:700;color:var(--ink-2);min-width:28px;height:27px;display:inline-flex;align-items:center;justify-content:center;gap:4px
+}
+.toolbar .tb:hover{background:var(--line-2)}
+.toolbar .tb.on{background:var(--brand-soft);color:var(--brand)}
+.toolbar .div{width:1px;height:18px;background:var(--line);margin:0 3px}
+.rte{
+  flex:1;overflow-y:auto;padding:22px 26px;background:#fff;outline:none;
+  font-family:var(--body);font-size:15px;line-height:1.7;color:#333;
+}
+.rte:focus{outline:none}
+.rte h1{font-family:var(--sans);font-size:1.9rem;margin:0 0 .6em}
+.rte h2{font-family:var(--sans);font-size:1.42rem;margin:1.3em 0 .5em}
+.rte h3{font-family:var(--sans);font-size:1.12rem;margin:1.2em 0 .45em}
+.rte p{margin:0 0 1em}
+.rte ul,.rte ol{margin:0 0 1em;padding-left:1.5em}
+.rte li{margin-bottom:.35em}
+.rte a{color:var(--brand);text-decoration:underline}
+.rte img{max-width:100%;height:auto;display:block;margin:10px auto;border-radius:6px}
+.rte figure{margin:1.4em 0}
+.rte figcaption{font-size:12px;color:var(--ink-3);text-align:center;margin-top:6px}
+.rte blockquote{margin:1.2em 0;padding:8px 16px;border-left:3px solid var(--brand);background:var(--brand-soft);color:var(--ink-2)}
+.rte table{width:100%;border-collapse:collapse;margin:1.2em 0;font-size:13px}
+.rte th,.rte td{border:1px solid var(--line);padding:7px 10px;text-align:left}
+.rte th{background:#fafbfc;font-weight:700}
+.rte .linea{border:1px solid lightgray;margin:20px 0;height:1px;width:100%}
+.rte .ssi-chip{
+  display:flex;align-items:center;gap:8px;margin:1.4em 0;padding:9px 12px;border-radius:8px;
+  background:repeating-linear-gradient(45deg,#f4f7fa,#f4f7fa 8px,#eef2f6 8px,#eef2f6 16px);
+  border:1px dashed #b9c4d0;font-family:var(--mono);font-size:11.5px;color:var(--ink-2);user-select:none;
+}
+.rte .ssi-chip::before{content:"SSI";background:var(--ink-2);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.06em}
+.rte .ssi-chip .x{margin-left:auto;cursor:pointer;color:var(--err);font-weight:700;padding:0 4px}
+.rte .raw-chip{
+  display:block;margin:1.4em 0;padding:9px 12px;border-radius:8px;background:#fbfcfd;border:1px dashed #cfd8e2;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-3);white-space:pre-wrap;word-break:break-all;user-select:none
+}
+.codewrap{flex:1;display:flex;min-height:0;background:#fff}
+.codewrap textarea{flex:1;border:none;border-radius:0;padding:14px 16px;resize:none;min-height:0}
+.codewrap textarea:focus{box-shadow:none;border:none}
+
+/* vista previa */
+.pv{height:100%;display:flex;flex-direction:column;background:#fff}
+.pv .bar{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid var(--line);background:#fafbfc;flex:none}
+.pv iframe{flex:1;border:none;width:100%;background:#fff}
+.pv .w-desk{max-width:100%}
+.pv .w-tab{max-width:820px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.pv .w-mob{max-width:400px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+
+/* validación */
+.vlist{display:flex;flex-direction:column;gap:8px}
+.vitem{display:flex;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;align-items:flex-start}
+.vitem.err{border-color:#f3c9c7;background:var(--err-soft)}
+.vitem.warn{border-color:#f0d9a8;background:var(--warn-soft)}
+.vitem.ok{border-color:#c6e8d3;background:var(--ok-soft)}
+.vitem .ic{font-weight:700;font-size:13px;flex:none;width:16px;text-align:center}
+.vitem .tx{font-size:12.5px;line-height:1.5}
+.vitem .tx b{display:block;font-size:13px;margin-bottom:1px}
+.vitem code{font-family:var(--mono);font-size:11.5px;background:rgba(0,0,0,.05);padding:1px 4px;border-radius:4px}
+</style>
+<style>
+/* ---------- actividad (drawer) ---------- */
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:430px;max-width:94vw;background:#fff;z-index:90;
+  border-left:1px solid var(--line);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .22s cubic-bezier(.4,0,.2,1);
+}
+.drawer.open{transform:none}
+.drawer .dh{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);flex:none}
+.drawer .dh h3{font-size:14px;margin-right:auto}
+.drawer .db{flex:1;overflow-y:auto;padding:10px}
+.logi{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;overflow:hidden;background:#fff}
+.logi .lh{display:flex;gap:8px;align-items:center;padding:9px 11px;cursor:pointer}
+.logi .lh:hover{background:#fafbfc}
+.logi .lh .ttl{flex:1;min-width:0}
+.logi .lh .ttl b{display:block;font-size:12.5px;font-weight:700}
+.logi .lh .ttl span{font-size:11px;color:var(--ink-3);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logi .lb{display:none;padding:0 11px 11px;border-top:1px solid var(--line-2)}
+.logi.open .lb{display:block}
+.logi pre{
+  background:#f7f9fb;border:1px solid var(--line-2);border-radius:7px;padding:9px;margin:8px 0 0;
+  font-family:var(--mono);font-size:11px;line-height:1.55;max-height:230px;overflow:auto;white-space:pre-wrap;word-break:break-word
+}
+.logi .lb .lnk{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:12px;font-weight:700}
+.spinner{width:13px;height:13px;border:2px solid var(--warn);border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite;flex:none}
+
+/* ---------- modal ---------- */
+.ovl{position:fixed;inset:0;background:rgba(16,24,40,.42);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:6vh 16px;overflow-y:auto}
+.ovl.open{display:flex}
+.modal{background:#fff;border-radius:12px;box-shadow:var(--shadow-lg);width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;animation:pop .16s ease}
+.modal.wide{max-width:840px}
+@keyframes pop{from{opacity:0;transform:translateY(-8px) scale(.985)}}
+.modal .mh{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);flex:none}
+.modal .mh h3{font-size:15px;margin-right:auto}
+.modal .mb{padding:18px;overflow-y:auto;flex:1}
+.modal .mf{display:flex;gap:8px;justify-content:flex-end;padding:12px 18px;border-top:1px solid var(--line);background:#fafbfc;border-radius:0 0 12px 12px;flex:none;flex-wrap:wrap}
+.modal .mf .left{margin-right:auto}
+
+/* toast */
+.toasts{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{
+  background:var(--ink);color:#fff;padding:9px 15px;border-radius:9px;font-size:13px;font-weight:600;
+  box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:9px;animation:up .2s ease;max-width:min(560px,92vw)
+}
+@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.toast.ok{background:#0f8f4b}
+.toast.err{background:#c62828}
+.toast.warn{background:#b26a00}
+
+/* misc */
+.kbd{font-family:var(--mono);font-size:10.5px;background:var(--line-2);border:1px solid var(--line);
+  border-bottom-width:2px;border-radius:5px;padding:1px 5px;color:var(--ink-2)}
+.mono{font-family:var(--mono)}
+.muted{color:var(--ink-3)}
+.nowrap{white-space:nowrap}
+.hide{display:none !important}
+.stack{display:flex;flex-direction:column;gap:10px}
+.inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tag-src{font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em}
+.diffbox{font-family:var(--mono);font-size:11.5px;line-height:1.55;background:#fbfcfd;border:1px solid var(--line);
+  border-radius:8px;padding:10px;max-height:340px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.diffbox .a{background:#e8f7ee;color:#0b6b38;display:block}
+.diffbox .d{background:#fdeceb;color:#a52020;display:block;text-decoration:line-through;opacity:.75}
+.diffbox .c{display:block;color:var(--ink-3)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.steps li{counter-increment:s;display:flex;gap:10px;font-size:12.5px;line-height:1.55;align-items:flex-start}
+.steps li::before{content:counter(s);flex:none;width:19px;height:19px;border-radius:50%;background:var(--brand-soft);
+  color:var(--brand);font-weight:700;font-size:11px;display:grid;place-items:center;margin-top:1px}
+
+@media (max-width:900px){
+  .side{width:56px;padding:10px 6px}
+  .side .grp,.side button span.lb{display:none}
+  .side button{justify-content:center;padding:9px}
+  .side button .cnt{display:none}
+  .ed-split{flex-direction:column}
+  .ed-col + .ed-col{border-left:none;border-top:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">CT</div>
+    <div>CHTR Blog CMS<small>chiletransportistas</small></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="conn" id="connChip" title="Estado de conexión con la API del droplet">
+    <span class="dot"></span><span id="connTxt">Sin conectar</span>
+  </button>
+  <button class="btn ghost sm" id="btnFolder" title="Conectar la carpeta local del repositorio"><ion-icon name="folder-open-outline"></ion-icon> <span id="folderTxt">Carpeta local</span></button>
+  <button class="btn ghost sm" id="btnActivity" title="Actividad y estado de operaciones"><ion-icon name="pulse-outline"></ion-icon> Actividad <span id="actCount" class="chip mute" style="display:none">0</span></button>
+  <button class="btn ghost sm" id="btnSettings" title="Ajustes"><ion-icon name="settings-outline"></ion-icon></button>
+</header>
+
+<div class="shell">
+  <nav class="side">
+    <div class="grp">Contenido</div>
+    <button data-nav="library" class="active"><ion-icon name="library-outline"></ion-icon> <span class="lb">Biblioteca</span><span class="cnt" id="cntAll">0</span></button>
+    <button data-nav="drafts"><ion-icon name="create-outline"></ion-icon> <span class="lb">Borradores</span><span class="cnt" id="cntDrafts">0</span></button>
+    <button data-nav="prs"><ion-icon name="git-pull-request-outline"></ion-icon> <span class="lb">Pull requests</span><span class="cnt" id="cntPrs">0</span></button>
+    <div class="grp">Acciones</div>
+    <button data-act="new"><ion-icon name="add-circle-outline"></ion-icon> <span class="lb">Nuevo artículo</span></button>
+    <button data-act="import"><ion-icon name="cloud-download-outline"></ion-icon> <span class="lb">Importar HTML</span></button>
+    <button data-act="reload"><ion-icon name="refresh-outline"></ion-icon> <span class="lb">Recargar</span></button>
+    <div class="grp">Sitio</div>
+    <button data-nav="index"><ion-icon name="albums-outline"></ion-icon> <span class="lb">Índice del blog</span></button>
+    <button data-nav="help"><ion-icon name="help-circle-outline"></ion-icon> <span class="lb">Ayuda</span></button>
+  </nav>
+
+  <div class="main" id="main"></div>
+</div>
+
+<aside class="drawer" id="drawer">
+  <div class="dh">
+    <h3>Actividad</h3>
+    <button class="btn ghost sm" id="btnClearLog">Limpiar</button>
+    <button class="btn icon ghost" id="btnCloseDrawer"><ion-icon name="close-outline"></ion-icon></button>
+  </div>
+  <div class="db" id="logBody"></div>
+</aside>
+
+<div class="ovl" id="ovl"><div class="modal" id="modal"></div></div>
+<div class="toasts" id="toasts"></div>
+<script>
+/* ==============================================================
+   CHTR Blog CMS
+   CMS local para blog.chiletransportistas.com
+   - Lee los artículos de /articulos (carpeta local o API del droplet)
+   - Edita respetando la estructura y las directivas SSI del sitio
+   - Publica vía API y/o crea pull requests contra el repo remoto
+   ============================================================== */
+'use strict';
+
+/* ---------------- 1. Constantes del sitio ---------------- */
+
+const SITE = {
+  repoDefault      : 'Amonsalvek/ChileTransportistas-blog',
+  articlesDir      : 'articulos',
+  /* Al bifurcar el blog, el índice con tarjetas por año dejó de ser la
+     portada: la portada ahora es la bifurcación por intención. El índice
+     de la pista transportistas vive en transportistas/index.html y tiene
+     exactamente la misma estructura year-filter / year-section.
+     Para la pista de generadores de carga, cambia esto a
+     'contratar-transporte/index.html' (ver deploy/MIGRACION-PISTAS.md). */
+  indexFile        : 'transportistas/index.html',
+  cdnPattern       : 'https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/{slug}.webp',
+  canonicalPatterns: {
+    www : 'https://www.chiletransportistas.com/blog/{slug}/',
+    blog: 'https://blog.chiletransportistas.com/articulos/{slug}/'
+  },
+  liveUrlPattern   : 'https://blog.chiletransportistas.com/articulos/{slug}/',
+  authorDefault    : 'Alejandro Monsalve',
+  publisher        : 'ChileTransportistas.com',
+  publisherLogo    : 'https://cdn.chiletransportistas.com/ChileTransportistas-assets/logo-chiletransportistas.webp',
+  favicon          : 'https://cdn.chiletransportistas.com/ChileTransportistas-assets/favicon-chiletransportistas.ico',
+  ahrefsKey        : 'FYolLf4UKdbvvbq2cg2/lw',
+  /* Includes SSI del sitio. Orden y ruta exactos: no se tocan nunca. */
+  ssiHead          : ['/sticky-mobile-cta.html', '/right-banner-cta.html'],
+  ssiNavbar        : '/navbar.html',
+  ssiFooter        : '/footer.html',
+  ssiBody          : ['/content-cta.html'],
+  includeFiles     : ['/navbar.html','/footer.html','/breadcrumbs.html','/content-cta.html','/content-cta-carga.html','/right-banner-cta.html','/right-banner-cta-carga.html','/sticky-mobile-cta.html','/sticky-mobile-cta-carga.html','/bottom-banner-blog.html']
+};
+
+/* CSS real del sitio (assets/css/styles.css) — embebido para que la vista
+   previa se vea igual que en producción incluso sin conexión. */
+const SITE_CSS = `
+p{font-family:'Quicksand',sans-serif;font-size:1.1rem;color:#333;line-height:1.7;height:auto;margin:0 0 1.2em 0;padding:20px 40px 20px 0}
+article img{max-width:700px !important;width:100% !important;height:auto;display:block;margin:0 auto}
+.linea{border:1px solid lightgray;margin:20px 0;height:1px;width:100%}
+article{font-family:'Quicksand',sans-serif;font-size:1rem;color:#333;width:100%;max-width:1200px;margin:0 auto;padding:80px 200px;box-sizing:border-box;height:auto}
+h1,h2,h3{font-family:'Exo',sans-serif;font-weight:700;color:#333;height:auto;padding:0;margin:0 0 0.7em 0;line-height:1.15}
+h1{font-size:3.2rem;margin-top:100px;margin-bottom:50px}
+h2{font-size:2.1rem}
+h3{font-size:1.3rem}
+@media (max-width:1024px){article{padding:56px 24px}h1{font-size:2.4rem}h2{font-size:1.6rem}h3{font-size:1.1rem}p{font-size:.98rem}}
+@media (max-width:600px){article{padding:32px 8px}h1{font-size:1.65rem}h2{font-size:1.18rem}h3{font-size:1rem}p{font-size:.94rem}}
+`;
+
+/* Plantilla exacta del documento de artículo, con el mismo espaciado
+   (incluye los tabs literales) que los artículos ya publicados. */
+const ARTICLE_TEMPLATE = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+  \t<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{TITLE}}</title>
+    <meta name="twitter:title" content="{{TITLE}}" />
+\t\t<link rel="icon" type="image/png" href="{{FAVICON}}" sizes="32x32">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:image" content="{{IMAGE}}"/>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{IMAGE}}">
+    <meta name="description" content="{{DESC}}">
+    <meta name="twitter:description" content="{{DESC}}" />
+    <meta property="og:description" content="{{DESC}}"/>
+
+    <link href="{{CANONICAL}}" rel="canonical"><meta name="twitter:url" content="{{CANONICAL}}">
+    <meta property="og:url" content="{{CANONICAL}}">
+    <meta name="twitter:url" content="{{CANONICAL}}">
+    \x3Cscript type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{HEADLINE}}",
+        "image": "{{IMAGE}}",
+        "author": {
+          "@type": "Person",
+          "name": "{{AUTHOR}}"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "{{PUBLISHER}}",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "{{PUBLISHER_LOGO}}"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "{{CANONICAL}}"
+        },
+        "datePublished": "{{PUBLISHED}}",
+        "dateModified": "{{MODIFIED}}",
+        "description": "{{DESC}}"
+      }
+      \x3C/script>
+{{HEAD_EXTRA}}
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    \x3Cscript src="https://analytics.ahrefs.com/analytics.js" data-key="{{AHREFS}}" async>\x3C/script>
+
+\x3C!-- popup scroll percentage inject -->
+
+\x3C!-- Sticky button for mobile only inject -->
+\x3C!--#include file="/sticky-mobile-cta.html" -->
+
+\x3C!-- bottom banner inject -->
+
+\x3C!-- right banner cta inject -->
+\x3C!--#include file="/right-banner-cta.html" -->
+
+</head>
+\x3C!--#include file="/navbar.html" -->
+
+<article>
+{{BODY}}
+</article>
+
+\x3C!--#include file="/footer.html" -->
+{{TAIL}}
+
+</body>
+</html>
+`;
+
+const BODY_STARTER = `  <h1>{{TITLE}}</h1>
+
+  <p>Primer párrafo del artículo.</p>
+
+  <h2>Primer subtítulo</h2>
+
+  <p>Contenido.</p>
+
+  \x3C!--#include file="/content-cta.html" -->
+
+  <h2>Conclusión</h2>
+
+  <p>Cierre del artículo.</p>`;
+
+/* ---------------- 2. Utilidades ---------------- */
+
+const $  = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function escAttr(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+
+/** Slug según las reglas de blogs-api.md: minúsculas, sin tildes, sin ñ, a-z0-9- */
+function slugify(str){
+  return String(str || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/ñ/gi,'n').replace(/[¿?¡!“”"'‘’.,;:()\[\]{}]/g,'')
+    .toLowerCase().trim()
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'')
+    .replace(/-{2,}/g,'-');
+}
+function validSlug(s){ return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(s || '')); }
+
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  if(isNaN(d)) return String(iso).slice(0,10);
+  return d.toLocaleDateString('es-CL',{day:'2-digit',month:'short',year:'numeric'});
+}
+function fmtTime(ts){
+  const d = new Date(ts);
+  return d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+function isoNow(){ return new Date().toISOString().replace(/\.\d{3}Z$/,'+00:00'); }
+function toIsoUtc(dateStr){
+  if(!dateStr) return isoNow();
+  if(/T/.test(dateStr)) return dateStr;
+  return dateStr + 'T12:00:00+00:00';
+}
+function dateInputValue(iso){
+  if(!iso) return '';
+  const m = String(iso).match(/^(\d{4}-\d{2}-\d{2})/);
+  return m ? m[1] : '';
+}
+function bytes(n){
+  if(n == null) return '—';
+  if(n < 1024) return n + ' B';
+  if(n < 1024*1024) return (n/1024).toFixed(1) + ' KB';
+  return (n/1048576).toFixed(2) + ' MB';
+}
+function debounce(fn, ms){
+  let t; return function(){ const a = arguments, c = this; clearTimeout(t); t = setTimeout(()=>fn.apply(c,a), ms); };
+}
+function stripTags(html){
+  const d = document.createElement('div'); d.innerHTML = String(html || ''); return (d.textContent || '').replace(/\s+/g,' ').trim();
+}
+function wordCount(html){ const t = stripTags(html); return t ? t.split(/\s+/).length : 0; }
+function readMinutes(html){ return Math.max(1, Math.round(wordCount(html) / 200)); }
+/* document.execCommand está obsoleta, pero sigue siendo la única API de edición
+   enriquecida disponible sin dependencias: no existe reemplazo estándar para
+   insertHTML ni formatBlock. Se concentra aquí para tener un solo punto de
+   contacto con ella, y no repartida por todo el editor. */
+function execCmd(cmd, arg){
+  try{ return document.execCommand(cmd, false, arg); }
+  catch(e){ return false; }
+}
+
+function copy(text){
+  if(navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ execCmd('copy'); } finally { ta.remove(); }
+  return Promise.resolve();
+}
+function download(name, content, type){
+  const blob = new Blob([content], {type: type || 'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+</script>
+<script>
+/* ---------------- 3. Almacenamiento local ---------------- */
+
+const LS_PREFIX = 'chtr_cms_';
+const Store = {
+  ok: (function(){ try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); return true; }catch(e){ return false; } })(),
+  mem: {},
+  get(key, def){
+    try{
+      const raw = this.ok ? localStorage.getItem(LS_PREFIX + key) : this.mem[key];
+      return raw == null ? def : JSON.parse(raw);
+    }catch(e){ return def; }
+  },
+  set(key, val){
+    const raw = JSON.stringify(val);
+    try{ if(this.ok) localStorage.setItem(LS_PREFIX + key, raw); else this.mem[key] = raw; }
+    catch(e){ this.mem[key] = raw; }
+  },
+  del(key){ try{ if(this.ok) localStorage.removeItem(LS_PREFIX + key); }catch(e){ /* almacenamiento bloqueado */ } delete this.mem[key]; }
+};
+
+const DEFAULT_SETTINGS = {
+  apiBase          : 'https://blog.chiletransportistas.com',
+  token            : '',
+  rememberToken    : true,
+  repo             : SITE.repoDefault,
+  baseBranch       : 'main',
+  author           : SITE.authorDefault,
+  canonicalMode    : 'www',
+  canonicalCustom  : '',
+  cdnPattern       : SITE.cdnPattern,
+  updateIndex      : true,
+  autoPublish      : false,
+  prReviewers      : '',
+  prLabels         : 'cms',
+  view             : 'grid'
+};
+
+let S = Object.assign({}, DEFAULT_SETTINGS, Store.get('settings', {}));
+if(!S.rememberToken) S.token = Store.get('sessionToken', '') || '';
+
+function saveSettings(){
+  const copyS = Object.assign({}, S);
+  if(!S.rememberToken) copyS.token = '';
+  Store.set('settings', copyS);
+  if(!S.rememberToken) Store.set('sessionToken', S.token);
+}
+
+/* ---------------- 4. Toasts y modales ---------------- */
+
+function toast(msg, kind, ms){
+  const el = document.createElement('div');
+  el.className = 'toast ' + (kind || '');
+  el.innerHTML = (kind === 'ok' ? '<ion-icon name="checkmark-circle-outline"></ion-icon> ' : kind === 'err' ? '<ion-icon name="close-circle-outline"></ion-icon> ' : kind === 'warn' ? '<ion-icon name="warning-outline"></ion-icon> ' : '') + esc(msg);
+  $('#toasts').appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .25s'; setTimeout(()=>el.remove(),260); }, ms || 3200);
+}
+
+let modalResolve = null;
+function openModal(html, opts){
+  opts = opts || {};
+  const m = $('#modal');
+  m.className = 'modal' + (opts.wide ? ' wide' : '');
+  m.innerHTML = html;
+  $('#ovl').classList.add('open');
+  const first = m.querySelector('[data-autofocus]');
+  if(first) setTimeout(()=>first.focus(), 40);
+  return m;
+}
+function closeModal(val){
+  $('#ovl').classList.remove('open');
+  $('#modal').innerHTML = '';
+  if(modalResolve){ const r = modalResolve; modalResolve = null; r(val); }
+}
+$('#ovl').addEventListener('mousedown', e => { if(e.target.id === 'ovl') closeModal(null); });
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && $('#ovl').classList.contains('open')) closeModal(null);
+});
+
+/** Recoge los valores de los campos con id dentro de un modal antes de cerrarlo. */
+function collectFields(root){
+  const v = {};
+  Array.from(root.querySelectorAll('input[id],textarea[id],select[id]')).forEach(el => {
+    v[el.id] = (el.type === 'checkbox' || el.type === 'radio') ? el.checked : el.value;
+  });
+  return { ok:true, v };
+}
+
+function confirmModal(opts){
+  return new Promise(res => {
+    modalResolve = res;
+    const m = openModal(
+      '<div class="mh"><h3>' + esc(opts.title) + '</h3></div>' +
+      '<div class="mb">' + (opts.html || ('<p style="margin:0;font-size:13px;line-height:1.6">' + esc(opts.text || '') + '</p>')) + '</div>' +
+      '<div class="mf">' +
+        '<button class="btn" data-x="cancel">' + esc(opts.cancel || 'Cancelar') + '</button>' +
+        '<button class="btn ' + (opts.danger ? 'danger' : 'primary') + '" data-x="ok" data-autofocus>' + esc(opts.ok || 'Confirmar') + '</button>' +
+      '</div>'
+    );
+    m.querySelector('[data-x=cancel]').onclick = ()=>closeModal(false);
+    m.querySelector('[data-x=ok]').onclick    = ()=>closeModal(collectFields(m));
+  });
+}
+function promptModal(opts){
+  return new Promise(res => {
+    modalResolve = res;
+    const m = openModal(
+      '<div class="mh"><h3>' + esc(opts.title) + '</h3></div>' +
+      '<div class="mb"><div class="field">' +
+        (opts.label ? '<label>' + esc(opts.label) + '</label>' : '') +
+        (opts.multiline
+          ? '<textarea id="pmv" class="code" rows="' + (opts.rows || 10) + '" data-autofocus>' + esc(opts.value || '') + '</textarea>'
+          : '<input type="text" id="pmv" value="' + escAttr(opts.value || '') + '" data-autofocus>') +
+        (opts.hint ? '<div class="hint">' + opts.hint + '</div>' : '') +
+      '</div></div>' +
+      '<div class="mf"><button class="btn" data-x="cancel">Cancelar</button>' +
+      '<button class="btn primary" data-x="ok">' + esc(opts.ok || 'Aceptar') + '</button></div>'
+    , {wide: !!opts.multiline});
+    m.querySelector('[data-x=cancel]').onclick = ()=>closeModal(null);
+    m.querySelector('[data-x=ok]').onclick    = ()=>closeModal(m.querySelector('#pmv').value);
+    if(!opts.multiline){
+      m.querySelector('#pmv').addEventListener('keydown', e => { if(e.key==='Enter') closeModal(m.querySelector('#pmv').value); });
+    }
+  });
+}
+
+/* ---------------- 5. Registro de actividad ---------------- */
+
+const Log = {
+  items: Store.get('log', []),
+  save(){ Store.set('log', this.items.slice(0, 120)); },
+  start(action, target, detail){
+    const it = { id: uid(), action, target, status:'pending', ts: Date.now(), detail: detail || null, result: null };
+    this.items.unshift(it); this.save(); this.render(); this.badge();
+    return it.id;
+  },
+  finish(id, status, result){
+    const it = this.items.find(x => x.id === id);
+    if(!it) return;
+    it.status = status; it.result = result || null; it.done = Date.now();
+    this.save(); this.render(); this.badge();
+  },
+  add(action, target, status, result){
+    const id = this.start(action, target); this.finish(id, status, result); return id;
+  },
+  clear(){ this.items = []; this.save(); this.render(); this.badge(); },
+  badge(){
+    const p = this.items.filter(x => x.status === 'pending').length;
+    const b = $('#actCount');
+    if(p){ b.style.display=''; b.textContent = p; b.className = 'chip warn'; }
+    else {
+      const recentErr = this.items.slice(0,6).filter(x => x.status === 'error').length;
+      if(recentErr){ b.style.display=''; b.textContent = recentErr; b.className = 'chip err'; }
+      else b.style.display='none';
+    }
+  },
+  render(){
+    const box = $('#logBody');
+    if(!this.items.length){
+      box.innerHTML = '<div class="empty"><h3>Sin actividad</h3><p>Las operaciones (publicar, crear PR, guardar) aparecen aquí con su estado y respuesta.</p></div>';
+      return;
+    }
+    box.innerHTML = this.items.map(it => {
+      const chip = it.status === 'pending' ? '<span class="spinner"></span>'
+        : it.status === 'ok'    ? '<span class="chip ok"><span class="dot"></span>OK</span>'
+        : it.status === 'error' ? '<span class="chip err"><span class="dot"></span>Error</span>'
+        : '<span class="chip mute">' + esc(it.status) + '</span>';
+      const dur = it.done ? ' · ' + ((it.done - it.ts)/1000).toFixed(1) + 's' : '';
+      let detail = '';
+      if(it.detail)  detail += '<pre>' + esc(typeof it.detail === 'string' ? it.detail : JSON.stringify(it.detail, null, 2)) + '</pre>';
+      if(it.result)  detail += '<pre>' + esc(typeof it.result === 'string' ? it.result : JSON.stringify(it.result, null, 2)) + '</pre>';
+      const url = it.result && (it.result.prUrl || it.result.articleUrl || it.result.html_url);
+      if(url) detail += '<a class="lnk" href="' + escAttr(url) + '" target="_blank" rel="noopener"><ion-icon name="open-outline"></ion-icon> Abrir ' + (it.result.prUrl ? 'pull request' : 'artículo') + '</a>';
+      return '<div class="logi" data-id="' + it.id + '">' +
+        '<div class="lh"><div class="ttl"><b>' + esc(it.action) + '</b><span>' + esc(it.target || '') + '</span></div>' +
+        '<div style="text-align:right"><div>' + chip + '</div>' +
+        '<div style="font-size:10.5px;color:var(--ink-3);margin-top:2px">' + fmtTime(it.ts) + dur + '</div></div></div>' +
+        (detail ? '<div class="lb">' + detail + '</div>' : '') +
+      '</div>';
+    }).join('');
+    $$('.logi .lh', box).forEach(h => h.onclick = () => h.parentElement.classList.toggle('open'));
+  }
+};
+
+$('#btnActivity').onclick    = () => { $('#drawer').classList.toggle('open'); Log.render(); };
+$('#btnCloseDrawer').onclick = () => $('#drawer').classList.remove('open');
+$('#btnClearLog').onclick    = async () => { if(await confirmModal({title:'Limpiar actividad', text:'Se borra el historial local de operaciones. No afecta a los artículos ni a los pull requests.', ok:'Limpiar', danger:true})) Log.clear(); };
+</script>
+<script>
+/* ==============================================================
+   6. Modelo de artículo: parseo, construcción y edición quirúrgica
+   --------------------------------------------------------------
+   Regla de oro: para LEER usamos DOMParser; para ESCRIBIR hacemos
+   reemplazos sobre el texto original. Los artículos del sitio no
+   tienen etiqueta <body> de apertura y llevan directivas SSI en
+   forma de comentarios: un round-trip por el DOM las movería de
+   lugar. Editando el string original nada más se mueve.
+   ============================================================== */
+
+const ATTRS = '(?:[^>"\']|"[^"]*"|\'[^\']*\')*';
+function reEsc(s){ return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function escText(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function jsonStr(s){ return JSON.stringify(String(s == null ? '' : s)).slice(1,-1); }
+
+const Article = {
+
+  /* ---- plantilla vacía ---- */
+  blank(){
+    return {
+      slug:'', title:'', description:'', image:'', imageAlt:'',
+      canonical:'', headline:'', author: S.author, publisher: SITE.publisher,
+      publisherLogo: SITE.publisherLogo, favicon: SITE.favicon, ahrefs: SITE.ahrefsKey,
+      datePublished: isoNow(), dateModified: isoNow(),
+      body:'', headExtra:'', tail:'', extraJsonLd:[],
+      htmlOpen:'<html lang="es">', leading:''
+    };
+  },
+
+  /* ---- parseo ---- */
+  parse(raw){
+    const m = this.blank();
+    m.raw = raw;
+
+    const lead = raw.match(/^([\s\S]*?)<!DOCTYPE/i);
+    m.leading = lead ? lead[1] : '';
+
+    const htmlTag = raw.match(new RegExp('<html' + ATTRS + '>', 'i'));
+    if(htmlTag) m.htmlOpen = htmlTag[0];
+
+    let doc = null;
+    try{ doc = new DOMParser().parseFromString(raw, 'text/html'); }catch(e){ /* se sigue con el análisis por texto */ }
+
+    if(doc){
+      const t = doc.querySelector('title');
+      m.title = t ? t.textContent.trim() : '';
+      const gm = (sel) => { const e = doc.querySelector(sel); return e ? (e.getAttribute('content') || '').trim() : ''; };
+      m.description = gm('meta[name="description"]') || gm('meta[property="og:description"]');
+      m.image       = gm('meta[property="og:image"]') || gm('meta[name="twitter:image"]');
+      const can     = doc.querySelector('link[rel="canonical"]');
+      m.canonical   = can ? (can.getAttribute('href') || '').trim() : gm('meta[property="og:url"]');
+      const img     = doc.querySelector('article img');
+      m.imageAlt    = img ? (img.getAttribute('alt') || '') : '';
+    }
+
+    /* JSON-LD */
+    const ldRe = new RegExp('\x3Cscript' + ATTRS + 'type\\s*=\\s*["\']application/ld\\+json["\']' + ATTRS + '>([\\s\\S]*?)<\\/script>', 'gi');
+    let mt;
+    while((mt = ldRe.exec(raw)) !== null){
+      let obj = null;
+      try{ obj = JSON.parse(mt[1]); }catch(e){ obj = null; }
+      if(obj && obj['@type'] === 'BlogPosting'){
+        m.jsonldRaw       = mt[0];
+        m.jsonldIndex     = mt.index;
+        m.jsonld          = obj;
+        m.headline        = obj.headline || '';
+        m.author          = (obj.author && obj.author.name) || m.author;
+        m.publisher       = (obj.publisher && obj.publisher.name) || m.publisher;
+        m.publisherLogo   = (obj.publisher && obj.publisher.logo && obj.publisher.logo.url) || m.publisherLogo;
+        m.datePublished   = obj.datePublished || m.datePublished;
+        m.dateModified    = obj.dateModified  || m.dateModified;
+        if(!m.description) m.description = obj.description || '';
+      }else if(mt[0]){
+        m.extraJsonLd.push({ raw: mt[0], parsed: obj, type: obj && obj['@type'] });
+      }
+    }
+    if(!m.headline) m.headline = m.title;
+
+    /* favicon / clave de ahrefs (se conservan tal cual) */
+    const fav = raw.match(new RegExp('<link' + ATTRS + 'rel\\s*=\\s*["\']icon["\']' + ATTRS + '>', 'i'));
+    if(fav){ const h = fav[0].match(/href\s*=\s*"([^"]*)"/i); if(h) m.favicon = h[1]; }
+    const ah = raw.match(/data-key\s*=\s*"([^"]*)"/i);
+    if(ah) m.ahrefs = ah[1];
+
+    /* cuerpo del <article> — extraído del texto crudo para no perder SSI */
+    m.body = this.getBody(raw);
+
+    /* extras del <head>: todo lo que va entre el JSON-LD principal y el CSS del sitio */
+    m.headExtra = this.getHeadExtra(raw, m);
+
+    /* cola: lo que va entre el include del footer y </body> */
+    m.tail = this.getTail(raw);
+
+    /* SSI presentes */
+    m.ssi = this.ssiList(raw);
+
+    return m;
+  },
+
+  getBody(raw){
+    const open = raw.search(new RegExp('<article' + ATTRS + '>', 'i'));
+    if(open < 0) return '';
+    const openTag = raw.slice(open).match(new RegExp('^<article' + ATTRS + '>', 'i'));
+    const close = raw.lastIndexOf('</article>');
+    if(close < 0) return '';
+    return raw.slice(open + openTag[0].length, close).replace(/^\n/, '').replace(/\s+$/,'');
+  },
+
+  getHeadExtra(raw, m){
+    const cssIdx = raw.indexOf('<link rel="stylesheet" href="/assets/css/styles.css">');
+    const endIdx = cssIdx >= 0 ? cssIdx : raw.search(/<\/head>/i);
+    if(endIdx < 0) return '';
+    let startIdx;
+    if(m.jsonldRaw != null && m.jsonldIndex != null && m.jsonldIndex < endIdx){
+      startIdx = m.jsonldIndex + m.jsonldRaw.length;
+    }else{
+      const u = raw.search(new RegExp('<meta' + ATTRS + 'name\\s*=\\s*["\']twitter:url["\']' + ATTRS + '>', 'i'));
+      startIdx = u >= 0 ? raw.indexOf('>', u) + 1 : -1;
+    }
+    if(startIdx < 0 || startIdx >= endIdx) return '';
+    return raw.slice(startIdx, endIdx).replace(/^\n/,'').replace(/[ \t]*\n[ \t]*$/,'').replace(/\s+$/,'');
+  },
+
+  getTail(raw){
+    const f = raw.indexOf('\x3C!--#include file="/footer.html" -->');
+    if(f < 0) return '';
+    const start = f + '\x3C!--#include file="/footer.html" -->'.length;
+    const end = raw.search(/<\/body>/i);
+    if(end < 0 || end <= start) return '';
+    return raw.slice(start, end).replace(/^\s*\n/,'').replace(/\s+$/,'');
+  },
+
+  ssiList(raw){
+    const out = [];
+    const re = /\x3C!--#include\s+(file|virtual)\s*=\s*"([^"]+)"\s*-->/g;
+    let m;
+    while((m = re.exec(raw)) !== null) out.push({ kind: m[1], path: m[2], index: m.index, raw: m[0] });
+    return out;
+  },
+
+  /* ---- construcción desde plantilla (artículos nuevos o "reconstruir") ---- */
+  build(m){
+    let out = ARTICLE_TEMPLATE
+      .replace(/\{\{TITLE\}\}/g,          escText(m.title))
+      .replace(/\{\{FAVICON\}\}/g,        escAttr(m.favicon || SITE.favicon))
+      .replace(/\{\{IMAGE\}\}/g,          escAttr(m.image))
+      .replace(/\{\{DESC\}\}/g,           escAttr(m.description))
+      .replace(/\{\{CANONICAL\}\}/g,      escAttr(m.canonical))
+      .replace(/\{\{HEADLINE\}\}/g,       jsonStr(m.headline || m.title))
+      .replace(/\{\{AUTHOR\}\}/g,         jsonStr(m.author || SITE.authorDefault))
+      .replace(/\{\{PUBLISHER\}\}/g,      jsonStr(m.publisher || SITE.publisher))
+      .replace(/\{\{PUBLISHER_LOGO\}\}/g, escAttr(m.publisherLogo || SITE.publisherLogo))
+      .replace(/\{\{PUBLISHED\}\}/g,      jsonStr(m.datePublished))
+      .replace(/\{\{MODIFIED\}\}/g,       jsonStr(m.dateModified))
+      .replace(/\{\{AHREFS\}\}/g,         escAttr(m.ahrefs || SITE.ahrefsKey))
+      .replace(/\{\{HEAD_EXTRA\}\}/g,     m.headExtra || '')
+      .replace(/\{\{BODY\}\}/g,           m.body || '')
+      .replace(/\{\{TAIL\}\}/g,           m.tail ? '\n' + m.tail : '');
+    if(m.htmlOpen && m.htmlOpen !== '<html lang="es">') out = out.replace('<html lang="es">', m.htmlOpen);
+    return (m.leading || '') + out;
+  },
+
+  /* ---- edición quirúrgica sobre el documento original ----
+     Solo se reescribe lo que el usuario cambió respecto del archivo tal
+     como estaba al abrirlo. Si no cambió nada, devuelve el original byte
+     a byte. `base` es el modelo parseado en el momento de abrir. */
+  apply(raw, m, base){
+    base = base || this.parse(raw);
+    let out = raw;
+    const rep = [];
+    const ch = (k) => String(m[k] == null ? '' : m[k]) !== String(base[k] == null ? '' : base[k]);
+
+    /* título */
+    if(ch('title')){
+      out = out.replace(/\x3Ctitle>[\s\S]*?\x3C\/title>/i, '\x3Ctitle>' + escText(m.title) + '\x3C/title>');
+      rep.push('título');
+    }
+
+    /* metadatos, agrupados por el campo del que dependen */
+    const groups = [
+      ['title',       [['name','twitter:title'], ['property','og:title']]],
+      ['description', [['name','description'], ['name','twitter:description'], ['property','og:description']]],
+      ['image',       [['property','og:image'], ['name','twitter:image']]],
+      ['canonical',   [['property','og:url'], ['name','twitter:url']]]
+    ];
+    groups.forEach(function(g){
+      const key = g[0];
+      if(!ch(key)) return;
+      g[1].forEach(function(pair){
+        const r = setMetaContent(out, pair[0], pair[1], m[key]);
+        if(r.found){ out = r.out; if(r.changed) rep.push(pair[1]); }
+      });
+    });
+
+    /* canonical */
+    if(ch('canonical')){
+      const cre = new RegExp('\x3Clink' + ATTRS + 'rel\\s*=\\s*["\']canonical["\']' + ATTRS + '>', 'i');
+      const cm = out.match(cre);
+      if(cm){
+        const nt = cm[0].replace(/href\s*=\s*"[^"]*"/i, 'href="' + escAttr(m.canonical) + '"');
+        out = out.slice(0, cm.index) + nt + out.slice(cm.index + cm[0].length);
+        rep.push('canonical');
+      }
+    }
+
+    /* JSON-LD BlogPosting: se mutan solo las claves cuyo campo cambió */
+    const ldKeys = ['headline','image','description','datePublished','dateModified','author','canonical','title'];
+    if(base.jsonldRaw && ldKeys.some(ch)){
+      const obj = JSON.parse(JSON.stringify(base.jsonld));
+      if(ch('headline'))                                        obj.headline = m.headline || m.title;
+      else if(ch('title') && base.headline === base.title)      obj.headline = m.title;
+      if(ch('image'))         obj.image = m.image;
+      if(ch('description'))   obj.description = m.description;
+      if(ch('datePublished')) obj.datePublished = m.datePublished;
+      if(ch('dateModified'))  obj.dateModified = m.dateModified;
+      if(ch('author'))        obj.author = Object.assign({'@type':'Person'}, obj.author || {}, {name: m.author});
+      if(ch('canonical') && obj.mainEntityOfPage) obj.mainEntityOfPage['@id'] = m.canonical;
+      const block = '\x3Cscript type="application/ld+json">\n      ' +
+        JSON.stringify(obj, null, 2).split('\n').join('\n      ') + '\n      \x3C/script>';
+      if(block !== base.jsonldRaw){
+        const at = out.indexOf(base.jsonldRaw);
+        if(at >= 0){ out = out.slice(0, at) + block + out.slice(at + base.jsonldRaw.length); rep.push('json-ld'); }
+      }
+    }
+
+    /* extras del head y scripts finales: solo si el usuario los editó */
+    if(ch('headExtra') && base.headExtra){
+      const at = out.indexOf(base.headExtra);
+      if(at >= 0){ out = out.slice(0, at) + m.headExtra + out.slice(at + base.headExtra.length); rep.push('extras del head'); }
+    }
+    if(ch('tail') && base.tail){
+      const at = out.indexOf(base.tail);
+      if(at >= 0){ out = out.slice(0, at) + m.tail + out.slice(at + base.tail.length); rep.push('scripts finales'); }
+    }
+
+    /* cuerpo del artículo: se conserva la sangría del \x3C/article> original */
+    if(ch('body')){
+      const open  = out.search(new RegExp('\x3Carticle' + ATTRS + '>', 'i'));
+      const close = out.lastIndexOf('\x3C/article>');
+      if(open >= 0 && close > open){
+        const openTag = out.slice(open).match(new RegExp('^\x3Carticle' + ATTRS + '>', 'i'))[0];
+        const inner   = out.slice(open + openTag.length, close);
+        const indent  = (inner.match(/\n([ \t]*)$/) || ['',''])[1];
+        out = out.slice(0, open + openTag.length) + '\n' + (m.body || '') + '\n' + indent + out.slice(close);
+        rep.push('cuerpo');
+      }
+    }
+
+    m._changed = rep;
+    return out;
+  },
+
+  /* Devuelve el HTML final según el modo elegido */
+  render(m, mode, original, base){
+    if(mode === 'rebuild' || !original) return this.build(m);
+    return this.apply(original, m, base);
+  }
+};
+
+/** Reemplaza el atributo content de un <meta> localizado por name/property. */
+function setMetaContent(raw, attr, key, value){
+  const re = new RegExp('<meta' + ATTRS + attr + '\\s*=\\s*["\']' + reEsc(key) + '["\']' + ATTRS + '>', 'i');
+  const m = raw.match(re);
+  if(!m) return { out: raw, found:false, changed:false };
+  const tag = m[0];
+  let next;
+  if(/content\s*=\s*"/i.test(tag))      next = tag.replace(/content\s*=\s*"[^"]*"/i, 'content="' + escAttr(value) + '"');
+  else if(/content\s*=\s*'/i.test(tag)) next = tag.replace(/content\s*=\s*'[^']*'/i, 'content="' + escAttr(value) + '"');
+  else                                  next = tag.replace(/\s*(\/?)>$/, ' content="' + escAttr(value) + '"$1>');
+  return { out: raw.slice(0, m.index) + next + raw.slice(m.index + tag.length), found:true, changed: next !== tag };
+}
+</script>
+<script>
+/* ==============================================================
+   7. Validación (SSI, SEO, estructura)
+   ============================================================== */
+
+function validate(html, m){
+  const out = [];
+  const err  = (t, d) => out.push({level:'error', title:t, detail:d});
+  const warn = (t, d) => out.push({level:'warn',  title:t, detail:d});
+  const ok   = (t, d) => out.push({level:'ok',    title:t, detail:d});
+
+  /* --- estructura base --- */
+  if(!/^\s*<!DOCTYPE html>/i.test(html)) err('Falta el DOCTYPE', 'El documento debe empezar con <code>&lt;!DOCTYPE html&gt;</code>.');
+  if(!/<html[^>]*lang\s*=\s*["']es["']/i.test(html)) err('Falta lang="es"', 'La etiqueta <code>&lt;html&gt;</code> debe declarar <code>lang="es"</code>.');
+  if(!/<\/head>/i.test(html)) err('Falta &lt;/head&gt;', 'El documento no cierra el head.');
+  if(!/<\/html>/i.test(html)) err('Falta &lt;/html&gt;', 'El documento no cierra el html.');
+  if(/<body[\s>]/i.test(html)) warn('Se agregó &lt;body&gt;', 'Los artículos del sitio no abren <code>&lt;body&gt;</code> (lo abre el navegador). Mantener la convención evita diferencias con el resto del blog.');
+
+  /* --- SSI: lo más importante --- */
+  const ssi = Article.ssiList(html).map(x => x.path);
+  const required = [
+    ['/sticky-mobile-cta.html', 'head'],
+    ['/right-banner-cta.html',  'head'],
+    ['/navbar.html',            'después de </head>'],
+    ['/footer.html',            'después de </article>']
+  ];
+  const missing = required.filter(([p]) => ssi.indexOf(p) < 0);
+  if(missing.length){
+    err('Faltan directivas SSI (' + missing.length + ')',
+      'El sitio arma navbar, footer y CTAs por includes de servidor. Falta: ' +
+      missing.map(([p,w]) => '<code>&lt;!--#include file="' + p + '" --&gt;</code> (' + w + ')').join(', '));
+  }else{
+    ok('Directivas SSI intactas', ssi.length + ' includes presentes: ' + ssi.map(p => '<code>' + esc(p) + '</code>').join(' '));
+  }
+  if(ssi.indexOf('/content-cta.html') < 0)
+    warn('Sin CTA en el cuerpo', 'Los artículos suelen llevar <code>&lt;!--#include file="/content-cta.html" --&gt;</code> antes de la conclusión.');
+
+  const badSsi = html.match(/\x3C!--\s*#\s*include(?![^>]*file\s*=\s*"\/[^"]+\.html"\s*-->)[\s\S]{0,80}?-->/g);
+  if(badSsi) err('Directiva SSI mal formada', 'Formato correcto: <code>&lt;!--#include file="/archivo.html" --&gt;</code>. Encontrado: <code>' + esc(badSsi[0].slice(0,90)) + '</code>');
+
+  /* --- SEO --- */
+  const title = m.title || '';
+  if(!title) err('Sin título', 'El <code>&lt;title&gt;</code> está vacío.');
+  else if(title.length > 65) warn('Título largo (' + title.length + ')', 'Google suele cortar sobre 60–65 caracteres.');
+  else ok('Título (' + title.length + ' caracteres)', esc(title));
+
+  const d = m.description || '';
+  if(!d) err('Sin meta description', 'Es obligatoria para buscadores y para las tarjetas sociales.');
+  else if(d.length < 50)  warn('Descripción corta (' + d.length + ')', 'Apunta a 120–160 caracteres.');
+  else if(d.length > 165) warn('Descripción larga (' + d.length + ')', 'Sobre 160 caracteres se corta.');
+  else ok('Meta description (' + d.length + ' caracteres)', esc(d));
+
+  if(!m.canonical) err('Sin canonical', 'Falta <code>&lt;link rel="canonical"&gt;</code>.');
+  else if(!/^https:\/\//.test(m.canonical)) err('Canonical inválida', 'Debe ser una URL absoluta https.');
+  else ok('Canonical', '<code>' + esc(m.canonical) + '</code>');
+
+  ['og:title','og:description','og:image','og:url'].forEach(p => {
+    if(!new RegExp('property\\s*=\\s*["\']' + reEsc(p) + '["\']','i').test(html)) err('Falta ' + p, 'Open Graph incompleto: las previsualizaciones al compartir salen mal.');
+  });
+  if(m.image && !/^https:\/\//.test(m.image)) err('Imagen de portada inválida', 'Debe ser una URL absoluta del CDN.');
+  if(m.image && m.slug && m.image.indexOf(m.slug) < 0)
+    warn('Portada y slug no coinciden', 'La convención del endpoint es <code>' + esc(SITE.cdnPattern.replace('{slug}', m.slug)) + '</code>.');
+
+  /* --- cuerpo --- */
+  const body = m.body || '';
+  const h1s = body.match(/<h1[\s>]/gi) || [];
+  if(h1s.length === 0)      err('Sin H1', 'El artículo debe tener un <code>&lt;h1&gt;</code> con el título.');
+  else if(h1s.length > 1)   err('Hay ' + h1s.length + ' H1', 'Debe existir exactamente uno.');
+  else ok('Un solo H1', 'Correcto.');
+
+  const h1txt = (body.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [,''])[1];
+  if(h1txt && title && stripTags(h1txt).toLowerCase() !== title.toLowerCase())
+    warn('H1 distinto del &lt;title&gt;', 'H1: “' + esc(stripTags(h1txt)) + '”. No es un error, pero conviene que coincidan salvo que el title esté acortado a propósito.');
+
+  const imgs = body.match(/<img[^>]*>/gi) || [];
+  const noAlt = imgs.filter(t => !/alt\s*=\s*["'][^"']+["']/i.test(t));
+  if(noAlt.length) warn(noAlt.length + ' imagen(es) sin alt', 'El <code>alt</code> descriptivo es requisito de accesibilidad y de SEO.');
+  else if(imgs.length) ok(imgs.length + ' imagen(es) con alt', 'Correcto.');
+
+  const badAnchor = body.match(/<a[^>]*>\s*<\/a>/gi);
+  if(badAnchor) warn('Enlace vacío', 'Hay ' + badAnchor.length + ' <code>&lt;a&gt;&lt;/a&gt;</code> sin texto: probablemente una etiqueta mal cerrada.');
+  const orphanClose = (body.match(/<\/a>/gi) || []).length - (body.match(/<a[\s>]/gi) || []).length;
+  if(orphanClose > 0) err('Etiquetas &lt;/a&gt; de más', 'Hay ' + orphanClose + ' cierre(s) sin apertura: rompe el HTML del artículo.');
+
+  /* balance grueso de etiquetas del cuerpo */
+  ['p','h2','h3','ul','ol','li','figure','article','div','section','strong','em','table'].forEach(t => {
+    const o = (body.match(new RegExp('<' + t + '[\\s>]', 'gi')) || []).length;
+    const c = (body.match(new RegExp('</' + t + '>', 'gi')) || []).length;
+    if(o !== c) warn('Etiquetas &lt;' + t + '&gt; desbalanceadas', o + ' aperturas y ' + c + ' cierres.');
+  });
+
+  /* --- slug y JSON-LD --- */
+  if(!m.slug) err('Sin slug', 'Define el nombre de archivo y la URL.');
+  else if(!validSlug(m.slug)) err('Slug inválido', 'Solo minúsculas, números y guiones simples. Sin tildes, sin ñ, sin guion al inicio o final.');
+  else ok('Slug', '<code>' + esc(m.slug) + '.html</code>');
+
+  const ldBlocks = html.match(new RegExp('\x3Cscript' + ATTRS + 'application/ld\\+json' + ATTRS + '>([\\s\\S]*?)<\\/script>', 'gi')) || [];
+  let ldBad = 0;
+  ldBlocks.forEach(b => { try{ JSON.parse(b.replace(/^[\s\S]*?>/, '').replace(/\x3C\/script>$/,'')); }catch(e){ ldBad++; } });
+  if(ldBad) err(ldBad + ' bloque(s) JSON-LD inválidos', 'El JSON estructurado no parsea: Google lo ignora.');
+  else if(ldBlocks.length) ok(ldBlocks.length + ' bloque(s) JSON-LD válidos', 'Datos estructurados correctos.');
+
+  const wc = wordCount(body);
+  if(wc < 300) warn('Artículo corto (' + wc + ' palabras)', 'Bajo 300 palabras rinde mal en buscadores.');
+  else ok(wc + ' palabras · ' + readMinutes(body) + ' min de lectura', '');
+
+  return out;
+}
+function countErrors(v){ return v.filter(x => x.level === 'error').length; }
+function countWarns(v){ return v.filter(x => x.level === 'warn').length; }
+
+/* ==============================================================
+   8. Diff por líneas (para revisar antes de crear el PR)
+   ============================================================== */
+
+function lineDiff(a, b){
+  const A = String(a || '').split('\n'), B = String(b || '').split('\n');
+  const n = A.length, mm = B.length;
+  if(n * mm > 4000000){
+    return [{t:'c', v:'(archivos muy grandes para diff detallado — ' + n + ' → ' + mm + ' líneas)'}];
+  }
+  const dp = [];
+  for(let i = 0; i <= n; i++) dp.push(new Uint32Array(mm + 1));
+  for(let i = n - 1; i >= 0; i--)
+    for(let j = mm - 1; j >= 0; j--)
+      dp[i][j] = A[i] === B[j] ? dp[i+1][j+1] + 1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const out = [];
+  let i = 0, j = 0;
+  while(i < n && j < mm){
+    if(A[i] === B[j]){ out.push({t:'=', v:A[i]}); i++; j++; }
+    else if(dp[i+1][j] >= dp[i][j+1]){ out.push({t:'d', v:A[i]}); i++; }
+    else { out.push({t:'a', v:B[j]}); j++; }
+  }
+  while(i < n){ out.push({t:'d', v:A[i++]}); }
+  while(j < mm){ out.push({t:'a', v:B[j++]}); }
+  return out;
+}
+function renderDiff(a, b){
+  const d = lineDiff(a, b);
+  const changed = d.filter(x => x.t !== '=').length;
+  if(!changed) return '<div class="muted" style="font-size:12.5px">Sin cambios respecto del archivo actual.</div>';
+  const parts = [];
+  let ctx = 0;
+  for(let i = 0; i < d.length; i++){
+    const x = d[i];
+    if(x.t === '='){
+      const near = d.slice(Math.max(0,i-3), i+4).some(y => y.t !== '=');
+      if(near){ parts.push('<span class="c">  ' + esc(x.v) + '</span>'); ctx = 0; }
+      else if(ctx === 0){ parts.push('<span class="c" style="opacity:.45">  ⋮</span>'); ctx = 1; }
+    }
+    else if(x.t === 'a') parts.push('<span class="a">+ ' + esc(x.v) + '</span>');
+    else parts.push('<span class="d">- ' + esc(x.v) + '</span>');
+  }
+  const adds = d.filter(x => x.t === 'a').length, dels = d.filter(x => x.t === 'd').length;
+  return '<div class="inline" style="margin-bottom:7px"><span class="chip ok">+' + adds + '</span><span class="chip err">−' + dels + '</span>' +
+         '<span class="muted" style="font-size:11.5px">líneas</span></div>' +
+         '<div class="diffbox">' + parts.join('\n') + '</div>';
+}
+</script>
+<script>
+/* ==============================================================
+   9. Índice del blog (blog.html): tarjetas por año
+   ============================================================== */
+
+const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+function cardDate(iso){
+  const d = new Date(iso || Date.now());
+  if(isNaN(d)) return '';
+  return String(d.getUTCDate()).padStart(2,'0') + ' ' + MESES[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+}
+function yearOf(iso){
+  const d = new Date(iso || Date.now());
+  return isNaN(d) ? new Date().getUTCFullYear() : d.getUTCFullYear();
+}
+
+const IndexPage = {
+  cardHtml(c){
+    return '      <article class="card">\n' +
+           '        <a class="stretched" href="/' + SITE.articlesDir + '/' + c.slug + '/" aria-label="' + escAttr(c.title) + '"></a>\n' +
+           '        <div class="thumb">\n' +
+           '          <img loading="lazy" src="' + escAttr(c.image) + '" alt="' + escAttr(c.alt || c.title) + '" />\n' +
+           '        </div>\n' +
+           '        <div class="content">\n' +
+           '          <h3 class="title">' + escText(c.title) + '</h3>\n' +
+           '          <p class="meta"><span>' + escText(c.date) + '</span> <span class="dot"></span> <span>' + escText(c.tag || '') + '</span></p>\n' +
+           '        </div>\n' +
+           '      </article>';
+  },
+
+  /** Devuelve las tarjetas existentes con su año. */
+  list(html){
+    const out = [];
+    const secRe = /<section[^>]*data-section\s*=\s*"(\d{4})"[^>]*>([\s\S]*?)<\/section>/gi;
+    let s;
+    while((s = secRe.exec(html)) !== null){
+      const year = s[1], inner = s[2];
+      const cardRe = /<article class="card">([\s\S]*?)<\/article>/gi;
+      let c;
+      while((c = cardRe.exec(inner)) !== null){
+        const raw = c[0];
+        const href  = (raw.match(/href\s*=\s*"([^"]*)"/i) || [,''])[1];
+        const slug  = (href.match(/\/articulos\/([^/"#?]+)/) || [,''])[1];
+        const title = stripTags((raw.match(/<h3 class="title">([\s\S]*?)<\/h3>/i) || [,''])[1]);
+        const image = (raw.match(/<img[^>]*src\s*=\s*"([^"]*)"/i) || [,''])[1];
+        const date  = stripTags((raw.match(/<p class="meta">\s*<span>([\s\S]*?)<\/span>/i) || [,''])[1]);
+        const tag   = stripTags((raw.match(/<span class="dot"><\/span>\s*<span>([\s\S]*?)<\/span>/i) || [,''])[1]);
+        out.push({ year, slug, title, image, date, tag, raw });
+      }
+    }
+    return out;
+  },
+
+  has(html, slug){ return this.list(html).some(c => c.slug === slug); },
+
+  /** Inserta o reemplaza la tarjeta del slug indicado. */
+  upsert(html, card){
+    const cardStr = this.cardHtml(card);
+
+    /* 1. ya existe → se reemplaza en su sitio */
+    const cardRe = /<article class="card">[\s\S]*?<\/article>/gi;
+    let m, found = null;
+    while((m = cardRe.exec(html)) !== null){
+      if(new RegExp('href\\s*=\\s*"/' + reEsc(SITE.articlesDir) + '/' + reEsc(card.slug) + '/?"').test(m[0])){ found = m; break; }
+    }
+    if(found){
+      const before = html.slice(0, found.index).match(/[ \t]*$/)[0];
+      return { html: html.slice(0, found.index - before.length) + cardStr + html.slice(found.index + found[0].length), action:'actualizada' };
+    }
+
+    /* 2. existe la sección del año → se inserta arriba del grid */
+    const year = String(card.year);
+    const secRe = new RegExp('(<section[^>]*data-section\\s*=\\s*"' + year + '"[^>]*>[\\s\\S]*?<div class="grid">)', 'i');
+    if(secRe.test(html)) return { html: html.replace(secRe, '$1\n\n' + cardStr), action:'agregada' };
+
+    /* 3. no existe el año → se crea la sección y su botón de filtro */
+    const section = '\n  \x3C!-- ===== ' + year + ' ===== -->\n' +
+      '  <section class="year-section" data-section="' + year + '" aria-label="Artículos ' + year + '">\n' +
+      '    <div class="grid">\n\n' + cardStr + '\n\n    </div>\n  </section>\n';
+    let out = html;
+    const firstSec = out.search(/<section[^>]*class="year-section/i);
+    if(firstSec >= 0){
+      const lineStart = out.lastIndexOf('\n', out.lastIndexOf('\x3C!-- =====', firstSec) >= 0 ? out.lastIndexOf('\x3C!-- =====', firstSec) : firstSec);
+      out = out.slice(0, lineStart) + section + out.slice(lineStart);
+    }else{
+      out = out.replace(/(<div class="blog-wrap">)/i, '$1\n' + section);
+    }
+    const btn = '    <button type="button" data-year="' + year + '" role="tab" aria-selected="false">' + year + '</button>\n';
+    out = out.replace(/(<div class="year-filter"[^>]*>\s*\n\s*<span class="label">[^<]*<\/span>\s*\n)/i, '$1' + btn);
+    return { html: out, action:'agregada (nueva sección ' + year + ')' };
+  },
+
+  remove(html, slug){
+    const cardRe = /[ \t]*<article class="card">[\s\S]*?<\/article>\n?/gi;
+    let m, found = null;
+    while((m = cardRe.exec(html)) !== null){
+      if(new RegExp('href\\s*=\\s*"/' + reEsc(SITE.articlesDir) + '/' + reEsc(slug) + '/?"').test(m[0])){ found = m; break; }
+    }
+    if(!found) return { html, action:'no estaba en el índice' };
+    return { html: html.slice(0, found.index) + html.slice(found.index + found[0].length), action:'eliminada' };
+  }
+};
+
+/* ==============================================================
+   10. Cliente de la API del droplet
+   ============================================================== */
+
+class ApiError extends Error{
+  constructor(msg, status, body){ super(msg); this.status = status; this.body = body; }
+}
+
+const Api = {
+  base(){ return String(S.apiBase || '').replace(/\/+$/,''); },
+  ready(){ return !!(this.base() && S.token); },
+
+  async req(path, opts){
+    opts = opts || {};
+    if(!this.base()) throw new ApiError('No hay URL de API configurada. Abre Ajustes.', 0);
+    const url = this.base() + path;
+    const headers = Object.assign({ 'Accept':'application/json' }, opts.headers || {});
+    if(S.token) headers['Authorization'] = 'Bearer ' + S.token;
+    if(opts.body != null) headers['Content-Type'] = 'application/json';
+    const ctl = new AbortController();
+    const to = setTimeout(()=>ctl.abort(), opts.timeout || 45000);
+    let res;
+    try{
+      res = await fetch(url, {
+        method: opts.method || 'GET',
+        headers,
+        body: opts.body != null ? JSON.stringify(opts.body) : undefined,
+        signal: ctl.signal,
+        mode: 'cors',
+        cache: 'no-store'
+      });
+    }catch(e){
+      clearTimeout(to);
+      if(e.name === 'AbortError') throw new ApiError('Tiempo de espera agotado (' + Math.round((opts.timeout||45000)/1000) + 's).', 0);
+      throw new ApiError('No se pudo conectar con ' + url + '. Revisa la URL, que el servicio esté arriba y que CORS permita el origen local.', 0);
+    }
+    clearTimeout(to);
+    const txt = await res.text();
+    let body = null;
+    try{ body = txt ? JSON.parse(txt) : null; }catch(e){ body = txt; }
+    if(!res.ok){
+      const msg = (body && (body.error || body.message)) || ('HTTP ' + res.status);
+      throw new ApiError(msg, res.status, body);
+    }
+    return body;
+  },
+
+  health()             { return this.req('/api/cms/health', {timeout:15000}); },
+  articles()           { return this.req('/api/cms/articles'); },
+  article(slug)        { return this.req('/api/cms/articles/' + encodeURIComponent(slug)); },
+  file(path)           { return this.req('/api/cms/file?path=' + encodeURIComponent(path)); },
+  includes()           { return this.req('/api/cms/includes'); },
+  prs()                { return this.req('/api/cms/prs'); },
+  pr(payload)          { return this.req('/api/cms/pr', {method:'POST', body:payload, timeout:90000}); },
+  publish(payload)     { return this.req('/api/cms/publish', {method:'POST', body:payload, timeout:150000}); }
+};
+
+/* ==============================================================
+   11. Carpeta local (File System Access API + respaldo por <input>)
+   ============================================================== */
+
+const LocalFs = {
+  root: null,
+  name: '',
+  memory: null,   /* respaldo de solo lectura: { 'articulos/x.html': 'contenido' } */
+  supported: typeof window.showDirectoryPicker === 'function',
+
+  async connect(){
+    if(!this.supported) throw new Error('unsupported');
+    const h = await window.showDirectoryPicker({ id:'chtr-blog', mode:'readwrite' });
+    const perm = await h.requestPermission({ mode:'readwrite' });
+    if(perm !== 'granted') throw new Error('Permiso denegado sobre la carpeta.');
+    this.root = h; this.name = h.name; this.memory = null;
+    await this.saveHandle(h);
+    return h;
+  },
+
+  async saveHandle(h){
+    try{
+      const db = await this.idb(); if(!db) return;
+      const tx = db.transaction('h','readwrite'); tx.objectStore('h').put(h,'root');
+    }catch(e){ /* IndexedDB no disponible: la carpeta se reconecta a mano */ }
+  },
+  async restore(){
+    try{
+      const db = await this.idb(); if(!db) return false;
+      const h = await new Promise((res, rej) => {
+        const r = db.transaction('h','readonly').objectStore('h').get('root');
+        r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+      });
+      if(!h) return false;
+      const p = await h.queryPermission({mode:'readwrite'});
+      if(p !== 'granted') { this.pending = h; return false; }
+      this.root = h; this.name = h.name;
+      return true;
+    }catch(e){ return false; }
+  },
+  idb(){
+    return new Promise(res => {
+      try{
+        const r = indexedDB.open('chtr_cms', 1);
+        r.onupgradeneeded = () => { if(!r.result.objectStoreNames.contains('h')) r.result.createObjectStore('h'); };
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => res(null);
+      }catch(e){ res(null); }
+    });
+  },
+
+  connected(){ return !!this.root || !!this.memory; },
+
+  async dirOf(path, create){
+    const parts = path.split('/').filter(Boolean);
+    parts.pop();
+    let d = this.root;
+    for(const p of parts) d = await d.getDirectoryHandle(p, {create: !!create});
+    return d;
+  },
+  fileName(path){ return path.split('/').filter(Boolean).pop(); },
+
+  async read(path){
+    if(this.root){
+      const d = await this.dirOf(path);
+      const fh = await d.getFileHandle(this.fileName(path));
+      return (await fh.getFile()).text();
+    }
+    if(this.memory && this.memory[path] != null) return this.memory[path];
+    throw new Error('No encontrado: ' + path);
+  },
+
+  async write(path, content){
+    if(!this.root) throw new Error('La carpeta local es de solo lectura en este modo. Conéctala con “Carpeta local” en un navegador Chromium.');
+    const d = await this.dirOf(path, true);
+    const fh = await d.getFileHandle(this.fileName(path), {create:true});
+    const w = await fh.createWritable();
+    await w.write(new Blob([content], {type:'text/html;charset=utf-8'}));
+    await w.close();
+  },
+
+  async remove(path){
+    if(!this.root) throw new Error('La carpeta local es de solo lectura en este modo.');
+    const d = await this.dirOf(path);
+    await d.removeEntry(this.fileName(path));
+  },
+
+  async listArticles(){
+    const out = [];
+    if(this.root){
+      let dir;
+      try{ dir = await this.root.getDirectoryHandle(SITE.articlesDir); }
+      catch(e){ throw new Error('La carpeta elegida no contiene "' + SITE.articlesDir + '/". Selecciona la raíz del repositorio del blog.'); }
+      for await (const [name, h] of dir.entries()){
+        if(h.kind !== 'file' || !/\.html$/i.test(name)) continue;
+        const f = await h.getFile();
+        out.push({ name, path: SITE.articlesDir + '/' + name, size: f.size, mtime: f.lastModified, text: await f.text() });
+      }
+      return out;
+    }
+    if(this.memory){
+      Object.keys(this.memory).forEach(p => {
+        if(p.indexOf(SITE.articlesDir + '/') !== 0 || !/\.html$/i.test(p)) return;
+        out.push({ name: p.split('/').pop(), path: p, size: this.memory[p].length, mtime: null, text: this.memory[p] });
+      });
+      return out;
+    }
+    throw new Error('No hay carpeta local conectada.');
+  },
+
+  async loadFromInput(files){
+    const map = {};
+    for(const f of files){
+      const rel = (f.webkitRelativePath || f.name).split('/').slice(1).join('/');
+      if(!/\.html$/i.test(rel)) continue;
+      if(rel.indexOf(SITE.articlesDir + '/') === 0 || rel.indexOf('/') < 0) map[rel] = await f.text();
+    }
+    if(!Object.keys(map).some(k => k.indexOf(SITE.articlesDir + '/') === 0))
+      throw new Error('La carpeta elegida no contiene "' + SITE.articlesDir + '/". Selecciona la raíz del repositorio del blog.');
+    this.memory = map; this.root = null;
+    this.name = files[0] ? (files[0].webkitRelativePath || '').split('/')[0] : 'carpeta';
+    return map;
+  },
+
+  disconnect(){ this.root = null; this.memory = null; this.name = ''; }
+};
+</script>
+<script>
+/* ==============================================================
+   12. Estado de la aplicación
+   ============================================================== */
+
+const App = {
+  items   : {},     /* slug -> registro */
+  drafts  : Store.get('drafts', {}),
+  prs     : [],
+  includes: {},
+  indexHtml: null,
+  indexSource: null,
+  view    : 'library',
+  editing : null,
+  filter  : { q:'', src:'all', sort:'date' },
+  serverInfo: null,
+  loading : false
+};
+
+function saveDrafts(){ Store.set('drafts', App.drafts); }
+
+function metaFromHtml(html, slug){
+  const m = Article.parse(html);
+  m.slug = slug;
+  return m;
+}
+
+function record(slug){
+  if(!App.items[slug]) App.items[slug] = { slug, local:null, remote:null, meta:null, isTemplate: slug === 'base-blog' };
+  return App.items[slug];
+}
+
+async function loadLocal(silent){
+  if(!LocalFs.connected()) return 0;
+  const id = Log.start('Leer carpeta local', LocalFs.name + '/' + SITE.articlesDir);
+  try{
+    const files = await LocalFs.listArticles();
+    files.forEach(f => {
+      const slug = f.name.replace(/\.html$/i,'');
+      const r = record(slug);
+      r.local = { path:f.path, size:f.size, mtime:f.mtime, html:f.text };
+      r.meta = metaFromHtml(f.text, slug);
+    });
+    /* índice del blog */
+    try{ App.indexHtml = await LocalFs.read(SITE.indexFile); App.indexSource = 'local'; }catch(e){ /* sin índice local: se pedirá a la API */ }
+    /* includes SSI para la vista previa real */
+    for(const p of SITE.includeFiles){
+      try{ App.includes[p] = await LocalFs.read(p.replace(/^\//,'')); }catch(e){ /* include ausente: la vista previa lo marca */ }
+    }
+    Log.finish(id, 'ok', { archivos: files.length, includes: Object.keys(App.includes).length });
+    if(!silent) toast(files.length + ' artículo(s) leídos de la carpeta local', 'ok');
+    return files.length;
+  }catch(e){
+    Log.finish(id, 'error', String(e.message || e));
+    if(!silent) toast(e.message || String(e), 'err', 6000);
+    return 0;
+  }
+}
+
+async function loadRemote(silent){
+  if(!Api.ready()) return 0;
+  const id = Log.start('Listar artículos (API)', Api.base());
+  try{
+    const res = await Api.articles();
+    const list = res.articles || res || [];
+    list.forEach(a => {
+      const r = record(a.slug);
+      r.remote = a;
+      if(!r.meta && a.title){
+        r.meta = Object.assign(Article.blank(), {
+          slug:a.slug, title:a.title, description:a.description || '', image:a.image || '',
+          canonical:a.canonical || '', datePublished:a.datePublished || '', dateModified:a.dateModified || ''
+        });
+      }
+    });
+    Log.finish(id, 'ok', { articulos: list.length, fuente: res.source, rama: res.branch });
+    if(!silent) toast(list.length + ' artículo(s) desde la API', 'ok');
+    return list.length;
+  }catch(e){
+    Log.finish(id, 'error', { status:e.status, error:String(e.message || e) });
+    if(!silent) toast('API: ' + (e.message || e), 'err', 6500);
+    return 0;
+  }
+}
+
+async function loadPrs(silent){
+  if(!Api.ready()) return;
+  try{
+    const res = await Api.prs();
+    App.prs = res.pulls || res || [];
+    $('#cntPrs').textContent = App.prs.length;
+  }catch(e){ if(!silent) console.warn('PRs:', e.message); }
+}
+
+async function reloadAll(silent){
+  App.loading = true; render();
+  await Promise.all([ loadLocal(silent), loadRemote(silent) ]);
+  await loadPrs(true);
+  App.loading = false;
+  updateCounts();
+  render();
+}
+
+function updateCounts(){
+  $('#cntAll').textContent    = Object.keys(App.items).length;
+  $('#cntDrafts').textContent = Object.keys(App.drafts).length;
+  $('#cntPrs').textContent    = App.prs.length;
+}
+
+/** Obtiene el HTML completo del artículo, prefiriendo la carpeta local. */
+async function getHtml(slug, prefer){
+  const r = App.items[slug];
+  if(!r) throw new Error('Artículo desconocido: ' + slug);
+  if(prefer !== 'remote' && r.local) return r.local.html;
+  if(r.remote){
+    if(r.remote.html) return r.remote.html;
+    const res = await Api.article(slug);
+    r.remote.html = res.html; r.remote.sha = res.sha || r.remote.sha;
+    return res.html;
+  }
+  if(r.local) return r.local.html;
+  throw new Error('Sin contenido para ' + slug);
+}
+
+/* ==============================================================
+   13. Render principal
+   ============================================================== */
+
+function render(){
+  const v = App.view;
+  updateCounts();
+  $$('.side button[data-nav]').forEach(b => b.classList.toggle('active', b.dataset.nav === v));
+  if(v === 'library') return renderLibrary();
+  if(v === 'drafts')  return renderDrafts();
+  if(v === 'prs')     return renderPrs();
+  if(v === 'index')   return renderIndex();
+  if(v === 'help')    return renderHelp();
+  if(v === 'editor')  return renderEditor();
+}
+
+function srcChips(r){
+  const out = [];
+  if(r.local)  out.push('<span class="chip info" title="Presente en la carpeta local"><span class="dot"></span>Local</span>');
+  if(r.remote) out.push('<span class="chip brand" title="Presente en el repositorio remoto"><span class="dot"></span>Repo</span>');
+  if(r.local && !r.remote) out.push('<span class="chip warn">Sin publicar</span>');
+  if(r.isTemplate) out.push('<span class="chip mute">Plantilla</span>');
+  const pr = App.prs.find(p => (p.slug === r.slug));
+  if(pr) out.push('<span class="chip ok">PR #' + pr.number + '</span>');
+  return out.join(' ');
+}
+
+function filtered(){
+  const q = App.filter.q.toLowerCase().trim();
+  let list = Object.values(App.items);
+  if(App.filter.src === 'local')  list = list.filter(r => r.local);
+  if(App.filter.src === 'remote') list = list.filter(r => r.remote);
+  if(App.filter.src === 'unpub')  list = list.filter(r => r.local && !r.remote);
+  if(App.filter.src === 'article')list = list.filter(r => !r.isTemplate);
+  if(q) list = list.filter(r =>
+    r.slug.toLowerCase().indexOf(q) >= 0 ||
+    ((r.meta && r.meta.title) || '').toLowerCase().indexOf(q) >= 0 ||
+    ((r.meta && r.meta.description) || '').toLowerCase().indexOf(q) >= 0);
+  const key = App.filter.sort;
+  list.sort((a,b) => {
+    if(key === 'title') return ((a.meta&&a.meta.title)||a.slug).localeCompare((b.meta&&b.meta.title)||b.slug,'es');
+    if(key === 'slug')  return a.slug.localeCompare(b.slug,'es');
+    const da = (a.meta && (a.meta.datePublished || a.meta.dateModified)) || '';
+    const db = (b.meta && (b.meta.datePublished || b.meta.dateModified)) || '';
+    return String(db).localeCompare(String(da));
+  });
+  return list;
+}
+
+function renderLibrary(){
+  const list = filtered();
+  const total = Object.keys(App.items).length;
+  const head =
+    '<div class="page-head">' +
+      '<div><h1>Biblioteca</h1><p>' + total + ' artículo(s) · carpeta: ' +
+      (LocalFs.connected() ? '<b>' + esc(LocalFs.name) + '</b>' : '<span class="muted">sin conectar</span>') +
+      ' · API: ' + (App.serverInfo ? '<b>' + esc(App.serverInfo.repo || '') + '</b> (' + esc(App.serverInfo.branch || S.baseBranch) + ')' : '<span class="muted">sin conectar</span>') + '</p></div>' +
+      '<div class="acts">' +
+        '<button class="btn" data-act="reload"><ion-icon name="refresh-outline"></ion-icon> Recargar</button>' +
+        '<button class="btn" data-act="import"><ion-icon name="cloud-download-outline"></ion-icon> Importar HTML</button>' +
+        '<button class="btn primary" data-act="new"><ion-icon name="add-circle-outline"></ion-icon> Nuevo artículo</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="libbar">' +
+      '<div class="search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>' +
+      '<input type="text" id="q" placeholder="Buscar por título, slug o descripción…" value="' + escAttr(App.filter.q) + '"></div>' +
+      '<select id="fsrc">' +
+        '<option value="all">Todos</option>' +
+        '<option value="article">Solo artículos</option>' +
+        '<option value="local">En carpeta local</option>' +
+        '<option value="remote">En el repo</option>' +
+        '<option value="unpub">Sin publicar</option>' +
+      '</select>' +
+      '<select id="fsort"><option value="date">Más recientes</option><option value="title">Título A–Z</option><option value="slug">Slug A–Z</option></select>' +
+      '<div style="margin-left:auto" class="inline">' +
+        '<button class="btn sm ' + (S.view==='grid'?'primary':'') + '" data-view="grid"><ion-icon name="grid-outline"></ion-icon></button>' +
+        '<button class="btn sm ' + (S.view==='list'?'primary':'') + '" data-view="list"><ion-icon name="list-outline"></ion-icon></button>' +
+      '</div>' +
+    '</div>';
+
+  let bodyHtml;
+  if(App.loading && !total){
+    bodyHtml = '<div class="empty"><h3>Cargando…</h3><p>Leyendo la carpeta local y consultando la API.</p></div>';
+  }else if(!total){
+    bodyHtml =
+      '<div class="empty">' +
+        '<h3>Todavía no hay artículos cargados</h3>' +
+        '<p>Conecta la carpeta del repositorio del blog (la que contiene <code>' + SITE.articlesDir + '/</code>) o configura la API del droplet para leer los artículos del repo remoto.</p>' +
+        '<div class="inline" style="justify-content:center">' +
+          '<button class="btn primary" data-act="folder"><ion-icon name="folder-open-outline"></ion-icon> Conectar carpeta local</button>' +
+          '<button class="btn" data-act="settings"><ion-icon name="settings-outline"></ion-icon> Configurar API</button>' +
+          '<button class="btn" data-act="new"><ion-icon name="add-circle-outline"></ion-icon> Empezar un artículo</button>' +
+        '</div>' +
+      '</div>';
+  }else if(!list.length){
+    bodyHtml = '<div class="empty"><h3>Sin resultados</h3><p>Ningún artículo coincide con el filtro.</p></div>';
+  }else if(S.view === 'grid'){
+    bodyHtml = '<div class="grid">' + list.map(cardFor).join('') + '</div>';
+  }else{
+    bodyHtml =
+      '<table class="list"><thead><tr><th>Artículo</th><th>Estado</th><th>Publicado</th><th style="width:1%"></th></tr></thead><tbody>' +
+      list.map(r => {
+        const t = (r.meta && r.meta.title) || r.slug;
+        return '<tr><td><div class="t">' + esc(t) + '</div><div class="s">' + esc(r.slug) + '.html</div></td>' +
+          '<td>' + srcChips(r) + '</td>' +
+          '<td class="nowrap muted">' + esc(fmtDate(r.meta && r.meta.datePublished)) + '</td>' +
+          '<td class="acts">' +
+            '<button class="btn sm" data-open="' + escAttr(r.slug) + '">Editar</button> ' +
+            '<button class="btn sm ghost" data-menu="' + escAttr(r.slug) + '">⋯</button>' +
+          '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+
+  $('#main').innerHTML = '<div class="wrap">' + head + bodyHtml + '</div>';
+  const qs = $('#q');
+  if(qs){
+    qs.oninput = debounce(e => { App.filter.q = e.target.value; renderLibrary(); $('#q').focus(); }, 220);
+    $('#fsrc').value = App.filter.src;
+    $('#fsrc').onchange = e => { App.filter.src = e.target.value; renderLibrary(); };
+    $('#fsort').value = App.filter.sort;
+    $('#fsort').onchange = e => { App.filter.sort = e.target.value; renderLibrary(); };
+    $$('[data-view]').forEach(b => b.onclick = () => { S.view = b.dataset.view; saveSettings(); renderLibrary(); });
+  }
+}
+
+function cardFor(r){
+  const m = r.meta || {};
+  const img = m.image;
+  return '<div class="acard">' +
+    '<div class="thumb">' +
+      (img ? '<img loading="lazy" src="' + escAttr(img) + '" alt="" onerror="this.style.display=\'none\'">' : '') +
+      (img ? '' : '<div class="ph">sin portada</div>') +
+      '<div class="badges">' + srcChips(r) + '</div>' +
+    '</div>' +
+    '<div class="body">' +
+      '<h3>' + esc(m.title || r.slug) + '</h3>' +
+      '<div class="slug">' + esc(r.slug) + '.html</div>' +
+      (m.description ? '<div class="desc">' + esc(m.description) + '</div>' : '') +
+      '<div class="foot">' +
+        '<span class="when">' + esc(fmtDate(m.datePublished)) + '</span>' +
+        '<button class="btn sm" data-open="' + escAttr(r.slug) + '">Editar</button>' +
+        '<button class="btn sm ghost" data-menu="' + escAttr(r.slug) + '">⋯</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+</script>
+<script>
+/* ==============================================================
+   14. Editor — apertura y estructura
+   ============================================================== */
+
+function canonicalFor(slug){
+  if(S.canonicalMode === 'custom' && S.canonicalCustom) return S.canonicalCustom.replace('{slug}', slug);
+  return (SITE.canonicalPatterns[S.canonicalMode] || SITE.canonicalPatterns.www).replace('{slug}', slug);
+}
+function imageFor(slug){ return (S.cdnPattern || SITE.cdnPattern).replace('{slug}', slug); }
+
+function newArticle(seed){
+  seed = seed || {};
+  const m = Article.blank();
+  m.slug          = seed.slug || '';
+  m.title         = seed.title || '';
+  m.headline      = seed.title || '';
+  m.description   = seed.description || '';
+  m.author        = S.author;
+  m.datePublished = isoNow();
+  m.dateModified  = isoNow();
+  m.image         = seed.slug ? imageFor(seed.slug) : '';
+  m.canonical     = seed.slug ? canonicalFor(seed.slug) : '';
+  m.body          = seed.body || BODY_STARTER.replace('{{TITLE}}', escText(seed.title || 'Título del artículo'));
+  App.editing = {
+    slug: m.slug, isNew: true, original: null, mode: 'rebuild', m, baseline: null,
+    dirty: true, rteTouched: true, tab: 'contenido', editorMode: 'visual', showPreview: true, device: 'desk',
+    indexCard: { enabled: S.updateIndex, tag: 'Guía práctica', alt: '' },
+    imagePrompt: '', draftId: 'draft_' + uid()
+  };
+  App.view = 'editor';
+  render();
+}
+
+async function openEditor(slug, prefer){
+  const r = App.items[slug];
+  if(!r) return toast('Artículo no encontrado', 'err');
+  let html;
+  try{ html = await getHtml(slug, prefer); }
+  catch(e){ return toast(e.message || String(e), 'err', 6000); }
+  const m = Article.parse(html);
+  m.slug = slug;
+  /* Referencia inmutable: se compara contra ella para escribir solo lo editado. */
+  const baseline = Article.parse(html);
+  baseline.slug = slug;
+  if(!m.canonical) m.canonical = canonicalFor(slug);
+  if(!m.image) m.image = imageFor(slug);
+  const idxCard = App.indexHtml ? IndexPage.list(App.indexHtml).find(c => c.slug === slug) : null;
+  App.editing = {
+    slug, isNew: false, original: html, mode: 'preserve', m, baseline,
+    dirty: false, rteTouched: false, tab: 'contenido', editorMode: 'visual', showPreview: true, device: 'desk',
+    indexCard: { enabled: !!idxCard && S.updateIndex, tag: (idxCard && idxCard.tag) || '', alt: (idxCard && idxCard.alt) || m.imageAlt || '' },
+    imagePrompt: '', draftId: null
+  };
+  App.view = 'editor';
+  render();
+}
+
+function openDraft(id){
+  const d = App.drafts[id];
+  if(!d) return toast('Borrador no encontrado', 'err');
+  App.editing = Object.assign({}, d.state, { m: d.model, draftId: id, dirty: false, rteTouched: true,
+    baseline: d.state.original ? Article.parse(d.state.original) : null,
+    tab:'contenido', editorMode:'visual', showPreview:true, device:'desk' });
+  App.view = 'editor';
+  render();
+}
+
+function currentHtml(){
+  const e = App.editing;
+  if(!e) return '';
+  return Article.render(e.m, e.mode, e.original, e.baseline);
+}
+
+function markDirty(){
+  if(App.editing){ App.editing.dirty = true; updateEdHead(); autosave(); }
+}
+const autosave = debounce(() => {
+  const e = App.editing; if(!e) return;
+  const id = e.draftId || ('draft_' + (e.slug || uid()));
+  e.draftId = id;
+  App.drafts[id] = {
+    id, slug: e.slug, title: e.m.title, ts: Date.now(), isNew: e.isNew,
+    model: e.m,
+    state: { slug:e.slug, isNew:e.isNew, original:e.original, mode:e.mode, indexCard:e.indexCard, imagePrompt:e.imagePrompt }
+  };
+  saveDrafts(); updateCounts();
+}, 1200);
+
+function updateEdHead(){
+  const e = App.editing; if(!e) return;
+  const t = $('#edTitle'); if(t) t.textContent = e.m.title || '(sin título)';
+  const s = $('#edMeta');
+  if(s) s.textContent = (e.m.slug ? SITE.articlesDir + '/' + e.m.slug + '.html' : 'sin slug') +
+    ' · ' + wordCount(e.m.body) + ' palabras · ' + (e.isNew ? 'nuevo' : e.mode === 'preserve' ? 'edición conservadora' : 'reconstruido');
+  const d = $('#edDirty'); if(d) d.style.display = e.dirty ? '' : 'none';
+  const v = validate(currentHtml(), e.m);
+  const n = countErrors(v);
+  const badge = $('#tabRevN');
+  if(badge){ badge.style.display = n ? '' : 'none'; badge.textContent = n; }
+}
+
+const TABS = [
+  ['contenido', '<ion-icon name="document-text-outline"></ion-icon> Contenido'],
+  ['metadatos', '<ion-icon name="pricetags-outline"></ion-icon> Metadatos'],
+  ['portada',   '<ion-icon name="image-outline"></ion-icon> Portada'],
+  ['indice',    '<ion-icon name="albums-outline"></ion-icon> Índice'],
+  ['revision',  '<ion-icon name="checkmark-circle-outline"></ion-icon> Revisión'],
+  ['documento', '<ion-icon name="code-slash-outline"></ion-icon> Documento'],
+  ['previa',    '<ion-icon name="eye-outline"></ion-icon> Vista previa']
+];
+
+function renderEditor(){
+  const e = App.editing;
+  if(!e){ App.view = 'library'; return render(); }
+  $('#main').innerHTML =
+    '<div class="ed">' +
+      '<div class="ed-head">' +
+        '<button class="btn ghost sm" data-ed="back"><ion-icon name="arrow-back-outline"></ion-icon> Biblioteca</button>' +
+        '<div class="ttl"><h2 id="edTitle">' + esc(e.m.title || '(sin título)') + '</h2>' +
+        '<div class="m" id="edMeta"></div></div>' +
+        '<div class="acts">' +
+          '<span class="chip warn" id="edDirty" style="display:none">Sin guardar</span>' +
+          '<button class="btn sm" data-ed="save-local" title="Escribir el archivo en la carpeta local conectada"><ion-icon name="save-outline"></ion-icon> Guardar local</button>' +
+          '<button class="btn sm" data-ed="download" title="Descargar el .html"><ion-icon name="download-outline"></ion-icon></button>' +
+          '<button class="btn sm" data-ed="delete" title="Eliminar el artículo (vía pull request)"><ion-icon name="trash-outline"></ion-icon></button>' +
+          '<button class="btn sm primary" data-ed="pr"><ion-icon name="git-pull-request-outline"></ion-icon> Crear pull request</button>' +
+          '<button class="btn sm" data-ed="publish" title="Publicar directo con la API del droplet"><ion-icon name="rocket-outline"></ion-icon> Publicar</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="tabs" id="edTabs">' +
+        TABS.map(([k,l]) => '<button data-tab="' + k + '" class="' + (e.tab===k?'active':'') + '">' + l +
+          (k==='revision' ? ' <span class="n" id="tabRevN" style="display:none">0</span>' : '') + '</button>').join('') +
+      '</div>' +
+      '<div class="ed-body" id="edBody"></div>' +
+    '</div>';
+  $$('#edTabs button').forEach(b => b.onclick = () => { syncFromEditor(); e.tab = b.dataset.tab; renderEditor(); });
+  renderTab();
+  updateEdHead();
+}
+
+function renderTab(){
+  const e = App.editing, box = $('#edBody');
+  if(e.tab === 'contenido') return tabContenido(box);
+  if(e.tab === 'metadatos') return tabMetadatos(box);
+  if(e.tab === 'portada')   return tabPortada(box);
+  if(e.tab === 'indice')    return tabIndice(box);
+  if(e.tab === 'revision')  return tabRevision(box);
+  if(e.tab === 'documento') return tabDocumento(box);
+  if(e.tab === 'previa')    return tabPrevia(box);
+}
+</script>
+<script>
+/* ==============================================================
+   15. Pestaña: Contenido (editor visual + HTML)
+   ============================================================== */
+
+const SSI_RE_G = /\x3C!--#include\s+(?:file|virtual)\s*=\s*"([^"]+)"\s*-->/g;
+
+function bodyToEditable(body){
+  return String(body || '').replace(SSI_RE_G, (all, p) =>
+    '<div class="ssi-chip" contenteditable="false" data-ssi="' + escAttr(p) + '">include ' + esc(p) +
+    '<span class="x" title="Quitar del artículo"><ion-icon name="close-outline"></ion-icon></span></div>');
+}
+
+/* Serializa el editor visual de vuelta a HTML.
+   El navegador reescribe el marcado al editar, así que una serialización
+   directa cambiaría el formato de TODO el artículo y el pull request
+   mostraría cientos de líneas por corregir una palabra. Para evitarlo se
+   alinea el resultado con el cuerpo original y los bloques que no cambiaron
+   se reutilizan textualmente, con su sangría y sus separadores. */
+function editableToBody(root, original){
+  const clone = root.cloneNode(true);
+  Array.from(clone.querySelectorAll('.ssi-chip')).forEach(el => {
+    el.parentNode.replaceChild(document.createComment('#include file="' + el.getAttribute('data-ssi') + '" '), el);
+  });
+  Array.from(clone.querySelectorAll('[contenteditable]')).forEach(el => el.removeAttribute('contenteditable'));
+
+  const nuevos = topLevelBlocks(clone);
+  if(!original) return nuevos.map(b => b.fmt).join('\n\n');
+
+  const viejos = splitBody(original);
+  const ops = seqDiff(viejos.map(b => b.norm), nuevos.map(b => b.norm));
+  const piezas = [];
+  /* Un bloque reemplazado hereda la separación y la sangría del que sustituye,
+     para que el cambio se vea donde estaba y no mueva el resto del archivo. */
+  let leadHuerfano = null;
+  ops.forEach(op => {
+    if(op.t === 'd'){ if(leadHuerfano === null) leadHuerfano = viejos[op.i].lead; return; }
+    if(op.t === '='){ piezas.push({ text: viejos[op.i].src, lead: viejos[op.i].lead }); leadHuerfano = null; return; }
+    if(leadHuerfano !== null){ piezas.push({ text: nuevos[op.j].bare, lead: leadHuerfano }); leadHuerfano = null; }
+    else piezas.push({ text: nuevos[op.j].fmt, lead: null });
+  });
+  let out = '';
+  piezas.forEach((pz, i) => {
+    out += (pz.lead != null ? pz.lead : (i === 0 ? '' : '\n\n')) + pz.text;
+  });
+  return out;
+}
+
+/** Normaliza un bloque para comparar contenido ignorando el formato. */
+function normBlock(h){
+  return String(h == null ? '' : h)
+    .replace(/\x3C!--#include\s+(?:file|virtual)\s*=\s*"([^"]+)"\s*-->/g, '@SSI:$1@')
+    .replace(/\s+/g, ' ')
+    .replace(/>\s+/g, '>').replace(/\s+\x3C/g, '\x3C')
+    .trim();
+}
+
+const VOID_TAGS = /^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/i;
+
+/** Final de una etiqueta de apertura, respetando comillas. */
+function findTagEnd(s, at){
+  let i = at + 1, q = null;
+  while(i < s.length){
+    const c = s[i];
+    if(q){ if(c === q) q = null; }
+    else if(c === '"' || c === "'") q = c;
+    else if(c === '>') return i + 1;
+    i++;
+  }
+  return -1;
+}
+/** Final del elemento que abre en `from`, contando anidamiento del mismo tag. */
+function findClose(s, from, tag){
+  const open  = new RegExp('\x3C' + reEsc(tag) + '(?=[\\s/>])', 'gi');
+  const close = new RegExp('\x3C\\/' + reEsc(tag) + '\\s*>', 'gi');
+  let depth = 1, i = from;
+  while(i < s.length){
+    close.lastIndex = i;
+    const c = close.exec(s);
+    if(!c) return s.length;
+    open.lastIndex = i;
+    let o, extra = 0;
+    while((o = open.exec(s)) !== null && o.index < c.index) extra++;
+    depth += extra - 1;
+    i = c.index + c[0].length;
+    if(depth <= 0) return i;
+  }
+  return s.length;
+}
+
+/** Nodos de primer nivel del cuerpo original, con el texto exacto que los
+    precede (`lead`). Reutilizar ambos es lo que mantiene el diff pequeño:
+    los bloques que no se tocaron vuelven al archivo tal cual estaban,
+    con su sangría y sus saltos de línea originales. */
+function splitBody(body){
+  const s = String(body || '');
+  const out = [];
+  let i = 0, last = 0;
+  while(i < s.length){
+    const lt = s.indexOf('\x3C', i);
+    if(lt < 0) break;
+    let end;
+    if(s.slice(lt, lt + 4) === '\x3C!--'){
+      const e = s.indexOf('-->', lt);
+      end = e < 0 ? s.length : e + 3;
+    }else{
+      const mt = /^\x3C([a-zA-Z][\w:-]*)/.exec(s.slice(lt, lt + 40));
+      if(!mt){ i = lt + 1; continue; }
+      const tagEnd = findTagEnd(s, lt);
+      if(tagEnd < 0){ i = lt + 1; continue; }
+      end = (VOID_TAGS.test(mt[1]) || s[tagEnd - 2] === '/') ? tagEnd : findClose(s, tagEnd, mt[1]);
+    }
+    const lead = s.slice(last, lt);
+    if(lead.trim()){
+      /* texto suelto entre bloques: es un nodo por derecho propio */
+      const t = lead.replace(/^\s+/, '');
+      out.push({ src: t, lead: lead.slice(0, lead.length - t.length), norm: normBlock(t) });
+      out.push({ src: s.slice(lt, end), lead: '', norm: normBlock(s.slice(lt, end)) });
+    }else{
+      out.push({ src: s.slice(lt, end), lead: lead, norm: normBlock(s.slice(lt, end)) });
+    }
+    last = end; i = end;
+  }
+  const tailTxt = s.slice(last);
+  if(tailTxt.trim()){
+    const t = tailTxt.replace(/^\s+/, '');
+    out.push({ src: t.replace(/\s+$/, ''), lead: tailTxt.slice(0, tailTxt.length - t.length), norm: normBlock(t) });
+  }
+  return out;
+}
+
+/** Bloques de primer nivel del editor, ya formateados. */
+function topLevelBlocks(container){
+  const out = [];
+  Array.from(container.childNodes).forEach(n => {
+    let fmt = null;
+    if(n.nodeType === 3){ const t = n.textContent.replace(/\s+/g,' ').trim(); if(t) fmt = '  ' + t; }
+    else if(n.nodeType === 8) fmt = '  \x3C!--' + n.data + '-->';
+    else if(n.nodeType === 1) fmt = indentNode(n, 1);
+    if(fmt != null) out.push({ fmt, bare: fmt.replace(/^[ \t]+/, ''), norm: normBlock(fmt) });
+  });
+  return out;
+}
+
+/** Alineación por subsecuencia común más larga entre dos listas. */
+function seqDiff(A, B){
+  const n = A.length, m = B.length;
+  if(n * m > 1000000) return B.map((_, j) => ({t:'a', j}));
+  const dp = [];
+  for(let i = 0; i <= n; i++) dp.push(new Uint32Array(m + 1));
+  for(let i = n - 1; i >= 0; i--)
+    for(let j = m - 1; j >= 0; j--)
+      dp[i][j] = A[i] === B[j] ? dp[i+1][j+1] + 1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const out = [];
+  let i = 0, j = 0;
+  while(i < n && j < m){
+    if(A[i] === B[j]){ out.push({t:'=', i, j}); i++; j++; }
+    else if(dp[i+1][j] >= dp[i][j+1]){ out.push({t:'d', i}); i++; }
+    else { out.push({t:'a', j}); j++; }
+  }
+  while(i < n) out.push({t:'d', i: i++});
+  while(j < m) out.push({t:'a', j: j++});
+  return out;
+}
+
+function attrsOf(el){
+  return Array.from(el.attributes).map(a => ' ' + a.name + '="' + escAttr(a.value) + '"').join('');
+}
+function indentNode(el, depth){
+  const pad = '  '.repeat(depth);
+  const tag = el.tagName.toLowerCase();
+  if(tag === 'ul' || tag === 'ol'){
+    const items = Array.from(el.children).map(li => '  '.repeat(depth+1) + li.outerHTML.replace(/\s+/g,' ').trim());
+    return pad + '<' + tag + attrsOf(el) + '>\n' + items.join('\n') + '\n' + pad + '</' + tag + '>';
+  }
+  if(tag === 'figure' || tag === 'blockquote'){
+    const inner = Array.from(el.childNodes).map(c => {
+      if(c.nodeType === 1) return '  '.repeat(depth+1) + c.outerHTML;
+      if(c.nodeType === 8) return '  '.repeat(depth+1) + '\x3C!--' + c.data + '-->';
+      const t = String(c.textContent).replace(/\s+/g,' ').trim();
+      return t ? '  '.repeat(depth+1) + t : '';
+    }).filter(x => x);
+    return pad + '<' + tag + attrsOf(el) + '>\n' + inner.join('\n') + '\n' + pad + '</' + tag + '>';
+  }
+  return pad + el.outerHTML;
+}
+
+function syncFromEditor(){
+  const e = App.editing; if(!e) return;
+  const rte = $('#rte');
+  const src = $('#bodySrc');
+  /* El editor visual reformatea el HTML al serializar. Si el usuario no
+     escribió nada, se deja el cuerpo original intacto para que la edición
+     conservadora no genere un diff de todo el artículo. */
+  if(e.editorMode === 'visual' && rte){
+    if(e.rteTouched) e.m.body = editableToBody(rte, e.baseline ? e.baseline.body : null);
+  }
+  else if(src) e.m.body = src.value;
+}
+
+function tabContenido(box){
+  const e = App.editing;
+  box.innerHTML =
+    '<div class="pane active"><div class="ed-split">' +
+      '<div class="ed-col">' +
+        '<div class="colhead">' +
+          '<span class="lb">Cuerpo del &lt;article&gt;</span>' +
+          '<button class="btn sm ' + (e.editorMode==='visual'?'primary':'') + '" data-em="visual">Visual</button>' +
+          '<button class="btn sm ' + (e.editorMode==='html'?'primary':'') + '" data-em="html">HTML</button>' +
+          '<button class="btn sm ghost" data-ed="togglepv" title="Mostrar u ocultar la vista previa">' + (e.showPreview ? '<ion-icon name="eye-outline"></ion-icon>' : '<ion-icon name="eye-off-outline"></ion-icon>') + '</button>' +
+        '</div>' +
+        (e.editorMode === 'visual' ? rteToolbar() : '') +
+        (e.editorMode === 'visual'
+          ? '<div class="rte" id="rte" contenteditable="true" spellcheck="true"></div>'
+          : '<div class="codewrap"><textarea id="bodySrc" class="code" spellcheck="false"></textarea></div>') +
+      '</div>' +
+      (e.showPreview ? '<div class="ed-col"><div class="colhead"><span class="lb">Vista previa</span>' +
+        '<button class="btn sm ghost" data-dev="desk"><ion-icon name="desktop-outline"></ion-icon></button><button class="btn sm ghost" data-dev="mob"><ion-icon name="phone-portrait-outline"></ion-icon></button>' +
+        '<button class="btn sm ghost" data-ed="refreshpv"><ion-icon name="refresh-outline"></ion-icon></button></div>' +
+        '<iframe id="pvFrame" style="flex:1;border:none;width:100%;background:#fff" sandbox="allow-scripts allow-popups"></iframe></div>' : '') +
+    '</div></div>';
+
+  if(e.editorMode === 'visual'){
+    const rte = $('#rte');
+    rte.innerHTML = bodyToEditable(e.m.body);
+    rte.addEventListener('input', () => { e.rteTouched = true; markDirty(); schedulePreview(); });
+    rte.addEventListener('blur', () => { syncFromEditor(); updateEdHead(); });
+    rte.addEventListener('click', ev => {
+      const x = ev.target.closest('.ssi-chip .x');
+      if(x){ x.parentElement.remove(); e.rteTouched = true; markDirty(); syncFromEditor(); schedulePreview(); }
+    });
+    rte.addEventListener('keydown', ev => {
+      if((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 'k'){ ev.preventDefault(); cmdLink(); }
+      if((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 's'){ ev.preventDefault(); doSaveLocal(); }
+    });
+    rte.addEventListener('paste', ev => {
+      const html = ev.clipboardData && ev.clipboardData.getData('text/html');
+      if(html && /<(p|h[1-6]|ul|ol|table|div)[\s>]/i.test(html)){
+        ev.preventDefault();
+        const clean = sanitizePaste(html);
+        execCmd('insertHTML', clean);
+        e.rteTouched = true; markDirty(); schedulePreview();
+      }
+    });
+    $$('.toolbar .tb').forEach(b => b.onclick = ev => { ev.preventDefault(); runCmd(b.dataset.cmd); });
+  }else{
+    const ta = $('#bodySrc');
+    ta.value = e.m.body;
+    ta.addEventListener('input', () => { e.m.body = ta.value; markDirty(); schedulePreview(); });
+    ta.addEventListener('keydown', ev => {
+      if(ev.key === 'Tab'){ ev.preventDefault(); const s = ta.selectionStart; ta.value = ta.value.slice(0,s) + '  ' + ta.value.slice(ta.selectionEnd); ta.selectionStart = ta.selectionEnd = s + 2; }
+      if((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 's'){ ev.preventDefault(); doSaveLocal(); }
+    });
+  }
+
+  $$('[data-em]').forEach(b => b.onclick = () => { syncFromEditor(); e.editorMode = b.dataset.em; tabContenido(box); });
+  $$('[data-dev]').forEach(b => b.onclick = () => { e.device = b.dataset.dev; schedulePreview(true); });
+  if(e.showPreview) schedulePreview(true);
+}
+
+function rteToolbar(){
+  const b = (cmd, label, title) =>
+    '<button class="tb" data-cmd="' + cmd + '" title="' + escAttr(title) + '">' + label + '</button>';
+  return '<div class="toolbar">' +
+    b('p','¶','Párrafo') + b('h2','H2','Subtítulo nivel 2') + b('h3','H3','Subtítulo nivel 3') +
+    '<div class="div"></div>' +
+    b('bold','<b>B</b>','Negrita (⌘B)') + b('italic','<i>I</i>','Cursiva (⌘I)') + b('link','<ion-icon name="link-outline"></ion-icon>','Enlace (⌘K)') + b('unlink','<ion-icon name="unlink-outline"></ion-icon>','Quitar enlace') +
+    '<div class="div"></div>' +
+    b('ul','<ion-icon name="list-outline"></ion-icon>','Lista con viñetas') + b('ol','1.','Lista numerada') + b('quote','<ion-icon name="chatbox-outline"></ion-icon>','Cita') +
+    '<div class="div"></div>' +
+    b('figure','<ion-icon name="image-outline"></ion-icon>','Insertar imagen') + b('linea','<ion-icon name="remove-outline"></ion-icon>','Línea divisoria') + b('table','<ion-icon name="grid-outline"></ion-icon>','Tabla') + b('ssi','<ion-icon name="layers-outline"></ion-icon>','Insertar CTA (include SSI)') +
+    '<div class="div"></div>' +
+    b('clean','<ion-icon name="brush-outline"></ion-icon>','Limpiar formato') + b('undo','<ion-icon name="arrow-undo-outline"></ion-icon>','Deshacer') + b('redo','<ion-icon name="arrow-redo-outline"></ion-icon>','Rehacer') +
+  '</div>';
+}
+
+function runCmd(cmd){
+  const rte = $('#rte'); if(!rte) return;
+  if(App.editing) App.editing.rteTouched = true;
+  rte.focus();
+  switch(cmd){
+    case 'p':  execCmd('formatBlock','<p>'); break;
+    case 'h2': execCmd('formatBlock','<h2>'); break;
+    case 'h3': execCmd('formatBlock','<h3>'); break;
+    case 'bold': execCmd('bold'); break;
+    case 'italic': execCmd('italic'); break;
+    case 'unlink': execCmd('unlink'); break;
+    case 'ul': execCmd('insertUnorderedList'); break;
+    case 'ol': execCmd('insertOrderedList'); break;
+    case 'quote': execCmd('formatBlock','<blockquote>'); break;
+    case 'clean': execCmd('removeFormat'); break;
+    case 'undo': execCmd('undo'); break;
+    case 'redo': execCmd('redo'); break;
+    case 'link': cmdLink(); return;
+    case 'figure': cmdFigure(); return;
+    case 'linea': execCmd('insertHTML','<div class="linea"></div><p><br></p>'); break;
+    case 'table': execCmd('insertHTML',
+      '<table><thead><tr><th>Columna</th><th>Columna</th></tr></thead>' +
+      '<tbody><tr><td>Dato</td><td>Dato</td></tr><tr><td>Dato</td><td>Dato</td></tr></tbody></table><p><br></p>'); break;
+    case 'ssi': cmdSsi(); return;
+  }
+  markDirty(); syncFromEditor(); schedulePreview();
+}
+
+async function cmdLink(){
+  if(App.editing) App.editing.rteTouched = true;
+  const sel = window.getSelection();
+  const text = sel ? String(sel) : '';
+  const url = await promptModal({ title:'Insertar enlace', label:'URL', value:'https://',
+    hint:'Los enlaces externos del blog usan <code>target="_blank"</code>. Los internos apuntan a <code>https://www.chiletransportistas.com/…</code>' });
+  if(!url) return;
+  $('#rte').focus();
+  const ext = !/chiletransportistas\.com/i.test(url);
+  if(text) execCmd('insertHTML', '<a href="' + escAttr(url) + '"' + (ext ? ' target="_blank" rel="nofollow noopener"' : ' target="_blank"') + '>' + escText(text) + '</a>');
+  else     execCmd('insertHTML', '<a href="' + escAttr(url) + '"' + (ext ? ' target="_blank" rel="nofollow noopener"' : ' target="_blank"') + '>' + escText(url) + '</a>');
+  markDirty(); syncFromEditor(); schedulePreview();
+}
+
+async function cmdFigure(){
+  if(App.editing) App.editing.rteTouched = true;
+  const e = App.editing;
+  const suggested = e.m.slug ? imageFor(e.m.slug) : '';
+  return new Promise(res => {
+    modalResolve = res;
+    const m = openModal(
+      '<div class="mh"><h3>Insertar imagen</h3></div><div class="mb">' +
+      '<div class="field"><label>URL de la imagen</label><input type="url" id="fu" value="' + escAttr(suggested) + '" data-autofocus>' +
+      '<div class="hint">La portada de cada artículo vive en el CDN: <code>' + esc(SITE.cdnPattern) + '</code></div></div>' +
+      '<div class="field"><label>Texto alternativo (alt)</label><input type="text" id="fa" placeholder="camión rampla en la Ruta 5 al atardecer">' +
+      '<div class="hint">Obligatorio: describe la imagen para accesibilidad y buscadores.</div></div>' +
+      '<div class="field"><label>Pie de foto (opcional)</label><input type="text" id="fc"></div>' +
+      '</div><div class="mf"><button class="btn" data-x="c">Cancelar</button><button class="btn primary" data-x="o">Insertar</button></div>');
+    m.querySelector('[data-x=c]').onclick = () => closeModal(null);
+    m.querySelector('[data-x=o]').onclick = () => {
+      const u = m.querySelector('#fu').value.trim(), a = m.querySelector('#fa').value.trim(), c = m.querySelector('#fc').value.trim();
+      closeModal(null);
+      if(!u) return;
+      $('#rte').focus();
+      execCmd('insertHTML',
+        '<figure><img loading="lazy" src="' + escAttr(u) + '" alt="' + escAttr(a) + '">' +
+        (c ? '<figcaption>' + escText(c) + '</figcaption>' : '') + '</figure><p><br></p>');
+      markDirty(); syncFromEditor(); schedulePreview();
+    };
+  });
+}
+
+async function cmdSsi(){
+  if(App.editing) App.editing.rteTouched = true;
+  const opts = SITE.includeFiles.map(p => '<option value="' + escAttr(p) + '">' + esc(p) + '</option>').join('');
+  return new Promise(res => {
+    modalResolve = res;
+    const m = openModal(
+      '<div class="mh"><h3>Insertar include SSI</h3></div><div class="mb">' +
+      '<div class="field"><label>Componente del sitio</label><select id="si">' + opts + '</select>' +
+      '<div class="hint">Se inserta como <code>&lt;!--#include file="…" --&gt;</code>. El servidor lo reemplaza al servir la página; en el editor se ve como un bloque bloqueado.</div></div>' +
+      '</div><div class="mf"><button class="btn" data-x="c">Cancelar</button><button class="btn primary" data-x="o">Insertar</button></div>');
+    m.querySelector('[data-x=c]').onclick = () => closeModal(null);
+    m.querySelector('[data-x=o]').onclick = () => {
+      const p = m.querySelector('#si').value; closeModal(null);
+      $('#rte').focus();
+      execCmd('insertHTML',
+        '<div class="ssi-chip" contenteditable="false" data-ssi="' + escAttr(p) + '">include ' + esc(p) + '<span class="x"><ion-icon name="close-outline"></ion-icon></span></div><p><br></p>');
+      markDirty(); syncFromEditor(); schedulePreview();
+    };
+  });
+}
+
+function sanitizePaste(html){
+  const d = document.createElement('div');
+  d.innerHTML = html;
+  d.querySelectorAll('script,style,meta,link,noscript').forEach(n => n.remove());
+  d.querySelectorAll('*').forEach(el => {
+    Array.from(el.attributes).forEach(a => {
+      const n = a.name.toLowerCase();
+      const keep = (n === 'href' || n === 'src' || n === 'alt' || n === 'target' || n === 'rel' || n === 'loading' ||
+                    (n === 'class' && /^(linea|container|subtitle|data-table|note-box|chart-container)$/.test(a.value)));
+      if(!keep) el.removeAttribute(a.name);
+    });
+  });
+  return d.innerHTML;
+}
+
+/* ---- vista previa ---- */
+const schedulePreview = debounce(function(force){
+  const e = App.editing; if(!e) return;
+  const fr = $('#pvFrame') || $('#pvFrameBig');
+  if(!fr) return;
+  syncFromEditor();
+  fr.srcdoc = previewDoc(currentHtml());
+  if(e.device === 'mob'){ fr.style.maxWidth = '400px'; fr.style.margin = '0 auto'; fr.style.borderLeft = '1px solid #e3e8ee'; fr.style.borderRight = '1px solid #e3e8ee'; }
+  else { fr.style.maxWidth = ''; fr.style.margin = ''; fr.style.borderLeft = 'none'; fr.style.borderRight = 'none'; }
+}, 420);
+
+function previewDoc(html){
+  let out = String(html || '');
+  out = out.replace(SSI_RE_G, (all, p) => {
+    if(App.includes[p]) return '\n\x3C!-- SSI ' + p + ' -->\n' + App.includes[p] + '\n\x3C!-- /SSI -->\n';
+    return '<div style="margin:14px auto;max-width:1000px;padding:10px 14px;border:1px dashed #b9c4d0;border-radius:8px;' +
+           'background:repeating-linear-gradient(45deg,#f4f7fa,#f4f7fa 8px,#eef2f6 8px,#eef2f6 16px);' +
+           'font:600 12px/1.4 ui-monospace,monospace;color:#4a5560">SSI · ' + esc(p) +
+           ' <span style="opacity:.65;font-weight:400">(conecta la carpeta local o la API para verlo resuelto)</span></div>';
+  });
+  out = out.replace('<link rel="stylesheet" href="/assets/css/styles.css">', '<style>' + SITE_CSS + '</style>');
+  out = out.replace(/\x3Cscript[^>]*analytics\.ahrefs\.com[^>]*>\x3C\/script>/gi, '');
+  out = out.replace('</head>', '<base target="_blank"><link rel="preconnect" href="https://fonts.googleapis.com">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet"></head>');
+  return out;
+}
+</script>
+<script>
+/* ==============================================================
+   16. Pestañas: metadatos, portada, índice, revisión, documento, previa
+   ============================================================== */
+
+function bindField(id, get, set){
+  const el = $('#' + id); if(!el) return;
+  el.value = get() == null ? '' : get();
+  el.addEventListener('input', () => { set(el.value); markDirty(); updateEdHead(); });
+}
+function counter(id, val, min, max){
+  const n = String(val || '').length;
+  const cls = n === 0 ? 'mute' : (n < min || n > max) ? 'warn' : 'ok';
+  return '<span class="chip ' + cls + '" id="' + id + '">' + n + '</span>';
+}
+
+function tabMetadatos(box){
+  const e = App.editing, m = e.m;
+  box.innerHTML = '<div class="pane active"><div class="pane-inner">' +
+    '<div class="panel">' +
+      '<h3>Identidad del artículo</h3><div class="sub">Definen el nombre del archivo, la URL pública y lo que ven Google y las redes.</div>' +
+      '<div class="field"><label>Título <span id="cTitle"></span></label>' +
+        '<input type="text" id="fTitle" placeholder="Cómo conseguir carga para tu camión en Chile">' +
+        '<div class="hint">Va en <code>&lt;title&gt;</code>, <code>og:title</code> y <code>twitter:title</code>. Ideal: 50–65 caracteres.</div></div>' +
+      '<div class="row">' +
+        '<div class="field"><label>Slug (nombre del archivo)</label>' +
+          '<div class="inline"><input type="text" id="fSlug" style="flex:1" placeholder="como-conseguir-carga-para-tu-camion">' +
+          '<button class="btn sm" id="bSlug" title="Derivar del título"><ion-icon name="refresh-outline"></ion-icon> Del título</button></div>' +
+          '<div class="hint">Solo minúsculas, números y guiones. Archivo: <code id="hSlugFile"></code></div></div>' +
+        '<div class="field"><label>Titular para datos estructurados (headline)</label>' +
+          '<input type="text" id="fHeadline" placeholder="(por defecto, el título)">' +
+          '<div class="hint">Puede ser más largo que el <code>&lt;title&gt;</code>. Se usa en el JSON-LD de <code>BlogPosting</code>.</div></div>' +
+      '</div>' +
+      '<div class="field"><label>Meta description <span id="cDesc"></span></label>' +
+        '<textarea id="fDesc" rows="3" placeholder="Resumen de 120–160 caracteres que aparece en los resultados de búsqueda."></textarea>' +
+        '<div class="hint">Se replica en <code>description</code>, <code>og:description</code>, <code>twitter:description</code> y el JSON-LD.</div></div>' +
+    '</div>' +
+
+    '<div class="panel">' +
+      '<h3>URL canónica</h3><div class="sub">Le dice a Google cuál es la dirección oficial del artículo.</div>' +
+      '<div class="field"><label>Canonical</label><input type="url" id="fCanon">' +
+        '<div class="inline" style="margin-top:6px">' +
+          '<button class="btn sm" data-canon="www">www.chiletransportistas.com/blog/{slug}/</button>' +
+          '<button class="btn sm" data-canon="blog">blog.chiletransportistas.com/articulos/{slug}/</button>' +
+        '</div>' +
+        '<div class="hint">Los artículos publicados usan el patrón <code>www</code>. El archivo se sirve en <code>' + esc(SITE.liveUrlPattern) + '</code>.</div></div>' +
+    '</div>' +
+
+    '<div class="panel">' +
+      '<h3>Autoría y fechas</h3>' +
+      '<div class="row">' +
+        '<div class="field"><label>Autor</label><input type="text" id="fAuthor"></div>' +
+        '<div class="field"><label>Fecha de publicación</label><input type="date" id="fPub"></div>' +
+        '<div class="field"><label>Última modificación</label><input type="date" id="fMod">' +
+          '<div class="hint"><button class="btn sm ghost" id="bToday" style="padding:2px 6px">Poner hoy</button></div></div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="panel">' +
+      '<h3>Modo de escritura del archivo</h3>' +
+      '<div class="sub">Cómo se genera el HTML final al guardar, publicar o crear el pull request.</div>' +
+      '<label class="checkline"><input type="radio" name="wmode" value="preserve" ' + (e.mode==='preserve'?'checked':'') + (e.original?'':' disabled') + '>' +
+        '<span>Conservador — <b>recomendado para artículos existentes</b>' +
+        '<small>Parte del archivo original y solo reescribe título, metadatos, JSON-LD y el contenido de <code>&lt;article&gt;</code>. Todo lo demás (scripts propios, estilos embebidos, includes SSI, espaciado) queda intacto.</small></span></label>' +
+      '<label class="checkline"><input type="radio" name="wmode" value="rebuild" ' + (e.mode==='rebuild'?'checked':'') + '>' +
+        '<span>Reconstruir desde la plantilla del sitio' +
+        '<small>Regenera todo el documento con la plantilla estándar (misma cabecera, mismos includes SSI y mismo orden que los artículos publicados). Se conservan los extras del <code>&lt;head&gt;</code> y los scripts del final que ya tuviera el artículo.</small></span></label>' +
+      (e.original ? '' : '<div class="hint">Un artículo nuevo siempre se construye con la plantilla.</div>') +
+    '</div>' +
+
+    (m.headExtra || m.tail ? '<div class="panel">' +
+      '<h3>Bloques propios conservados</h3><div class="sub">Se copian tal cual al archivo final. Edítalos solo si sabes lo que hacen.</div>' +
+      (m.headExtra ? '<div class="field"><label>Extras dentro de &lt;head&gt; (' + m.headExtra.length + ' caracteres)</label>' +
+        '<textarea id="fHeadExtra" class="code" rows="8"></textarea>' +
+        '<div class="hint">Ej.: JSON-LD de FAQ, estilos del artículo, Chart.js.</div></div>' : '') +
+      (m.tail ? '<div class="field"><label>Scripts al final del documento (' + m.tail.length + ' caracteres)</label>' +
+        '<textarea id="fTail" class="code" rows="8"></textarea>' +
+        '<div class="hint">Van después del include del footer y antes de <code>&lt;/body&gt;</code>.</div></div>' : '') +
+    '</div>' : '') +
+  '</div></div>';
+
+  bindField('fTitle', ()=>m.title, v => { m.title = v; if(!m.headline || m.headline === m.title) m.headline = v;
+    $('#cTitle').outerHTML = counter('cTitle', v, 30, 65); });
+  $('#cTitle').outerHTML = counter('cTitle', m.title, 30, 65);
+  bindField('fSlug', ()=>m.slug, v => { m.slug = v; e.slug = v; $('#hSlugFile').textContent = SITE.articlesDir + '/' + (v||'…') + '.html'; });
+  $('#hSlugFile').textContent = SITE.articlesDir + '/' + (m.slug || '…') + '.html';
+  bindField('fHeadline', ()=>m.headline === m.title ? '' : m.headline, v => m.headline = v || m.title);
+  bindField('fDesc', ()=>m.description, v => { m.description = v; $('#cDesc').outerHTML = counter('cDesc', v, 120, 160); });
+  $('#cDesc').outerHTML = counter('cDesc', m.description, 120, 160);
+  bindField('fCanon', ()=>m.canonical, v => m.canonical = v);
+  bindField('fAuthor', ()=>m.author, v => m.author = v);
+
+  $('#fPub').value = dateInputValue(m.datePublished);
+  $('#fPub').oninput = ev => { m.datePublished = toIsoUtc(ev.target.value); markDirty(); };
+  $('#fMod').value = dateInputValue(m.dateModified);
+  $('#fMod').oninput = ev => { m.dateModified = toIsoUtc(ev.target.value); markDirty(); };
+  $('#bToday').onclick = () => { m.dateModified = isoNow(); $('#fMod').value = dateInputValue(m.dateModified); markDirty(); toast('Fecha de modificación actualizada'); };
+
+  $('#bSlug').onclick = () => {
+    const s = slugify(m.title);
+    if(!s) return toast('Escribe primero el título', 'warn');
+    m.slug = s; e.slug = s;
+    $('#fSlug').value = s; $('#hSlugFile').textContent = SITE.articlesDir + '/' + s + '.html';
+    if(!m.canonical || /\{slug\}|\/$/.test(m.canonical) || e.isNew) { m.canonical = canonicalFor(s); $('#fCanon').value = m.canonical; }
+    if(e.isNew || !m.image){ m.image = imageFor(s); }
+    markDirty(); updateEdHead(); toast('Slug: ' + s, 'ok');
+  };
+  $$('[data-canon]').forEach(b => b.onclick = () => {
+    if(!m.slug) return toast('Define primero el slug', 'warn');
+    m.canonical = SITE.canonicalPatterns[b.dataset.canon].replace('{slug}', m.slug);
+    $('#fCanon').value = m.canonical; markDirty();
+  });
+  $$('input[name=wmode]').forEach(r => r.onchange = () => { e.mode = r.value; markDirty(); updateEdHead(); });
+  const he = $('#fHeadExtra'); if(he){ he.value = m.headExtra; he.oninput = () => { m.headExtra = he.value; markDirty(); }; }
+  const tl = $('#fTail'); if(tl){ tl.value = m.tail; tl.oninput = () => { m.tail = tl.value; markDirty(); }; }
+}
+
+function tabPortada(box){
+  const e = App.editing, m = e.m;
+  const expected = m.slug ? imageFor(m.slug) : '';
+  box.innerHTML = '<div class="pane active"><div class="pane-inner">' +
+    '<div class="panel">' +
+      '<h3>Imagen de portada</h3>' +
+      '<div class="sub">La URL del CDN es predecible desde el slug, así que se puede escribir en el <code>&lt;head&gt;</code> antes de publicar.</div>' +
+      '<div class="field"><label>URL de la portada (og:image / twitter:image / JSON-LD)</label>' +
+        '<div class="inline"><input type="url" id="fImg" style="flex:1">' +
+        '<button class="btn sm" id="bImg" ' + (expected?'':'disabled') + '><ion-icon name="refresh-outline"></ion-icon> Desde el slug</button></div>' +
+        (expected ? '<div class="hint">Esperada: <code>' + esc(expected) + '</code></div>' : '<div class="hint">Define el slug para calcularla.</div>') +
+      '</div>' +
+      '<div style="border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#f7f9fb;aspect-ratio:16/9;display:grid;place-items:center">' +
+        (m.image ? '<img src="' + escAttr(m.image) + '" style="width:100%;height:100%;object-fit:cover" onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'muted\',style:\'font-size:12px;padding:20px;text-align:center\',textContent:\'La imagen aún no existe en el CDN. Se genera al publicar con la API.\'}))">'
+                  : '<div class="muted" style="font-size:12px">Sin portada definida</div>') +
+      '</div>' +
+    '</div>' +
+    '<div class="panel">' +
+      '<h3>Generación de la portada (API del droplet)</h3>' +
+      '<div class="sub">Al publicar, el endpoint genera la imagen con OpenAI y la sube al CDN. Si ya existe para este slug, la reutiliza.</div>' +
+      '<div class="field"><label>Prompt de la escena</label>' +
+        '<textarea id="fPrompt" rows="3" placeholder="camión rampla en la Ruta 5 al atardecer, vista lateral, cordillera de fondo"></textarea>' +
+        '<div class="hint">Describe <b>solo la escena</b>. El servidor ya agrega el estilo, el contexto de transporte chileno y la restricción de “sin texto”. No pidas logos ni marcas.</div></div>' +
+      '<label class="checkline"><input type="checkbox" id="fRegen"><span>Regenerar aunque ya exista<small>Consume crédito de OpenAI. Solo si la portada actual no sirve.</small></span></label>' +
+      '<label class="checkline"><input type="checkbox" id="fSkipImg"><span>Publicar sin tocar la imagen (<code>skipImage</code>)<small>Recomendado cuando solo corriges texto de un artículo ya publicado.</small></span></label>' +
+    '</div>' +
+    '<div class="panel">' +
+      '<h3>Texto alternativo de la imagen del cuerpo</h3>' +
+      '<div class="field"><label>alt</label><input type="text" id="fAlt" placeholder="camiones en fila esperando carga">' +
+      '<div class="hint">Se usa como <code>alt</code> por defecto al insertar la portada en el cuerpo y en la tarjeta del índice.</div></div>' +
+    '</div>' +
+  '</div></div>';
+  bindField('fImg', ()=>m.image, v => m.image = v);
+  bindField('fAlt', ()=>m.imageAlt, v => m.imageAlt = v);
+  bindField('fPrompt', ()=>e.imagePrompt, v => e.imagePrompt = v);
+  $('#fRegen').checked = !!e.regenerate;   $('#fRegen').onchange = ev => e.regenerate = ev.target.checked;
+  $('#fSkipImg').checked = !!e.skipImage;  $('#fSkipImg').onchange = ev => e.skipImage = ev.target.checked;
+  const bi = $('#bImg'); if(bi) bi.onclick = () => { m.image = imageFor(m.slug); $('#fImg').value = m.image; markDirty(); tabPortada(box); };
+}
+
+function tabIndice(box){
+  const e = App.editing, m = e.m, c = e.indexCard;
+  const has = App.indexHtml ? IndexPage.has(App.indexHtml, m.slug) : null;
+  const year = yearOf(m.datePublished);
+  const preview = IndexPage.cardHtml({
+    slug: m.slug || 'slug', title: m.title || 'Título', image: m.image,
+    alt: c.alt || m.imageAlt || m.title, date: cardDate(m.datePublished), tag: c.tag, year
+  });
+  box.innerHTML = '<div class="pane active"><div class="pane-inner">' +
+    '<div class="panel">' +
+      '<h3>Tarjeta en <code>' + SITE.indexFile + '</code></h3>' +
+      '<div class="sub">El listado del blog no se genera solo: cada artículo tiene una tarjeta en su sección de año. El CMS puede incluir ese cambio en el mismo pull request.</div>' +
+      (App.indexHtml
+        ? '<div class="inline" style="margin-bottom:12px">' +
+            (has ? '<span class="chip ok"><span class="dot"></span>Ya tiene tarjeta</span>' : '<span class="chip warn"><span class="dot"></span>Sin tarjeta en el índice</span>') +
+            '<span class="chip mute">Sección ' + year + '</span>' +
+            '<span class="muted" style="font-size:11.5px">índice leído desde ' + esc(App.indexSource || '—') + '</span>' +
+          '</div>'
+        : '<div class="vitem warn" style="margin-bottom:12px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>No se pudo leer ' + SITE.indexFile + '</b>' +
+          'Conecta la carpeta local o la API para que el CMS pueda actualizar el listado del blog.</div></div>') +
+      '<label class="checkline"><input type="checkbox" id="ixOn" ' + (c.enabled?'checked':'') + (App.indexHtml?'':' disabled') + '>' +
+        '<span>Actualizar el índice junto con el artículo<small>Se agrega o se reemplaza la tarjeta en la sección ' + year + ' de <code>' + SITE.indexFile + '</code>.</small></span></label>' +
+      '<div class="row">' +
+        '<div class="field"><label>Etiqueta de la tarjeta</label><input type="text" id="ixTag" placeholder="Guía práctica">' +
+          '<div class="hint">Texto corto a la derecha de la fecha.</div></div>' +
+        '<div class="field"><label>alt de la miniatura</label><input type="text" id="ixAlt"></div>' +
+      '</div>' +
+      '<div class="field"><label>Vista previa del bloque que se insertará</label>' +
+        '<div class="diffbox">' + esc(preview) + '</div></div>' +
+    '</div>' +
+  '</div></div>';
+  const on = $('#ixOn'); on.onchange = () => { c.enabled = on.checked; markDirty(); };
+  bindField('ixTag', ()=>c.tag, v => { c.tag = v; tabIndiceRefresh(); });
+  bindField('ixAlt', ()=>c.alt || m.imageAlt, v => { c.alt = v; tabIndiceRefresh(); });
+}
+const tabIndiceRefresh = debounce(() => { if(App.editing && App.editing.tab === 'indice') tabIndice($('#edBody')); }, 500);
+
+function tabRevision(box){
+  const e = App.editing;
+  syncFromEditor();
+  const html = currentHtml();
+  const v = validate(html, e.m);
+  const errs = v.filter(x => x.level==='error'), warns = v.filter(x => x.level==='warn'), oks = v.filter(x => x.level==='ok');
+  const nErr = countErrors(v), nWarn = countWarns(v);
+  const item = x => '<div class="vitem ' + x.level + '"><div class="ic">' + (x.level==='error'?'<ion-icon name="close-circle-outline"></ion-icon>':x.level==='warn'?'<ion-icon name="warning-outline"></ion-icon>':'<ion-icon name="checkmark-circle-outline"></ion-icon>') + '</div>' +
+    '<div class="tx"><b>' + x.title + '</b>' + (x.detail || '') + '</div></div>';
+  const diff = e.original ? renderDiff(e.original, html) : '<div class="muted" style="font-size:12.5px">Artículo nuevo: no hay versión anterior con la que comparar.</div>';
+  box.innerHTML = '<div class="pane active"><div class="pane-inner pane-wide">' +
+    '<div class="panel">' +
+      '<h3>Revisión previa</h3>' +
+      '<div class="inline" style="margin-bottom:12px">' +
+        '<span class="chip ' + (nErr?'err':'ok') + '">' + nErr + ' error(es)</span>' +
+        '<span class="chip ' + (nWarn?'warn':'mute') + '">' + nWarn + ' aviso(s)</span>' +
+        '<span class="chip mute">' + oks.length + ' verificación(es) OK</span>' +
+      '</div>' +
+      '<div class="vlist">' + errs.map(item).join('') + warns.map(item).join('') + oks.map(item).join('') + '</div>' +
+    '</div>' +
+    '<div class="panel"><h3>Cambios respecto del archivo actual</h3>' +
+      '<div class="sub">Esto es exactamente lo que irá al pull request.</div>' + diff + '</div>' +
+  '</div></div>';
+}
+
+function tabDocumento(box){
+  const e = App.editing;
+  syncFromEditor();
+  const html = currentHtml();
+  box.innerHTML = '<div class="pane active"><div style="display:flex;flex-direction:column;height:100%">' +
+    '<div class="toolbar">' +
+      '<span class="muted" style="font-size:11.5px;margin-right:auto">' + SITE.articlesDir + '/' + esc(e.m.slug || '…') + '.html · ' + bytes(html.length) + '</span>' +
+      '<button class="btn sm" data-doc="copy">Copiar</button>' +
+      '<button class="btn sm" data-doc="download">Descargar</button>' +
+      '<button class="btn sm" data-doc="replace">Reemplazar por HTML pegado…</button>' +
+    '</div>' +
+    '<div class="codewrap"><textarea class="code" id="docSrc" spellcheck="false" readonly></textarea></div>' +
+  '</div></div>';
+  $('#docSrc').value = html;
+  $('[data-doc=copy]').onclick     = () => copy(html).then(()=>toast('HTML copiado','ok'));
+  $('[data-doc=download]').onclick = () => download((e.m.slug || 'articulo') + '.html', html);
+  $('[data-doc=replace]').onclick  = async () => {
+    const v = await promptModal({ title:'Reemplazar por HTML pegado', multiline:true, rows:16, value:'',
+      label:'Pega el documento completo del artículo', ok:'Cargar',
+      hint:'Se leen título, metadatos, JSON-LD, includes SSI y el cuerpo del <code>&lt;article&gt;</code>. Úsalo para traer un artículo generado fuera del CMS.' });
+    if(!v || !v.trim()) return;
+    importHtmlInto(v, e);
+  };
+}
+
+function tabPrevia(box){
+  const e = App.editing;
+  syncFromEditor();
+  box.innerHTML = '<div class="pane active"><div class="pv">' +
+    '<div class="bar">' +
+      '<span class="muted" style="font-size:11.5px;margin-right:auto">Vista previa con los includes SSI resueltos' +
+      (Object.keys(App.includes).length ? '' : ' (sin includes cargados: se muestran como bloques marcados)') + '</span>' +
+      '<button class="btn sm" data-pv="desk"><ion-icon name="desktop-outline"></ion-icon> Escritorio</button>' +
+      '<button class="btn sm" data-pv="tab"><ion-icon name="tablet-portrait-outline"></ion-icon> Tablet</button>' +
+      '<button class="btn sm" data-pv="mob"><ion-icon name="phone-portrait-outline"></ion-icon> Móvil</button>' +
+      '<button class="btn sm ghost" data-pv="new"><ion-icon name="open-outline"></ion-icon> Abrir en pestaña</button>' +
+    '</div>' +
+    '<iframe id="pvFrameBig" class="w-desk" sandbox="allow-scripts allow-popups"></iframe>' +
+  '</div></div>';
+  const fr = $('#pvFrameBig');
+  fr.srcdoc = previewDoc(currentHtml());
+  $$('[data-pv]').forEach(b => b.onclick = () => {
+    if(b.dataset.pv === 'new'){
+      const url = URL.createObjectURL(new Blob([previewDoc(currentHtml())], {type:'text/html;charset=utf-8'}));
+      const w = window.open(url, '_blank', 'noopener');
+      if(w) setTimeout(() => URL.revokeObjectURL(url), 60000);
+      else { URL.revokeObjectURL(url); toast('El navegador bloqueó la ventana emergente', 'warn'); }
+      return;
+    }
+    fr.className = 'w-' + b.dataset.pv;
+  });
+}
+</script>
+<script>
+/* ==============================================================
+   17. Acciones: guardar, publicar, pull request, eliminar
+   ============================================================== */
+
+function articlePath(slug){ return SITE.articlesDir + '/' + slug + '.html'; }
+
+function importHtmlInto(html, e){
+  const m = Article.parse(html);
+  const guess = m.slug || slugify(m.title);
+  m.slug = e.m.slug || guess;
+  if(!m.canonical) m.canonical = canonicalFor(m.slug);
+  if(!m.image)     m.image = imageFor(m.slug);
+  e.m = m;
+  e.original = e.original || null;
+  e.baseline = e.original ? Article.parse(e.original) : null;
+  e.rteTouched = true;
+  e.mode = e.original ? 'preserve' : 'rebuild';
+  markDirty();
+  toast('HTML cargado: ' + (m.title || m.slug), 'ok');
+  renderEditor();
+}
+
+async function preflight(){
+  const e = App.editing;
+  syncFromEditor();
+  if(!e.m.slug || !validSlug(e.m.slug)){
+    toast('El slug es obligatorio y solo admite minúsculas, números y guiones', 'err', 5000);
+    e.tab = 'metadatos'; renderEditor(); return false;
+  }
+  if(!e.m.title){ toast('Falta el título', 'err'); e.tab = 'metadatos'; renderEditor(); return false; }
+  const v = validate(currentHtml(), e.m);
+  const errs = v.filter(x => x.level === 'error');
+  if(errs.length){
+    const go = await confirmModal({
+      title: errs.length + ' error(es) de validación',
+      danger: true, ok: 'Continuar igual', cancel: 'Volver y corregir',
+      html: '<p style="margin:0 0 12px;font-size:13px">La revisión encontró problemas que pueden romper el artículo en producción:</p>' +
+        '<div class="vlist">' + errs.map(x => '<div class="vitem err"><div class="ic"><ion-icon name="close-circle-outline"></ion-icon></div><div class="tx"><b>' + x.title + '</b>' + (x.detail||'') + '</div></div>').join('') + '</div>'
+    });
+    if(!go){ e.tab = 'revision'; renderEditor(); return false; }
+  }
+  return true;
+}
+
+/* ---- guardar en la carpeta local ---- */
+async function doSaveLocal(){
+  const e = App.editing; if(!e) return;
+  syncFromEditor();
+  if(!LocalFs.root) return toast('Conecta la carpeta local con permiso de escritura (Chrome, Edge o Brave)', 'warn', 5500);
+  if(!e.m.slug || !validSlug(e.m.slug)) return toast('Slug inválido', 'err');
+  const path = articlePath(e.m.slug);
+  const html = currentHtml();
+  const id = Log.start('Guardar en carpeta local', path);
+  try{
+    await LocalFs.write(path, html);
+    let idxNote = null;
+    if(e.indexCard.enabled && App.indexHtml){
+      const res = IndexPage.upsert(App.indexHtml, indexCardFor(e));
+      App.indexHtml = res.html;
+      await LocalFs.write(SITE.indexFile, res.html);
+      idxNote = SITE.indexFile + ': tarjeta ' + res.action;
+    }
+    const r = record(e.m.slug);
+    r.local = { path, size: html.length, mtime: Date.now(), html };
+    r.meta = Object.assign({}, e.m);
+    e.original = html; e.baseline = Article.parse(html); e.baseline.slug = e.m.slug;
+    e.mode = 'preserve'; e.isNew = false; e.dirty = false; e.rteTouched = false;
+    Log.finish(id, 'ok', { archivo: path, bytes: html.length, indice: idxNote });
+    toast('Guardado en ' + path + (idxNote ? ' · ' + idxNote : ''), 'ok', 4200);
+    updateEdHead(); updateCounts();
+  }catch(err){
+    Log.finish(id, 'error', String(err.message || err));
+    toast('No se pudo guardar: ' + (err.message || err), 'err', 6000);
+  }
+}
+
+function indexCardFor(e){
+  const m = e.m, c = e.indexCard;
+  return {
+    slug: m.slug, title: m.title, image: m.image,
+    alt: c.alt || m.imageAlt || m.title,
+    date: cardDate(m.datePublished), tag: c.tag || '',
+    year: yearOf(m.datePublished)
+  };
+}
+
+/* ---- crear pull request ---- */
+async function doCreatePr(){
+  const e = App.editing; if(!e) return;
+  if(!Api.ready()) return openSettings('Configura la URL de la API y el token para crear pull requests.');
+  if(!(await preflight())) return;
+
+  const html = currentHtml();
+  const path = articlePath(e.m.slug);
+  const isNew = !App.items[e.m.slug] || !App.items[e.m.slug].remote;
+  const files = [{ path, content: html }];
+
+  /* Si se cambió el slug de un artículo que ya existía, el archivo anterior
+     quedaría huérfano en el repositorio. Se pregunta qué hacer con él. */
+  let slugPrevio = null;
+  if(!e.isNew && e.baseline && e.baseline.slug && e.baseline.slug !== e.m.slug){
+    slugPrevio = e.baseline.slug;
+    const q = await confirmModal({
+      title: 'Cambiaste el slug', ok: 'Sí, eliminar el anterior', cancel: 'No, dejar los dos',
+      html: '<p style="margin:0 0 12px;font-size:13px;line-height:1.6">El artículo pasa de ' +
+        '<code>' + esc(articlePath(slugPrevio)) + '</code> a <code>' + esc(path) + '</code>.</p>' +
+        '<p style="margin:0 0 12px;font-size:13px;line-height:1.6">¿Incluir en el mismo pull request la eliminación del archivo anterior? ' +
+        'Si lo dejas, quedarán dos artículos con el mismo contenido y la URL vieja seguirá viva.</p>' +
+        '<div class="vitem warn"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>Si eliminas la URL anterior</b>' +
+        'Conviene dejar una redirección 301 hacia la nueva para no perder el posicionamiento.</div></div>'
+    });
+    if(q) files.push({ path: articlePath(slugPrevio), content: null });
+    else slugPrevio = null;
+  }
+
+  let idxAction = null, idxHtml = null;
+  if(e.indexCard.enabled && App.indexHtml){
+    let baseIdx = App.indexHtml;
+    if(slugPrevio){ baseIdx = IndexPage.remove(baseIdx, slugPrevio).html; }
+    const res = IndexPage.upsert(baseIdx, indexCardFor(e));
+    idxHtml = res.html; idxAction = res.action + (slugPrevio ? ' (y se quitó la de ' + slugPrevio + ')' : '');
+    if(idxHtml !== App.indexHtml) files.push({ path: SITE.indexFile, content: idxHtml });
+  }
+
+  const defTitle = (isNew ? 'Nuevo artículo: ' : 'Edición: ') + e.m.title;
+  const ok = await confirmModal({
+    title: 'Crear pull request',
+    ok: 'Crear pull request', cancel: 'Cancelar',
+    html:
+      '<div class="field"><label>Título del pull request</label><input type="text" id="prT" value="' + escAttr(defTitle) + '" data-autofocus></div>' +
+      '<div class="field"><label>Notas (opcional)</label><textarea id="prN" rows="3" placeholder="Qué cambió y por qué."></textarea></div>' +
+      '<div class="panel" style="margin:0;background:#fafbfc">' +
+        '<div style="font-size:12px;font-weight:700;margin-bottom:8px">Archivos incluidos</div>' +
+        files.map(f => '<div class="inline" style="font-size:12px;margin-bottom:5px"><span class="chip ' + (f.path===path && isNew ? 'ok' : 'info') + '">' +
+          (f.path === path ? (isNew ? 'nuevo' : 'modificado') : 'modificado') + '</span><code class="mono">' + esc(f.path) + '</code>' +
+          '<span class="muted">' + bytes(f.content.length) + '</span></div>').join('') +
+        (idxAction ? '<div class="hint" style="margin-top:6px">Índice: tarjeta ' + esc(idxAction) + '</div>' : '') +
+        '<div class="hint" style="margin-top:8px">Base: <code>' + esc(S.baseBranch) + '</code> · Repo: <code>' + esc((App.serverInfo && App.serverInfo.repo) || S.repo) + '</code></div>' +
+      '</div>'
+  });
+  if(!ok) return;
+  const prTitle = (ok.v && ok.v.prT) || defTitle;
+  const prNotes = (ok.v && ok.v.prN) || '';
+
+  const body =
+    (prNotes ? prNotes + '\n\n' : '') +
+    '### ' + (isNew ? 'Artículo nuevo' : 'Edición de artículo') + '\n\n' +
+    '| | |\n|---|---|\n' +
+    '| **Slug** | `' + e.m.slug + '` |\n' +
+    '| **Título** | ' + e.m.title.replace(/\|/g,'\\|') + ' |\n' +
+    '| **URL** | ' + SITE.liveUrlPattern.replace('{slug}', e.m.slug) + ' |\n' +
+    '| **Canonical** | ' + e.m.canonical + ' |\n' +
+    '| **Portada** | ' + (e.m.image || '—') + ' |\n' +
+    '| **Palabras** | ' + wordCount(e.m.body) + ' |\n' +
+    '| **Modo** | ' + (e.mode === 'preserve' ? 'edición conservadora sobre el archivo original' : 'reconstruido desde la plantilla del sitio') + ' |\n\n' +
+    '**Includes SSI en el documento:** ' + Article.ssiList(html).map(x => '`' + x.path + '`').join(', ') + '\n\n' +
+    (idxAction ? '**`' + SITE.indexFile + '`:** tarjeta ' + idxAction + '\n\n' : '') +
+    (slugPrevio ? '> ⚠️ El slug cambió: este pull request elimina `' + articlePath(slugPrevio) +
+      '`. Conviene agregar una redirección 301 de la URL anterior a la nueva.\n\n' : '') +
+    '---\n_Generado desde CHTR Blog CMS._';
+
+  const id = Log.start(isNew ? 'Pull request: artículo nuevo' : 'Pull request: edición', path,
+    { archivos: files.map(f => f.path), rama_base: S.baseBranch });
+  try{
+    const res = await Api.pr({
+      action: isNew ? 'create' : 'update',
+      slug: e.m.slug, title: prTitle, body, files,
+      labels: String(S.prLabels || '').split(',').map(s => s.trim()).filter(Boolean),
+      reviewers: String(S.prReviewers || '').split(',').map(s => s.trim()).filter(Boolean),
+      base: S.baseBranch
+    });
+    Log.finish(id, 'ok', res);
+    if(idxHtml) App.indexHtml = idxHtml;
+    e.dirty = false; updateEdHead();
+    await loadPrs(true); updateCounts();
+    prSuccessModal(res, files);
+  }catch(err){
+    Log.finish(id, 'error', { status: err.status, error: String(err.message || err), detalle: err.body });
+    toast('Pull request: ' + (err.message || err), 'err', 7000);
+    $('#drawer').classList.add('open'); Log.render();
+  }
+}
+
+function prSuccessModal(res, files){
+  const m = openModal(
+    '<div class="mh"><ion-icon name="checkmark-circle-outline"></ion-icon><h3>Pull request creado</h3></div>' +
+    '<div class="mb">' +
+      '<div class="inline" style="margin-bottom:12px"><span class="chip ok"><span class="dot"></span>#' + esc(res.prNumber) + '</span>' +
+      '<code class="mono" style="font-size:11.5px">' + esc(res.branch || '') + '</code></div>' +
+      '<p style="margin:0 0 12px;font-size:13px;line-height:1.6">Los cambios están en una rama aparte. Nada llegó todavía a producción: revisa el pull request y haz merge cuando esté conforme.</p>' +
+      (files||[]).map(f => '<div class="inline" style="font-size:12px;margin-bottom:4px"><span class="chip info">' + esc(f.path) + '</span></div>').join('') +
+    '</div>' +
+    '<div class="mf">' +
+      '<button class="btn left" data-x="c">Cerrar</button>' +
+      '<button class="btn primary" data-x="o"><ion-icon name="open-outline"></ion-icon> Abrir el pull request</button>' +
+    '</div>');
+  m.querySelector('[data-x=c]').onclick = () => closeModal(null);
+  m.querySelector('[data-x=o]').onclick = () => { window.open(res.prUrl, '_blank', 'noopener'); closeModal(null); };
+}
+
+/* ---- publicar directo con la API existente ---- */
+async function doPublish(overwrite){
+  const e = App.editing; if(!e) return;
+  if(!Api.ready()) return openSettings('Configura la URL de la API y el token para publicar.');
+  if(!(await preflight())) return;
+
+  const html = currentHtml();
+  const url  = SITE.liveUrlPattern.replace('{slug}', e.m.slug);
+  /* El endpoint de publicación solo escribe el artículo: el listado del blog
+     es un archivo aparte y hay que actualizarlo por separado. */
+  const sinTarjeta = !!App.indexHtml && !IndexPage.has(App.indexHtml, e.m.slug);
+
+  if(!overwrite){
+    const ok = await confirmModal({
+      title: 'Publicar en producción',
+      ok: 'Publicar ahora', cancel: 'Cancelar', danger: true,
+      html:
+        '<p style="margin:0 0 12px;font-size:13px;line-height:1.6">Esto escribe el archivo en el servidor y lo deja <b>visible en producción</b> de inmediato. No pasa por pull request.</p>' +
+        '<div class="panel" style="margin:0;background:#fafbfc">' +
+          '<div style="font-size:12px;line-height:1.9">' +
+            '<div><b>Slug:</b> <code>' + esc(e.m.slug) + '</code></div>' +
+            '<div><b>Título:</b> ' + esc(e.m.title) + '</div>' +
+            '<div><b>URL:</b> <a href="' + escAttr(url) + '" target="_blank" rel="noopener">' + esc(url) + '</a></div>' +
+            '<div><b>Portada:</b> ' + (e.skipImage ? '<span class="chip mute">omitida (skipImage)</span>' : (e.regenerate ? '<span class="chip warn">se regenera</span>' : '<span class="chip info">se genera o reutiliza</span>')) + '</div>' +
+            (e.imagePrompt ? '<div><b>Prompt:</b> ' + esc(e.imagePrompt) + '</div>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="hint" style="margin-top:10px">Generar la portada tarda 30–60 s. El límite de Cloudflare son 100 s.</div>' +
+        (sinTarjeta
+          ? '<div class="vitem warn" style="margin-top:10px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx">' +
+            '<b>No aparecerá en el listado del blog</b>Publicar solo escribe <code>' + esc(articlePath(e.m.slug)) + '</code>: ' +
+            'no toca <code>' + SITE.indexFile + '</code>. El artículo quedará online y accesible por su URL, pero sin tarjeta en ' +
+            '<code>' + SITE.indexFile + '</code> nadie llegará a él desde el blog. Actualiza el índice con un pull request, ' +
+            'o desde la pestaña Índice si trabajas con la carpeta local.</div></div>'
+          : '')
+    });
+    if(!ok) return;
+  }
+
+  const payload = {
+    slug: e.m.slug, title: e.m.title, html,
+    image: { prompt: e.imagePrompt || '', regenerate: !!e.regenerate },
+    overwrite: !!overwrite, skipImage: !!e.skipImage
+  };
+  const id = Log.start('Publicar artículo', e.m.slug, { url, skipImage: !!e.skipImage, regenerate: !!e.regenerate });
+  toast('Publicando… la portada puede tardar hasta un minuto', 'warn', 6000);
+  try{
+    const res = await Api.publish(payload);
+    Log.finish(id, 'ok', res);
+    const r = record(e.m.slug);
+    r.remote = Object.assign(r.remote || {}, { slug: e.m.slug, title: e.m.title, html, path: articlePath(e.m.slug) });
+    e.dirty = false; updateEdHead(); updateCounts();
+    const mm = openModal(
+      '<div class="mh"><ion-icon name="rocket-outline"></ion-icon><h3>Artículo publicado</h3></div><div class="mb">' +
+      '<div class="inline" style="margin-bottom:10px"><span class="chip ok"><span class="dot"></span>' + esc(res.imageStatus || 'ok') + '</span>' +
+      (res.sitemap ? '<span class="chip ' + (res.sitemap==='ok'?'ok':'mute') + '">sitemap: ' + esc(res.sitemap) + '</span>' : '') + '</div>' +
+      '<div style="font-size:12.5px;line-height:1.9">' +
+        '<div><b>Artículo:</b> <a href="' + escAttr(res.articleUrl||url) + '" target="_blank" rel="noopener">' + esc(res.articleUrl||url) + '</a></div>' +
+        (res.imageUrl ? '<div><b>Portada:</b> <a href="' + escAttr(res.imageUrl) + '" target="_blank" rel="noopener">ver imagen</a></div>' : '') +
+        (res.filePath ? '<div><b>Archivo:</b> <code>' + esc(res.filePath) + '</code></div>' : '') +
+      '</div>' +
+      (res.sitemap === 'disabled' ? '<div class="vitem warn" style="margin-top:12px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>Sitemap deshabilitado</b>El artículo no quedó en <code>sitemap-blog.xml</code>. Actualízalo aparte.</div></div>' : '') +
+      '<div class="vitem warn" style="margin-top:10px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>Revisa la portada</b>Es lo único que no se puede previsualizar antes. Si no sirve, cámbiale el prompt y republica con “regenerar”.</div></div>' +
+      (sinTarjeta ? '<div class="vitem warn" style="margin-top:10px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx">' +
+        '<b>Falta la tarjeta en ' + SITE.indexFile + '</b>El artículo está online pero todavía no aparece en el listado del blog. ' +
+        'Ve a la pestaña Índice y crea un pull request para agregarla.</div></div>' : '') +
+      '</div><div class="mf"><button class="btn" data-x="c">Cerrar</button>' +
+      '<button class="btn primary" data-x="o"><ion-icon name="open-outline"></ion-icon> Ver artículo</button></div>');
+    mm.querySelector('[data-x=c]').onclick = () => closeModal(null);
+    mm.querySelector('[data-x=o]').onclick = () => { window.open(res.articleUrl||url, '_blank', 'noopener'); closeModal(null); };
+  }catch(err){
+    Log.finish(id, 'error', { status: err.status, error: String(err.message||err), detalle: err.body });
+    if(err.status === 409){
+      const ow = await confirmModal({
+        title: 'El artículo ya existe', danger: true, ok: 'Sobrescribir', cancel: 'Cancelar',
+        html: '<p style="margin:0;font-size:13px;line-height:1.6">Ya hay un artículo publicado con el slug <code>' + esc(e.m.slug) +
+              '</code>. Sobrescribir reemplaza el archivo en producción.</p>'
+      });
+      if(ow) return doPublish(true);
+      return;
+    }
+    if(err.status === 401) toast('Token rechazado (401). Revisa el token del CMS en Ajustes.', 'err', 7000);
+    else if(err.status === 524 || err.status === 0) toast('Sin respuesta a tiempo. Verifica si el artículo igual se publicó antes de reintentar.', 'err', 8000);
+    else toast('Publicar: ' + (err.message || err), 'err', 7000);
+    $('#drawer').classList.add('open'); Log.render();
+  }
+}
+
+/* ---- eliminar ---- */
+async function doDelete(slug){
+  slug = slug || (App.editing && App.editing.m.slug);
+  if(!slug) return;
+  const r = App.items[slug];
+  const hasRemote = !!(r && r.remote), hasLocal = !!(r && r.local);
+  const ok = await confirmModal({
+    title: 'Eliminar “' + slug + '”', danger: true, ok: 'Eliminar', cancel: 'Cancelar',
+    html: '<p style="margin:0 0 12px;font-size:13px;line-height:1.6">Se creará un pull request que borra el archivo del repositorio. ' +
+      'La página seguirá online hasta que ese PR se apruebe y se despliegue.</p>' +
+      '<label class="checkline"><input type="checkbox" id="dPr" ' + (hasRemote?'checked':'') + (hasRemote?'':' disabled') + '>' +
+        '<span>Pull request que elimina <code>' + esc(articlePath(slug)) + '</code></span></label>' +
+      '<label class="checkline"><input type="checkbox" id="dIdx" ' + (App.indexHtml?'checked':'') + (App.indexHtml?'':' disabled') + '>' +
+        '<span>Quitar también su tarjeta de <code>' + SITE.indexFile + '</code></span></label>' +
+      '<label class="checkline"><input type="checkbox" id="dLocal" ' + (hasLocal?'checked':'') + (hasLocal?'':' disabled') + '>' +
+        '<span>Borrar el archivo de la carpeta local</span></label>'
+  });
+  if(!ok) return;
+  const wantPr    = !!(ok.v && ok.v.dPr);
+  const wantIdx   = !!(ok.v && ok.v.dIdx);
+  const wantLocal = !!(ok.v && ok.v.dLocal);
+
+  if(wantPr && Api.ready()){
+    const files = [{ path: articlePath(slug), content: null }];
+    let idxAction = null;
+    if(wantIdx && App.indexHtml){
+      const res = IndexPage.remove(App.indexHtml, slug);
+      if(res.html !== App.indexHtml){ files.push({ path: SITE.indexFile, content: res.html }); idxAction = res.action; App.indexHtml = res.html; }
+    }
+    const id = Log.start('Pull request: eliminar artículo', slug, { archivos: files.map(f=>f.path) });
+    try{
+      const res = await Api.pr({
+        action:'delete', slug,
+        title:'Eliminar artículo: ' + slug,
+        body:'Elimina `' + articlePath(slug) + '` del blog.' + (idxAction ? '\n\nTambién quita su tarjeta de `' + SITE.indexFile + '` (' + idxAction + ').' : '') +
+             '\n\n---\n_Generado desde CHTR Blog CMS._',
+        files, base: S.baseBranch,
+        labels: String(S.prLabels||'').split(',').map(s=>s.trim()).filter(Boolean)
+      });
+      Log.finish(id, 'ok', res);
+      prSuccessModal(res, [{path: articlePath(slug)}]);
+      await loadPrs(true);
+    }catch(err){
+      Log.finish(id, 'error', { status: err.status, error: String(err.message||err), detalle: err.body });
+      toast('Eliminar: ' + (err.message||err), 'err', 7000);
+    }
+  }
+
+  if(wantLocal && LocalFs.root){
+    try{
+      await LocalFs.remove(articlePath(slug));
+      if(wantIdx && App.indexHtml) await LocalFs.write(SITE.indexFile, App.indexHtml);
+      Log.add('Borrar archivo local', articlePath(slug), 'ok');
+      if(App.items[slug]) App.items[slug].local = null;
+      toast('Archivo local borrado', 'ok');
+    }catch(err){ Log.add('Borrar archivo local', articlePath(slug), 'error', String(err.message||err)); }
+  }
+
+  if(App.items[slug] && !App.items[slug].local && !App.items[slug].remote) delete App.items[slug];
+  if(App.editing && App.editing.m.slug === slug){ App.editing = null; App.view = 'library'; }
+  updateCounts(); render();
+}
+</script>
+<script>
+/* ==============================================================
+   18. Vistas: borradores, pull requests, índice, ayuda
+   ============================================================== */
+
+function renderDrafts(){
+  const list = Object.values(App.drafts).sort((a,b) => b.ts - a.ts);
+  const head = '<div class="page-head"><div><h1>Borradores</h1>' +
+    '<p>Se guardan solos en este navegador. No están en el repositorio ni en el servidor.</p></div>' +
+    '<div class="acts">' + (list.length ? '<button class="btn danger" data-act="clear-drafts">Borrar todos</button>' : '') +
+    '<button class="btn primary" data-act="new"><ion-icon name="add-circle-outline"></ion-icon> Nuevo artículo</button></div></div>';
+  const body = !list.length
+    ? '<div class="empty"><h3>Sin borradores</h3><p>Todo lo que edites se autoguarda aquí mientras no lo publiques o lo guardes en la carpeta local.</p></div>'
+    : '<table class="list"><thead><tr><th>Título</th><th>Slug</th><th>Tipo</th><th>Guardado</th><th style="width:1%"></th></tr></thead><tbody>' +
+      list.map(d => '<tr><td class="t">' + esc(d.title || '(sin título)') + '</td>' +
+        '<td class="s">' + esc(d.slug || '—') + '</td>' +
+        '<td>' + (d.isNew ? '<span class="chip warn">nuevo</span>' : '<span class="chip info">edición</span>') + '</td>' +
+        '<td class="muted nowrap">' + fmtDate(new Date(d.ts).toISOString()) + ' ' + fmtTime(d.ts) + '</td>' +
+        '<td class="acts"><button class="btn sm" data-draft="' + escAttr(d.id) + '">Abrir</button> ' +
+        '<button class="btn sm ghost" data-draft-del="' + escAttr(d.id) + '"><ion-icon name="close-outline"></ion-icon></button></td></tr>').join('') +
+      '</tbody></table>';
+  $('#main').innerHTML = '<div class="wrap">' + head + body + '</div>';
+}
+
+function renderPrs(){
+  const head = '<div class="page-head"><div><h1>Pull requests abiertos</h1>' +
+    '<p>Cambios propuestos al repositorio <code>' + esc((App.serverInfo && App.serverInfo.repo) || S.repo) + '</code>. Nada llega a producción hasta el merge.</p></div>' +
+    '<div class="acts"><button class="btn" data-act="reload-prs"><ion-icon name="refresh-outline"></ion-icon> Actualizar</button></div></div>';
+  let body;
+  if(!Api.ready()) body = '<div class="empty"><h3>API no configurada</h3><p>Configura la URL del servicio y el token para ver y crear pull requests.</p>' +
+    '<button class="btn primary" data-act="settings"><ion-icon name="settings-outline"></ion-icon> Ajustes</button></div>';
+  else if(!App.prs.length) body = '<div class="empty"><h3>No hay pull requests abiertos</h3><p>Cuando crees uno desde el editor aparecerá aquí con su estado.</p></div>';
+  else body = '<table class="list"><thead><tr><th>#</th><th>Título</th><th>Rama</th><th>Artículo</th><th>Creado</th><th style="width:1%"></th></tr></thead><tbody>' +
+    App.prs.map(p => '<tr><td class="s">#' + esc(p.number) + '</td>' +
+      '<td class="t">' + esc(p.title) + '</td>' +
+      '<td class="s">' + esc(p.branch || '') + '</td>' +
+      '<td class="s">' + esc(p.slug || '—') + '</td>' +
+      '<td class="muted nowrap">' + esc(fmtDate(p.createdAt)) + '</td>' +
+      '<td class="acts"><a class="btn sm" href="' + escAttr(p.url) + '" target="_blank" rel="noopener"><ion-icon name="open-outline"></ion-icon> Ver</a></td></tr>').join('') +
+    '</tbody></table>';
+  $('#main').innerHTML = '<div class="wrap">' + head + body + '</div>';
+}
+
+function renderIndex(){
+  const cards = App.indexHtml ? IndexPage.list(App.indexHtml) : [];
+  const orphan = cards.filter(c => !App.items[c.slug]);
+  const missing = Object.values(App.items).filter(r => !r.isTemplate && !cards.some(c => c.slug === r.slug));
+  const head = '<div class="page-head"><div><h1>Índice del blog</h1>' +
+    '<p><code>' + SITE.indexFile + '</code> — el listado que ve el visitante. ' +
+    (App.indexHtml ? 'Leído desde <b>' + esc(App.indexSource) + '</b>.' : 'No cargado.') + '</p></div></div>';
+  let body;
+  if(!App.indexHtml){
+    body = '<div class="empty"><h3>No se pudo leer ' + SITE.indexFile + '</h3>' +
+      '<p>Conecta la carpeta local del repositorio, o configura la API para que el CMS lo lea del repo remoto.</p>' +
+      '<div class="inline" style="justify-content:center"><button class="btn primary" data-act="folder"><ion-icon name="folder-open-outline"></ion-icon> Conectar carpeta</button>' +
+      '<button class="btn" data-act="settings"><ion-icon name="settings-outline"></ion-icon> Configurar API</button></div></div>';
+  }else{
+    const alerts =
+      (missing.length ? '<div class="vitem warn"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>' + missing.length + ' artículo(s) sin tarjeta en el índice</b>' +
+        missing.map(r => '<code>' + esc(r.slug) + '</code>').join(' ') + ' — ábrelos y activa “Actualizar el índice”.</div></div>' : '') +
+      (orphan.length ? '<div class="vitem warn"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>' + orphan.length + ' tarjeta(s) sin artículo</b>' +
+        orphan.map(c => '<code>' + esc(c.slug) + '</code>').join(' ') + ' — apuntan a un archivo que no está en <code>' + SITE.articlesDir + '/</code>.</div></div>' : '') +
+      (!missing.length && !orphan.length ? '<div class="vitem ok"><div class="ic"><ion-icon name="checkmark-circle-outline"></ion-icon></div><div class="tx"><b>Índice y artículos coinciden</b>' + cards.length + ' tarjeta(s).</div></div>' : '');
+    body = '<div class="panel"><h3>Consistencia</h3><div class="vlist">' + alerts + '</div></div>' +
+      '<table class="list"><thead><tr><th>Tarjeta</th><th>Slug</th><th>Año</th><th>Fecha</th><th>Etiqueta</th><th style="width:1%"></th></tr></thead><tbody>' +
+      cards.map(c => '<tr><td class="t">' + esc(c.title) + '</td><td class="s">' + esc(c.slug) + '</td>' +
+        '<td>' + esc(c.year) + '</td><td class="muted nowrap">' + esc(c.date) + '</td><td class="muted">' + esc(c.tag) + '</td>' +
+        '<td class="acts">' + (App.items[c.slug] ? '<button class="btn sm" data-open="' + escAttr(c.slug) + '">Editar</button>' : '<span class="chip err">sin archivo</span>') + '</td></tr>').join('') +
+      '</tbody></table>';
+  }
+  $('#main').innerHTML = '<div class="wrap">' + head + body + '</div>';
+}
+
+function renderHelp(){
+  $('#main').innerHTML = '<div class="wrap" style="max-width:840px">' +
+    '<div class="page-head"><div><h1>Cómo funciona</h1><p>Flujo de trabajo del CMS y qué toca cada acción.</p></div></div>' +
+    '<div class="panel"><h3>1. De dónde salen los artículos</h3>' +
+      '<ol class="steps">' +
+        '<li><b>Carpeta local</b> — “Carpeta local” arriba a la derecha abre el selector; elige la <b>raíz del repositorio</b> del blog (la carpeta que contiene <code>' + SITE.articlesDir + '/</code>, <code>' + SITE.indexFile + '</code> y <code>navbar.html</code>). Con eso el CMS lee, escribe y puede resolver los includes SSI en la vista previa.</li>' +
+        '<li><b>API del droplet</b> — lee la lista de artículos directamente del repositorio remoto y es lo que permite crear pull requests y publicar.</li>' +
+      '</ol>' +
+      '<div class="hint" style="margin-top:10px">Chrome, Edge y Brave permiten leer y escribir la carpeta. En Safari y Firefox el CMS pide la carpeta con un selector de archivos y queda en <b>solo lectura</b>: ahí se trabaja con la API y con “Descargar”.</div>' +
+    '</div>' +
+    '<div class="panel"><h3>2. Escribir el artículo</h3>' +
+      '<p style="font-size:12.5px;line-height:1.7;margin:0 0 10px">El contenido creado con la skill llega como documento HTML completo. Con <b>Importar HTML</b> (o “Reemplazar por HTML pegado” en la pestaña Documento) se pega tal cual y el CMS extrae título, metadatos, JSON-LD, includes SSI y el cuerpo del <code>&lt;article&gt;</code>.</p>' +
+      '<p style="font-size:12.5px;line-height:1.7;margin:0">Después se edita en la pestaña <b>Contenido</b>, en modo visual o directamente en HTML. Los <code>&lt;!--#include --&gt;</code> aparecen como bloques bloqueados: se pueden mover o quitar a propósito, pero no se corrompen al editar el texto de alrededor.</p>' +
+    '</div>' +
+    '<div class="panel"><h3>3. Qué hace cada botón</h3>' +
+      '<div class="vlist">' +
+        '<div class="vitem"><div class="ic"><ion-icon name="save-outline"></ion-icon></div><div class="tx"><b>Guardar local</b>Escribe <code>' + SITE.articlesDir + '/{slug}.html</code> en la carpeta conectada (y <code>' + SITE.indexFile + '</code> si activaste el índice). No toca el servidor ni el repositorio remoto. Atajo: <span class="kbd">⌘S</span></div></div>' +
+        '<div class="vitem"><div class="ic"><ion-icon name="git-pull-request-outline"></ion-icon></div><div class="tx"><b>Crear pull request</b>Manda el archivo (y el índice) al servicio del droplet, que crea una rama en GitHub y abre un pull request contra <code>' + esc(S.baseBranch) + '</code>. Nada cambia en producción hasta el merge. Es el camino recomendado.</div></div>' +
+        '<div class="vitem"><div class="ic"><ion-icon name="rocket-outline"></ion-icon></div><div class="tx"><b>Publicar</b>Llama al endpoint existente: genera la portada con OpenAI, la sube al CDN y escribe el archivo en <code>/var/www/blog/' + SITE.articlesDir + '/</code>. Es inmediato y visible. Pide confirmación siempre.</div></div>' +
+        '<div class="vitem"><div class="ic"><ion-icon name="trash-outline"></ion-icon></div><div class="tx"><b>Eliminar</b>Abre un pull request que borra el archivo y, opcionalmente, su tarjeta del índice. También puede borrar la copia local.</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="panel"><h3>4. Lo que el CMS nunca toca</h3>' +
+      '<div class="vlist">' +
+        '<div class="vitem ok"><div class="ic"><ion-icon name="checkmark-circle-outline"></ion-icon></div><div class="tx"><b>Las directivas SSI</b>Se escriben siempre en la misma posición y con la misma ruta: <code>' + SITE.ssiHead.concat([SITE.ssiNavbar, SITE.ssiFooter]).map(esc).join('</code> <code>') + '</code>. La revisión bloquea el guardado si falta alguna.</div></div>' +
+        '<div class="vitem ok"><div class="ic"><ion-icon name="checkmark-circle-outline"></ion-icon></div><div class="tx"><b>La ausencia de &lt;body&gt;</b>Los artículos del sitio no abren <code>&lt;body&gt;</code>. El CMS mantiene esa convención.</div></div>' +
+        '<div class="vitem ok"><div class="ic"><ion-icon name="checkmark-circle-outline"></ion-icon></div><div class="tx"><b>Scripts y estilos propios</b>Chart.js, JSON-LD de FAQ, estilos embebidos: se conservan textualmente y se pueden editar en Metadatos → “Bloques propios conservados”.</div></div>' +
+        '<div class="vitem ok"><div class="ic"><ion-icon name="checkmark-circle-outline"></ion-icon></div><div class="tx"><b>Los nombres en español</b>La carpeta sigue siendo <code>' + SITE.articlesDir + '/</code> y los slugs se derivan del título en español, sin tildes ni ñ.</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="panel"><h3>5. Atajos</h3>' +
+      '<div style="font-size:12.5px;line-height:2">' +
+        '<span class="kbd">⌘S</span> guardar en la carpeta local · ' +
+        '<span class="kbd">⌘K</span> insertar enlace · ' +
+        '<span class="kbd">⌘B</span> negrita · ' +
+        '<span class="kbd">Esc</span> cerrar diálogo' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+/* ==============================================================
+   19. Ajustes
+   ============================================================== */
+
+function openSettings(note){
+  const m = openModal(
+    '<div class="mh"><h3>Ajustes</h3></div><div class="mb">' +
+    (note ? '<div class="vitem warn" style="margin-bottom:14px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx">' + esc(note) + '</div></div>' : '') +
+    '<div class="panel" style="margin-bottom:14px">' +
+      '<h3>API del droplet</h3><div class="sub">Servicio que crea los pull requests y reenvía la publicación.</div>' +
+      '<div class="field"><label>URL base</label><input type="url" id="sBase" value="' + escAttr(S.apiBase) + '" data-autofocus>' +
+        '<div class="hint">Sin barra final. Los endpoints cuelgan de <code>/api/cms/…</code></div></div>' +
+      '<div class="field"><label>Token del CMS</label>' +
+        '<div class="inline"><input type="password" id="sTok" style="flex:1" value="' + escAttr(S.token) + '" placeholder="CMS_TOKEN">' +
+        '<button class="btn sm" id="sTogTok"><ion-icon name="eye-outline"></ion-icon></button></div>' +
+        '<div class="hint">Es el <code>CMS_TOKEN</code> del servicio, <b>no</b> el <code>API_SECRET</code> de publicación ni la clave de OpenAI: esas se quedan en el droplet y el navegador no las ve nunca.</div></div>' +
+      '<label class="checkline"><input type="checkbox" id="sRem" ' + (S.rememberToken?'checked':'') + '>' +
+        '<span>Recordar el token en este navegador<small>Queda en el almacenamiento local de este equipo. Desactívalo en un computador compartido.</small></span></label>' +
+      '<div class="inline"><button class="btn" id="sTest">Probar conexión</button><span id="sTestOut" class="muted" style="font-size:12px"></span></div>' +
+    '</div>' +
+    '<div class="panel" style="margin-bottom:14px">' +
+      '<h3>Repositorio</h3>' +
+      '<div class="row">' +
+        '<div class="field"><label>Repositorio</label><input type="text" id="sRepo" value="' + escAttr(S.repo) + '">' +
+          '<div class="hint">Informativo: el servidor usa el suyo.</div></div>' +
+        '<div class="field"><label>Rama base</label><input type="text" id="sBranch" value="' + escAttr(S.baseBranch) + '"></div>' +
+      '</div>' +
+      '<div class="row">' +
+        '<div class="field"><label>Etiquetas del PR</label><input type="text" id="sLabels" value="' + escAttr(S.prLabels) + '" placeholder="cms, blog"></div>' +
+        '<div class="field"><label>Revisores</label><input type="text" id="sRev" value="' + escAttr(S.prReviewers) + '" placeholder="usuario1, usuario2"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="panel" style="margin-bottom:0">' +
+      '<h3>Convenciones del blog</h3>' +
+      '<div class="field"><label>Autor por defecto</label><input type="text" id="sAuthor" value="' + escAttr(S.author) + '"></div>' +
+      '<div class="field"><label>Patrón de URL canónica</label>' +
+        '<select id="sCanon">' +
+          '<option value="www">' + esc(SITE.canonicalPatterns.www) + '</option>' +
+          '<option value="blog">' + esc(SITE.canonicalPatterns.blog) + '</option>' +
+          '<option value="custom">Personalizado…</option>' +
+        '</select>' +
+        '<input type="text" id="sCanonC" style="margin-top:6px;display:none" value="' + escAttr(S.canonicalCustom) + '" placeholder="https://…/{slug}/"></div>' +
+      '<div class="field"><label>Patrón de la portada en el CDN</label><input type="text" id="sCdn" value="' + escAttr(S.cdnPattern) + '"></div>' +
+      '<label class="checkline"><input type="checkbox" id="sIdx" ' + (S.updateIndex?'checked':'') + '>' +
+        '<span>Proponer actualizar <code>' + SITE.indexFile + '</code> por defecto<small>Agrega o actualiza la tarjeta del artículo en el listado del blog.</small></span></label>' +
+    '</div>' +
+    '</div><div class="mf">' +
+      '<button class="btn left danger" id="sReset">Restablecer</button>' +
+      '<button class="btn" data-x="c">Cancelar</button>' +
+      '<button class="btn primary" data-x="o">Guardar ajustes</button>' +
+    '</div>', {wide:true});
+
+  $('#sCanon').value = S.canonicalMode;
+  $('#sCanonC').style.display = S.canonicalMode === 'custom' ? '' : 'none';
+  $('#sCanon').onchange = () => { $('#sCanonC').style.display = $('#sCanon').value === 'custom' ? '' : 'none'; };
+  $('#sTogTok').onclick = () => { const i = $('#sTok'); i.type = i.type === 'password' ? 'text' : 'password'; };
+  $('#sTest').onclick = async () => {
+    const out = $('#sTestOut'); out.textContent = 'Probando…';
+    const prev = { apiBase: S.apiBase, token: S.token };
+    S.apiBase = $('#sBase').value.trim(); S.token = $('#sTok').value.trim();
+    try{
+      const h = await Api.health();
+      App.serverInfo = h;
+      out.innerHTML = '<span class="chip ok"><span class="dot"></span>OK</span> ' +
+        esc(h.repo || '') + ' · rama ' + esc(h.branch || '') +
+        (h.features ? ' · ' + esc(Object.keys(h.features).filter(k=>h.features[k]).join(', ')) : '');
+      setConn('on', h.repo || 'conectado');
+    }catch(err){
+      out.innerHTML = '<span class="chip err"><span class="dot"></span>' + esc(err.status || 'sin respuesta') + '</span> ' + esc(err.message || '');
+      S.apiBase = prev.apiBase; S.token = prev.token;
+    }
+  };
+  $('#sReset').onclick = async () => {
+    if(await confirmModal({title:'Restablecer ajustes', text:'Vuelve a los valores por defecto. No borra artículos ni borradores.', ok:'Restablecer', danger:true})){
+      S = Object.assign({}, DEFAULT_SETTINGS); saveSettings(); closeModal(null); openSettings();
+    }
+  };
+  m.querySelector('[data-x=c]').onclick = () => closeModal(null);
+  m.querySelector('[data-x=o]').onclick = () => {
+    S.apiBase        = $('#sBase').value.trim().replace(/\/+$/,'');
+    S.token          = $('#sTok').value.trim();
+    S.rememberToken  = $('#sRem').checked;
+    S.repo           = $('#sRepo').value.trim();
+    S.baseBranch     = $('#sBranch').value.trim() || 'main';
+    S.prLabels       = $('#sLabels').value;
+    S.prReviewers    = $('#sRev').value;
+    S.author         = $('#sAuthor').value.trim();
+    S.canonicalMode  = $('#sCanon').value;
+    S.canonicalCustom= $('#sCanonC').value.trim();
+    S.cdnPattern     = $('#sCdn').value.trim() || SITE.cdnPattern;
+    S.updateIndex    = $('#sIdx').checked;
+    saveSettings(); closeModal(null);
+    toast('Ajustes guardados', 'ok');
+    checkConn(); reloadAll(true);
+  };
+}
+</script>
+<script>
+/* ==============================================================
+   20. Importar HTML generado fuera del CMS
+   ============================================================== */
+
+async function importModal(){
+  return new Promise(res => {
+    modalResolve = res;
+    const m = openModal(
+      '<div class="mh"><h3>Importar artículo</h3></div><div class="mb">' +
+      '<p style="margin:0 0 12px;font-size:12.5px;line-height:1.6;color:var(--ink-2)">Pega el documento HTML completo del artículo. ' +
+      'El CMS extrae título, metadatos, JSON-LD, includes SSI y el cuerpo del <code>&lt;article&gt;</code>, y deja todo listo para revisar antes de publicar.</p>' +
+      '<div class="field"><label>HTML del artículo</label>' +
+      '<textarea id="imH" class="code" rows="14" spellcheck="false" data-autofocus placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html lang=&quot;es&quot;&gt;…"></textarea></div>' +
+      '<div class="field"><label>Slug (opcional — se deduce del título si lo dejas vacío)</label><input type="text" id="imS" placeholder="como-conseguir-carga-para-tu-camion"></div>' +
+      '<div class="hint">También puedes arrastrar un archivo <code>.html</code> sobre esta ventana.</div>' +
+      '</div><div class="mf"><button class="btn" data-x="c">Cancelar</button>' +
+      '<button class="btn primary" data-x="o">Importar</button></div>', {wide:true});
+    const ta = m.querySelector('#imH');
+    m.addEventListener('dragover', e => { e.preventDefault(); });
+    m.addEventListener('drop', async e => {
+      e.preventDefault();
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if(f){ ta.value = await f.text(); if(!m.querySelector('#imS').value) m.querySelector('#imS').value = f.name.replace(/\.html?$/i,''); }
+    });
+    m.querySelector('[data-x=c]').onclick = () => closeModal(null);
+    m.querySelector('[data-x=o]').onclick = () => {
+      const html = ta.value.trim(), slug = m.querySelector('#imS').value.trim();
+      closeModal(null);
+      if(!html) return toast('No pegaste nada', 'warn');
+      const mm = Article.parse(html);
+      if(!mm.body) return toast('No se encontró un bloque <article> en el HTML pegado', 'err', 6000);
+      mm.slug = slug || slugify(mm.title);
+      if(!validSlug(mm.slug)) mm.slug = slugify(mm.slug);
+      if(!mm.canonical) mm.canonical = canonicalFor(mm.slug);
+      if(!mm.image)     mm.image = imageFor(mm.slug);
+      const exists = !!App.items[mm.slug];
+      const orig = exists ? (App.items[mm.slug].local && App.items[mm.slug].local.html) || null : null;
+      App.editing = {
+        slug: mm.slug, isNew: !exists, original: orig, baseline: orig ? Article.parse(orig) : null,
+        mode: 'rebuild', m: mm, dirty: true, rteTouched: true, tab: 'revision', editorMode:'visual', showPreview:true, device:'desk',
+        indexCard: { enabled: S.updateIndex, tag:'', alt: mm.imageAlt || '' },
+        imagePrompt:'', draftId: 'draft_' + uid()
+      };
+      App.view = 'editor'; render();
+      toast('Importado: ' + (mm.title || mm.slug) + (exists ? ' (ya existía: se editará)' : ''), 'ok', 4500);
+    };
+  });
+}
+
+/* ==============================================================
+   21. Menú por artículo
+   ============================================================== */
+
+async function articleMenu(slug){
+  const r = App.items[slug]; if(!r) return;
+  const url = SITE.liveUrlPattern.replace('{slug}', slug);
+  const m = openModal(
+    '<div class="mh"><h3>' + esc((r.meta && r.meta.title) || slug) + '</h3></div>' +
+    '<div class="mb"><div class="inline" style="margin-bottom:14px">' + srcChips(r) + '</div>' +
+    '<div class="stack">' +
+      '<button class="btn" data-m="edit"><ion-icon name="create-outline"></ion-icon> Editar' + (r.local && r.remote ? ' (carpeta local)' : '') + '</button>' +
+      (r.remote ? '<button class="btn" data-m="edit-remote"><ion-icon name="globe-outline"></ion-icon> Editar la versión del repositorio</button>' : '') +
+      (r.local && r.remote ? '<button class="btn" data-m="diff"><ion-icon name="git-compare-outline"></ion-icon> Comparar local con el repositorio</button>' : '') +
+      '<button class="btn" data-m="open"><ion-icon name="open-outline"></ion-icon> Abrir en el sitio</button>' +
+      '<button class="btn" data-m="copy"><ion-icon name="copy-outline"></ion-icon> Copiar el HTML</button>' +
+      '<button class="btn" data-m="download"><ion-icon name="download-outline"></ion-icon> Descargar el archivo</button>' +
+      '<button class="btn" data-m="dup"><ion-icon name="duplicate-outline"></ion-icon> Duplicar como artículo nuevo</button>' +
+      '<button class="btn danger" data-m="del"><ion-icon name="trash-outline"></ion-icon> Eliminar…</button>' +
+    '</div>' +
+    '<div class="hint" style="margin-top:12px">' + esc(articlePath(slug)) + ' · <a href="' + escAttr(url) + '" target="_blank" rel="noopener">' + esc(url) + '</a></div>' +
+    '</div><div class="mf"><button class="btn" data-x="c">Cerrar</button></div>');
+  m.querySelector('[data-x=c]').onclick = () => closeModal(null);
+  const on = (k, fn) => { const b = m.querySelector('[data-m=' + k + ']'); if(b) b.onclick = fn; };
+  on('edit',        () => { closeModal(null); openEditor(slug); });
+  on('edit-remote', () => { closeModal(null); openEditor(slug, 'remote'); });
+  on('open',        () => { window.open(url, '_blank', 'noopener'); });
+  on('copy',   async () => { const h = await getHtml(slug); await copy(h); closeModal(null); toast('HTML copiado', 'ok'); });
+  on('download', async () => { const h = await getHtml(slug); download(slug + '.html', h); closeModal(null); });
+  on('del',         () => { closeModal(null); doDelete(slug); });
+  on('dup',    async () => {
+    closeModal(null);
+    const h = await getHtml(slug);
+    const mm = Article.parse(h);
+    mm.slug = ''; mm.title = (mm.title || slug) + ' (copia)'; mm.headline = mm.title;
+    mm.datePublished = isoNow(); mm.dateModified = isoNow();
+    App.editing = { slug:'', isNew:true, original:null, baseline:null, mode:'rebuild', m:mm, dirty:true, rteTouched:true, tab:'metadatos',
+      editorMode:'visual', showPreview:true, device:'desk',
+      indexCard:{enabled:S.updateIndex, tag:'', alt:mm.imageAlt||''}, imagePrompt:'', draftId:'draft_'+uid() };
+    App.view = 'editor'; render();
+    toast('Duplicado. Define un slug nuevo antes de publicar.', 'warn', 5000);
+  });
+  on('diff', async () => {
+    closeModal(null);
+    const a = r.local.html;
+    let b;
+    try{ b = await getHtml(slug, 'remote'); }catch(e){ return toast(e.message, 'err'); }
+    const mm = openModal('<div class="mh"><h3>Local vs repositorio — ' + esc(slug) + '</h3></div>' +
+      '<div class="mb">' + (a === b ? '<div class="vitem ok"><div class="ic"><ion-icon name="checkmark-circle-outline"></ion-icon></div><div class="tx"><b>Idénticos</b>El archivo local coincide con el del repositorio.</div></div>'
+        : '<div class="vitem warn" style="margin-bottom:12px"><div class="ic"><ion-icon name="warning-outline"></ion-icon></div><div class="tx"><b>Hay diferencias</b>' +
+          '<code>−</code> repositorio · <code>+</code> carpeta local</div></div>' + renderDiff(b, a)) +
+      '</div><div class="mf"><button class="btn" data-x="c">Cerrar</button></div>', {wide:true});
+    mm.querySelector('[data-x=c]').onclick = () => closeModal(null);
+  });
+}
+
+/* ==============================================================
+   22. Conexión y eventos
+   ============================================================== */
+
+function setConn(state, text){
+  const c = $('#connChip');
+  c.className = 'conn ' + state;
+  $('#connTxt').textContent = text;
+}
+async function checkConn(){
+  if(!S.apiBase || !S.token){ setConn('', 'API sin configurar'); App.serverInfo = null; return; }
+  setConn('busy', 'Conectando…');
+  try{
+    const h = await Api.health();
+    App.serverInfo = h;
+    if(h.branch) S.baseBranch = h.branch;
+    setConn('on', (h.repo || 'API').split('/').pop() + ' · ' + (h.branch || ''));
+  }catch(e){
+    App.serverInfo = null;
+    setConn('off', e.status === 401 ? 'Token rechazado' : 'API sin respuesta');
+  }
+}
+
+async function connectFolder(){
+  if(LocalFs.connected()){
+    const opt = await confirmModal({ title:'Carpeta local', ok:'Cambiar de carpeta', cancel:'Mantener',
+      html:'<p style="margin:0;font-size:13px;line-height:1.6">Conectada: <code>' + esc(LocalFs.name) + '</code></p>' });
+    if(!opt) return;
+  }
+  if(LocalFs.supported){
+    try{
+      await LocalFs.connect();
+      $('#folderTxt').textContent = LocalFs.name;
+      toast('Carpeta conectada: ' + LocalFs.name, 'ok');
+      await loadLocal(); render();
+      return;
+    }catch(e){
+      if(e && e.name === 'AbortError') return;   /* el usuario canceló */
+      if(e && e.message === 'unsupported'){ /* sigue al respaldo */ }
+      else if(e && (e.name === 'SecurityError' || e.name === 'NotAllowedError')){
+        /* Algunos navegadores no permiten elegir carpetas cuando la página se
+           abre como archivo local. Se cae al selector clásico, en solo lectura. */
+        toast('Este navegador no permite escribir en carpetas desde un archivo local. Se abrirá en modo solo lectura.', 'warn', 6500);
+      }else{
+        toast(e.message || String(e), 'err', 6000);
+        return;
+      }
+    }
+  }
+  /* respaldo: selector de carpeta clásico, solo lectura */
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.webkitdirectory = true; inp.multiple = true; inp.style.display = 'none';
+  document.body.appendChild(inp);
+  inp.onchange = async () => {
+    try{
+      await LocalFs.loadFromInput(Array.from(inp.files));
+      $('#folderTxt').textContent = LocalFs.name + ' (solo lectura)';
+      toast('Carpeta cargada en modo solo lectura', 'warn', 5000);
+      await loadLocal(); render();
+    }catch(e){ toast(e.message || String(e), 'err', 6000); }
+    finally{ inp.remove(); }
+  };
+  inp.click();
+}
+
+/* --- delegación de eventos --- */
+document.addEventListener('click', ev => {
+  const t = ev.target.closest('[data-act],[data-nav],[data-open],[data-menu],[data-draft],[data-draft-del],[data-ed]');
+  if(!t) return;
+
+  if(t.dataset.nav){ App.view = t.dataset.nav; render(); return; }
+  if(t.dataset.open){ openEditor(t.dataset.open); return; }
+  if(t.dataset.menu){ articleMenu(t.dataset.menu); return; }
+  if(t.dataset.draft){ openDraft(t.dataset.draft); return; }
+  if(t.dataset.draftDel){ delete App.drafts[t.dataset.draftDel]; saveDrafts(); render(); return; }
+
+  if(t.dataset.ed){
+    const e = App.editing;
+    switch(t.dataset.ed){
+      case 'back':
+        if(e && e.dirty){
+          confirmModal({title:'Salir del editor', text:'Hay cambios sin guardar. Quedan en Borradores.', ok:'Salir', cancel:'Seguir editando'})
+            .then(ok => { if(ok){ syncFromEditor(); autosave(); App.editing = null; App.view='library'; render(); } });
+        }else{ App.editing = null; App.view='library'; render(); }
+        return;
+      case 'save-local': doSaveLocal(); return;
+      case 'download':   syncFromEditor(); download((e.m.slug||'articulo') + '.html', currentHtml()); return;
+      case 'pr':         doCreatePr(); return;
+      case 'publish':    doPublish(false); return;
+      case 'delete':     doDelete(e.m.slug); return;
+      case 'togglepv':   e.showPreview = !e.showPreview; tabContenido($('#edBody')); return;
+      case 'refreshpv':  schedulePreview(true); return;
+    }
+  }
+
+  switch(t.dataset.act){
+    case 'new':         newArticle(); break;
+    case 'import':      importModal(); break;
+    case 'reload':      reloadAll(); break;
+    case 'reload-prs':  loadPrs().then(render); break;
+    case 'folder':      connectFolder(); break;
+    case 'settings':    openSettings(); break;
+    case 'clear-drafts':
+      confirmModal({title:'Borrar todos los borradores', text:'No afecta a los artículos guardados ni publicados.', ok:'Borrar', danger:true})
+        .then(ok => { if(ok){ App.drafts = {}; saveDrafts(); render(); } });
+      break;
+  }
+});
+
+$('#btnSettings').onclick = () => openSettings();
+$('#btnFolder').onclick   = () => connectFolder();
+$('#connChip').onclick    = () => openSettings();
+
+document.addEventListener('keydown', e => {
+  const inField = /input|textarea|select/i.test((e.target.tagName || '')) || e.target.isContentEditable;
+  if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's'){ e.preventDefault(); if(App.editing) doSaveLocal(); return; }
+  if(inField) return;
+  if(e.key === 'n' && !e.metaKey && !e.ctrlKey && App.view !== 'editor'){ newArticle(); }
+  if(e.key === '/' && App.view === 'library'){ e.preventDefault(); const q = $('#q'); if(q) q.focus(); }
+});
+
+window.addEventListener('beforeunload', e => {
+  if(App.editing && App.editing.dirty){ e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ==============================================================
+   23. Arranque
+   ============================================================== */
+
+(async function init(){
+  Log.render(); Log.badge();
+
+  /* Ionicons se carga desde unpkg, igual que en right-banner-cta.html del sitio.
+     Sin conexión el componente nunca se define: se marca el body para colapsar
+     los huecos y que los botones no queden descuadrados. */
+  setTimeout(() => {
+    if(!customElements.get('ion-icon')) document.body.classList.add('sin-iconos');
+  }, 3000);
+
+  if(!Store.ok) toast('El navegador bloquea el almacenamiento local: los ajustes y borradores no se conservarán al cerrar.', 'warn', 8000);
+  if(!LocalFs.supported) $('#btnFolder').title = 'Este navegador no permite escribir en carpetas locales: se cargará en modo solo lectura.';
+  if(location.protocol === 'file:' && !Store.ok)
+    toast('Abre el CMS en Chrome, Edge o Brave: este navegador bloquea el almacenamiento en archivos locales.', 'warn', 9000);
+
+  render();
+  try{ if(await LocalFs.restore()){ $('#folderTxt').textContent = LocalFs.name; await loadLocal(true); } }catch(e){ /* sin carpeta recordada */ }
+  await checkConn();
+  await reloadAll(true);
+
+  /* Si la API respondió pero no hay índice local, se pide al servidor. */
+  if(!App.indexHtml && Api.ready()){
+    try{
+      const f = await Api.file(SITE.indexFile);
+      App.indexHtml = f.content; App.indexSource = 'repositorio';
+    }catch(e){ /* el índice es opcional: el CMS funciona sin él */ }
+  }
+  if(!Object.keys(App.includes).length && Api.ready()){
+    try{ const inc = await Api.includes(); if(inc && inc.includes) App.includes = inc.includes; }catch(e){ /* la vista previa marca los includes que falten */ }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
