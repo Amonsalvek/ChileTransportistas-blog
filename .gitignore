@@ -1,3 +1,11 @@
 sitemap-blog.xml
 .DS_Store
 __pycache__/
+
+# Credenciales: nunca se versionan.
+# El .env.example de "Chtr Blogs CMS/droplet/" llegó a tener un GITHUB_TOKEN
+# y un CMS_TOKEN reales. Este repo es público y además se despliega tal cual
+# a /var/www/blog, así que un secreto commiteado queda expuesto dos veces.
+.env
+.env.*
+*.env
