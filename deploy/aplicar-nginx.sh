@@ -36,7 +36,7 @@ fi
 [ -L "$ENLACE" ] || ln -s "$SITIO" "$ENLACE"
 
 if nginx -t 2>/tmp/nginx-t.log; then
-  systemctl reload nginx
+  systemctl reload nginx 2>/dev/null || nginx -s reload
   echo "✓ nginx recargado con deploy/nginx-blog.conf"
 else
   cat /tmp/nginx-t.log
