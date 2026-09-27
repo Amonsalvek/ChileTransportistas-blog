@@ -22,8 +22,12 @@
 
      La primera columna es la pista de quien tiene camiones y busca carga;
      la segunda, la de quien necesita mover carga. Copia el bloque ya
-     escrito desde articulos/base-blog.html o desde
+     escrito desde transportistas/base-blog.html o desde
      contratar-transporte/base-blog.html en vez de escribirlo a mano.
+
+     Jerarquía: Inicio (portada del sitio) > Blog > pista > artículo.
+     Desde que el blog vive en www.chiletransportistas.com, "Inicio" es la
+     portada de Unicorn y "Blog" es /blog/, que sirve el droplet.
 
      bc_title NO debe llevar comillas dobles: se imprime tal cual dentro
      del JSON-LD. Acentos y ñ sí, comillas no.
@@ -95,17 +99,23 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Inicio",
-      "item": "https://blog.chiletransportistas.com/"
+      "item": "https://www.chiletransportistas.com/"
     },
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "<!--#echo var="bc_hub_name" encoding="none" -->",
-      "item": "https://blog.chiletransportistas.com<!--#echo var="bc_hub_url" encoding="none" -->"
+      "name": "Blog",
+      "item": "https://www.chiletransportistas.com/blog/"
     },
     {
       "@type": "ListItem",
       "position": 3,
+      "name": "<!--#echo var="bc_hub_name" encoding="none" -->",
+      "item": "https://www.chiletransportistas.com<!--#echo var="bc_hub_url" encoding="none" -->"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
       "name": "<!--#echo var="bc_title" encoding="none" -->"
     }
   ]
@@ -114,7 +124,8 @@
 
 <nav class="chtr-breadcrumbs" aria-label="Ruta de navegación">
   <ol>
-    <li><a href="https://blog.chiletransportistas.com/">Inicio</a></li>
+    <li><a href="https://www.chiletransportistas.com/">Inicio</a></li>
+    <li><a href="/blog/">Blog</a></li>
     <li><a href="<!--#echo var="bc_hub_url" encoding="none" -->"><!--#echo var="bc_hub_name" --></a></li>
     <li aria-current="page"><!--#echo var="bc_title" --></li>
   </ol>

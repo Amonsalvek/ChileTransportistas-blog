@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
 """
-Genera sitemap-blog.xml para blog.chiletransportistas.com.
+Genera sitemap-blog.xml para el blog en www.chiletransportistas.com.
 
-Qué cambió al bifurcar el blog en dos pistas (/transportistas/ y
-/contratar-transporte/):
+Se publica en https://www.chiletransportistas.com/sitemap-blog.xml (el Worker
+de Cloudflare lo pide al droplet). www/robots.txt es de Unicorn, así que este
+sitemap se envía a mano en Search Console una vez; después Google lo relee
+solo.
 
-  1. Las URLs se emiten con barra final y sin ".html", que es como el
-     servidor las sirve y como están escritos los canonical. Antes el
-     sitemap listaba /articulos/slug.html mientras el canonical decía
-     /articulos/slug/: dos URLs distintas para la misma página.
-  2. Los parciales SSI (navbar, footer, CTAs, banners, migas de pan) ya no
-     entran. No son páginas: son fragmentos que el servidor inyecta.
-  3. Las plantillas base-blog.html tampoco entran.
-  4. Las páginas con <meta name="robots" ... noindex> se saltan solas. Así
-     el hub de /contratar-transporte/ no aparece mientras esté vacío, y
-     vuelve al sitemap solo cuando le quites el noindex.
-  5. blog.html es la portada: se publica como la raíz del sitio.
+Reglas:
+  1. URLs con barra final y sin ".html", igual que los canonical.
+  2. Los parciales SSI (navbar, footer, CTAs, banners, migas de pan) y las
+     plantillas base-blog.html no son páginas: no entran.
+  3. Las páginas con <meta name="robots" ... noindex> se saltan solas.
+  4. blog/index.html es la portada del blog: /blog/.
+  5. Cada página lleva su og:image como <image:image>: ayuda a que las
+     portadas aparezcan en Google Imágenes y Discover.
+
+Uso:
+    python3 update_sitemap_blog.py                  # en el droplet
+    python3 update_sitemap_blog.py --raiz . --salida /tmp/sitemap.xml
 """
+import argparse
+import datetime
+import html
 import os
 import re
-import datetime
+from xml.sax.saxutils import escape
 
-BLOG_PATH   = "/var/www/blog"
-BASE_URL    = "https://blog.chiletransportistas.com"
-OUTPUT_FILE = os.path.join(BLOG_PATH, "sitemap-blog.xml")
+BASE_URL = "https://www.chiletransportistas.com"
 
-# Portada del blog: se sirve en la raíz del dominio.
-HOME_FILE = "blog.html"
-
-# Parciales SSI y plantillas: fragmentos, no páginas.
 EXCLUDED_FILES = {
     "navbar.html",
     "footer.html",
@@ -43,79 +43,78 @@ EXCLUDED_FILES = {
     "base-blog.html",
 }
 
-# Directorios que nunca contienen páginas publicables.
-EXCLUDED_DIRS = {".git", "assets", "deploy", "node_modules", "Chtr Blogs CMS"}
+# Solo estas carpetas publican páginas (el resto del repo no se sirve).
+PUBLICADAS = ("blog", "transportistas", "contratar-transporte")
+EXCLUDED_DIRS = {"assets", "node_modules"}
 
 NOINDEX_RE = re.compile(
     r'<meta[^>]+name=["\']robots["\'][^>]*content=["\'][^"\']*noindex', re.I
 )
-
-
-def is_noindex(path):
-    try:
-        with open(path, "r", encoding="utf-8", errors="replace") as fh:
-            return bool(NOINDEX_RE.search(fh.read(8192)))
-    except OSError:
-        return False
+OG_IMAGE_RE = re.compile(
+    r'<meta[^>]+property=["\']og:image["\'][^>]*content=["\']([^"\']+)["\']', re.I
+)
+MODIFIED_RE = re.compile(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})')
 
 
 def to_url(rel_path):
-    """articulos/slug.html -> /articulos/slug/   |   x/index.html -> /x/"""
+    """transportistas/slug.html -> /transportistas/slug/  |  x/index.html -> /x/"""
     rel = rel_path.replace(os.sep, "/")
-    if rel == HOME_FILE:
-        return f"{BASE_URL}/"
     if rel.endswith("/index.html"):
         return f"{BASE_URL}/{rel[:-len('index.html')]}"
-    if rel == "index.html":
-        return f"{BASE_URL}/"
     return f"{BASE_URL}/{rel[:-len('.html')]}/"
 
 
-def generate_sitemap():
+def generate_sitemap(raiz, salida):
     urls = {}
     skipped = []
 
-    for root, dirs, files in os.walk(BLOG_PATH):
-        dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS and not d.startswith(".")]
+    for carpeta in PUBLICADAS:
+        base = os.path.join(raiz, carpeta)
+        for root, dirs, files in os.walk(base):
+            dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS and not d.startswith(".")]
+            for name in files:
+                if not name.endswith(".html"):
+                    continue
+                path = os.path.join(root, name)
+                rel_path = os.path.relpath(path, raiz)
+                if name in EXCLUDED_FILES:
+                    skipped.append((rel_path, "parcial o plantilla"))
+                    continue
+                with open(path, encoding="utf-8", errors="replace") as fh:
+                    doc = fh.read()
+                if NOINDEX_RE.search(doc[:8192]):
+                    skipped.append((rel_path, "noindex"))
+                    continue
 
-        for name in files:
-            if not name.endswith(".html"):
-                continue
-
-            path = os.path.join(root, name)
-            rel_path = os.path.relpath(path, BLOG_PATH)
-
-            if name in EXCLUDED_FILES:
-                skipped.append((rel_path, "parcial o plantilla"))
-                continue
-            if is_noindex(path):
-                skipped.append((rel_path, "noindex"))
-                continue
-
-            mod = datetime.datetime.fromtimestamp(
-                os.path.getmtime(path), datetime.timezone.utc
-            ).strftime("%Y-%m-%d")
-
-            url = to_url(rel_path)
-            # Si dos archivos resuelven a la misma URL, gana el más reciente.
-            if url not in urls or mod > urls[url]:
-                urls[url] = mod
+                # lastmod: la dateModified del JSON-LD si existe; si no, la
+                # fecha del archivo (en el droplet es la del último git pull).
+                m = MODIFIED_RE.search(doc)
+                mod = m.group(1) if m else datetime.datetime.fromtimestamp(
+                    os.path.getmtime(path), datetime.timezone.utc
+                ).strftime("%Y-%m-%d")
+                img = OG_IMAGE_RE.search(doc)
+                urls[to_url(rel_path)] = (mod, html.unescape(img.group(1)) if img else None)
 
     sitemap = [
         '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+        '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     ]
-    for url, mod in sorted(urls.items()):
+    for url, (mod, img) in sorted(urls.items()):
         sitemap.append("  <url>")
-        sitemap.append(f"    <loc>{url}</loc>")
+        sitemap.append(f"    <loc>{escape(url)}</loc>")
         sitemap.append(f"    <lastmod>{mod}</lastmod>")
+        if img:
+            sitemap.append(f"    <image:image><image:loc>{escape(img)}</image:loc></image:image>")
         sitemap.append("  </url>")
     sitemap.append("</urlset>")
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as fh:
+    tmp = salida + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
         fh.write("\n".join(sitemap) + "\n")
+    os.replace(tmp, salida)
 
-    print(f"Sitemap actualizado: {OUTPUT_FILE} ({len(urls)} URLs)")
+    print(f"Sitemap actualizado: {salida} ({len(urls)} URLs)")
     for url in sorted(urls):
         print(f"  + {url}")
     for rel, why in sorted(skipped):
@@ -123,4 +122,8 @@ def generate_sitemap():
 
 
 if __name__ == "__main__":
-    generate_sitemap()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--raiz", default="/var/www/blog")
+    ap.add_argument("--salida", help="por defecto {raiz}/sitemap-blog.xml")
+    a = ap.parse_args()
+    generate_sitemap(a.raiz, a.salida or os.path.join(a.raiz, "sitemap-blog.xml"))

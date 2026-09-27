@@ -1,0 +1,23 @@
+# Worker que publica el blog del droplet dentro de www.chiletransportistas.com.
+# Despliegue: ver worker/README.md  (npx wrangler deploy desde esta carpeta,
+# o copiar src/index.js en el editor del dashboard de Cloudflare).
+name = "chtr-blog-router"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = false
+
+# Rutas: SOLO estas pasan por el Worker. El resto de www sigue yendo directo
+# a Unicorn, sin costo ni latencia extra.
+routes = [
+  { pattern = "www.chiletransportistas.com/blog*",                 zone_name = "chiletransportistas.com" },
+  { pattern = "www.chiletransportistas.com/transportistas*",       zone_name = "chiletransportistas.com" },
+  { pattern = "www.chiletransportistas.com/contratar-transporte*", zone_name = "chiletransportistas.com" },
+  { pattern = "www.chiletransportistas.com/sitemap-blog.xml",      zone_name = "chiletransportistas.com" },
+  { pattern = "chiletransportistas.com/blog*",                     zone_name = "chiletransportistas.com" },
+  { pattern = "chiletransportistas.com/transportistas*",           zone_name = "chiletransportistas.com" },
+  { pattern = "chiletransportistas.com/contratar-transporte*",     zone_name = "chiletransportistas.com" },
+  { pattern = "chiletransportistas.com/sitemap-blog.xml",          zone_name = "chiletransportistas.com" },
+]
+
+[observability]
+enabled = true

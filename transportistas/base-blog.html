@@ -4,24 +4,23 @@
     <meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- ===================================================================
-         PLANTILLA — pista "generadores de carga" (/contratar-transporte/)
+         PLANTILLA — pista "transportistas" (/transportistas/)
          ===================================================================
-         Copia este archivo a contratar-transporte/{slug}.html y reemplaza
-         todos los {{...}}. Las diferencias con articulos/base-blog.html son
-         solo tres, pero son las que importan:
+         Copia este archivo a transportistas/{slug}.html y reemplaza todos
+         los {{...}}. Lo que la distingue de contratar-transporte/base-blog.html:
 
-           1. Los includes SSI apuntan a las variantes -carga:
-              sticky-mobile-cta-carga / right-banner-cta-carga /
-              content-cta-carga. Empujan al COTIZADOR, no al registro.
-              Servirle el CTA de transportista a un shipper convierte cero.
-           2. Las migas de pan usan la pista "Contratar transporte".
-           3. Las migas de pan y el canonical cuelgan de /contratar-transporte/
-              en www.chiletransportistas.com (el blog ya no usa el subdominio).
+           1. Los includes SSI son los de transportista: sticky-mobile-cta /
+              right-banner-cta / content-cta. Empujan al REGISTRO en el
+              directorio y a la guía para conseguir carga.
+           2. Las migas de pan usan la pista "Transportistas".
+           3. Canonical y migas cuelgan de /transportistas/ en
+              www.chiletransportistas.com.
 
          Regla dura del silo: cada keyword vive en UNA sola pista, definida
-         por intención. Acá van "cómo contratar", "cuánto cuesta transportar
-         X", "qué camión necesito para...". Nunca "cómo conseguir carga" ni
-         "costo por kilómetro": eso es de /transportistas/.
+         por intención. Acá van "cómo conseguir carga", "costo por
+         kilómetro", "cómo cotizar un flete", "carga de retorno". Nunca
+         "cómo contratar transporte" ni "cuánto cuesta transportar X": eso es
+         de /transportistas/.
          =================================================================== -->
     <title>{{TÍTULO SEO — máx. 60 caracteres}}</title>
     <meta name="twitter:title" content="{{TÍTULO SEO}}" />
@@ -40,9 +39,9 @@
     <meta name="twitter:description" content="{{META DESCRIPTION}}" />
     <meta property="og:description" content="{{META DESCRIPTION}}"/>
 
-    <link href="https://www.chiletransportistas.com/contratar-transporte/{{SLUG}}/" rel="canonical">
-    <meta name="twitter:url" content="https://www.chiletransportistas.com/contratar-transporte/{{SLUG}}/">
-    <meta property="og:url" content="https://www.chiletransportistas.com/contratar-transporte/{{SLUG}}/">
+    <link href="https://www.chiletransportistas.com/transportistas/{{SLUG}}/" rel="canonical">
+    <meta name="twitter:url" content="https://www.chiletransportistas.com/transportistas/{{SLUG}}/">
+    <meta property="og:url" content="https://www.chiletransportistas.com/transportistas/{{SLUG}}/">
 
     <script type="application/ld+json">
       {
@@ -69,11 +68,11 @@
         },
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": "https://www.chiletransportistas.com/contratar-transporte/{{SLUG}}/"
+          "@id": "https://www.chiletransportistas.com/transportistas/{{SLUG}}/"
         },
         "isPartOf": {
           "@type": "CollectionPage",
-          "@id": "https://www.chiletransportistas.com/contratar-transporte/#hub"
+          "@id": "https://www.chiletransportistas.com/transportistas/#hub"
         },
         "datePublished": "{{AAAA-MM-DD}}T12:00:00+00:00",
         "dateModified": "{{AAAA-MM-DD}}T12:00:00+00:00",
@@ -86,10 +85,10 @@
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="FYolLf4UKdbvvbq2cg2/lw" async></script>
 
 <!-- Sticky button for mobile only inject -->
-<!--#include file="/sticky-mobile-cta-carga.html" -->
+<!--#include file="/sticky-mobile-cta.html" -->
 
 <!-- right banner cta inject -->
-<!--#include file="/right-banner-cta-carga.html" -->
+<!--#include file="/right-banner-cta.html" -->
 
 </head>
 <!--#include file="/navbar.html" -->
@@ -98,15 +97,15 @@
 
   <!-- Migas de pan: pista + título corto. El snippet SSI imprime
        la navegación visible y el JSON-LD BreadcrumbList. -->
-  <!--#set var="bc_hub_name" value="Contratar transporte" -->
-  <!--#set var="bc_hub_url" value="/contratar-transporte/" -->
+  <!--#set var="bc_hub_name" value="Transportistas" -->
+  <!--#set var="bc_hub_url" value="/transportistas/" -->
   <!--#set var="bc_title" value="{{TÍTULO CORTO SIN COMILLAS}}" -->
   <!--#include file="/breadcrumbs.html" -->
 
   <h1>{{TITULAR COMPLETO}}</h1>
 
   <p>{{Respuesta directa a la consulta en el primer párrafo: quien busca
-  "cómo contratar transporte" quiere la respuesta, no una introducción.}}</p>
+  "cómo conseguir carga" quiere la respuesta, no una introducción.}}</p>
 
   <!-- Portada: la genera scripts/portada.mjs en tres anchos. Es la imagen
        LCP de la página, así que va sin lazy y con fetchpriority alto. -->
@@ -131,7 +130,7 @@
   <h2 id="s2">{{Sección 2}}</h2>
   <p>{{...}}</p>
 
-  <!--#include file="/content-cta-carga.html" -->
+  <!--#include file="/content-cta.html" -->
 
   <h2 id="faq">Preguntas frecuentes</h2>
   <h3>{{Pregunta}}</h3>

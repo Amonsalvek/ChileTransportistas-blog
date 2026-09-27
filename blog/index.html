@@ -15,17 +15,17 @@
     <meta name="twitter:description" content="El blog de ChileTransportistas, dividido en dos: guías para empresas de transporte que buscan carga y guías para empresas que necesitan contratar transporte en Chile." />
     <meta property="og:description" content="El blog de ChileTransportistas, dividido en dos: guías para empresas de transporte que buscan carga y guías para empresas que necesitan contratar transporte en Chile."/>
 
-    <link href="https://blog.chiletransportistas.com/" rel="canonical">
-    <meta name="twitter:url" content="https://blog.chiletransportistas.com/">
-    <meta property="og:url" content="https://blog.chiletransportistas.com/">
+    <link href="https://www.chiletransportistas.com/blog/" rel="canonical">
+    <meta name="twitter:url" content="https://www.chiletransportistas.com/blog/">
+    <meta property="og:url" content="https://www.chiletransportistas.com/blog/">
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Blog",
-        "@id": "https://blog.chiletransportistas.com/#blog",
+        "@id": "https://www.chiletransportistas.com/blog/#blog",
         "name": "Blog Chile Transportistas",
-        "url": "https://blog.chiletransportistas.com/",
+        "url": "https://www.chiletransportistas.com/blog/",
         "inLanguage": "es-CL",
         "description": "Guías de transporte de carga en Chile, separadas por intención: empresas de transporte que buscan carga y empresas que necesitan contratar transporte.",
         "publisher": {
@@ -41,12 +41,32 @@
           {
             "@type": "CollectionPage",
             "name": "Para empresas de transporte",
-            "url": "https://blog.chiletransportistas.com/transportistas/"
+            "url": "https://www.chiletransportistas.com/transportistas/"
           },
           {
             "@type": "CollectionPage",
             "name": "Para empresas que mueven carga",
-            "url": "https://blog.chiletransportistas.com/contratar-transporte/"
+            "url": "https://www.chiletransportistas.com/contratar-transporte/"
+          }
+        ]
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://www.chiletransportistas.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog"
           }
         ]
       }
@@ -57,11 +77,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/assets/css/blog-index.css">
+    <link rel="stylesheet" href="/blog/assets/css/blog-index.css">
 
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="FYolLf4UKdbvvbq2cg2/lw" async></script>
 </head>
-<!--#include file="navbar.html" -->
+<!--#include file="/navbar.html" -->
 
 <header class="blog-head">
   <h1>Blog Chile Transportistas</h1>
@@ -89,6 +109,11 @@
 
 <div class="blog-wrap">
 
+  <!-- Las tarjetas de los dos feeds las mantiene scripts/alta_articulo.py:
+       inserta la nueva arriba y deja solo las 3 más recientes. Si editas a
+       mano, conserva los atributos data-feed y data-vacio: son las marcas
+       que usa el script. -->
+
   <!-- ===== Feed: transportistas ===== -->
   <section class="feed" aria-labelledby="feed-transportistas">
     <div class="feed__head">
@@ -97,10 +122,10 @@
     </div>
     <p class="feed__sub">Conseguir carga, retornos, tarifas y visibilidad.</p>
 
-    <div class="grid">
+    <div class="grid" data-feed="transportistas">
 
       <article class="card">
-        <a class="stretched" href="/articulos/como-conseguir-carga-para-tu-camion/" aria-label="Cómo conseguir carga para tu camión en Chile: 7 formas que sí funcionan en 2026"></a>
+        <a class="stretched" href="/transportistas/como-conseguir-carga-para-tu-camion/" aria-label="Cómo conseguir carga para tu camión en Chile: 7 formas que sí funcionan en 2026"></a>
         <div class="thumb">
           <img loading="lazy" src="https://cdn.chiletransportistas.com/ChileTransportistas-assets/Blog/como-conseguir-carga-para-tu-camion.webp" alt="Camión buscando carga en ruta, Chile" />
         </div>
@@ -111,7 +136,7 @@
       </article>
 
       <article class="card">
-        <a class="stretched" href="/articulos/como-una-empresa-chilena-logro-escalar-de-1-a-600-camiones/" aria-label="Cómo una empresa chilena logró escalar de 1 a 600 camiones"></a>
+        <a class="stretched" href="/transportistas/como-una-empresa-chilena-logro-escalar-de-1-a-600-camiones/" aria-label="Cómo una empresa chilena logró escalar de 1 a 600 camiones"></a>
         <div class="thumb">
           <img loading="lazy" src="https://cdn.chiletransportistas.com/ChileTransportistas-assets/Portada-como-una-empresa-chilena-logro-escalar-de-1-a-600-camiones.webp" alt="Cómo una empresa chilena logró escalar de 1 a 600 camiones" />
         </div>
@@ -122,7 +147,7 @@
       </article>
 
       <article class="card">
-        <a class="stretched" href="/articulos/5-estrategias-que-usan-las-grandes-flotas-para-tener-carga-todo-el-mes/" aria-label="5 estrategias que usan las grandes flotas para tener carga todo el mes"></a>
+        <a class="stretched" href="/transportistas/5-estrategias-que-usan-las-grandes-flotas-para-tener-carga-todo-el-mes/" aria-label="5 estrategias que usan las grandes flotas para tener carga todo el mes"></a>
         <div class="thumb">
           <img loading="lazy" src="https://cdn.chiletransportistas.com/ChileTransportistas-assets/portada-5-estrategias-que-usan-las-grandes-flotas.webp" alt="5 estrategias que usan las grandes flotas para tener carga todo el mes" />
         </div>
@@ -143,18 +168,31 @@
     </div>
     <p class="feed__sub">Contratar transporte, comparar cotizaciones y elegir el camión correcto.</p>
 
-    <!-- Cuando esta pista tenga artículos, reemplaza este bloque por un
-         <div class="grid"> con las tarjetas, igual que arriba. -->
-    <div class="empty-state">
+    <div class="grid" data-feed="contratar-transporte" hidden>
+    </div>
+
+    <div class="empty-state" data-vacio="contratar-transporte">
       <h3>Estamos escribiendo esta sección</h3>
       <p>Las primeras guías para contratar transporte de carga en Chile salen pronto. Mientras tanto, puedes pedir cotizaciones directamente a transportistas verificados del directorio.</p>
       <a class="btn" href="https://www.chiletransportistas.com/cotizar-transporte-de-carga/">Cotizar transporte ahora</a>
     </div>
   </section>
 
+  <!-- ===== Artículos que siguen en Unicorn (www.chiletransportistas.com/blog/{slug}/) =====
+       Esta sección sale oculta del droplet. El Worker de Cloudflare
+       (worker/src/index.js) lee el índice de Unicorn, rellena la lista y
+       quita el "hidden". Si Unicorn no responde, la sección sigue oculta y
+       la página se ve igual que antes: nunca queda una lista vacía. -->
+  <section class="feed" id="mas-articulos" aria-labelledby="feed-mas" hidden>
+    <div class="feed__head">
+      <h2 id="feed-mas">Más artículos del blog</h2>
+    </div>
+    <ul class="lista-articulos" data-chtr-unicorn></ul>
+  </section>
+
 </div>
 
-<!--#include file="footer.html" -->
+<!--#include file="/footer.html" -->
 
 </body>
 </html>
