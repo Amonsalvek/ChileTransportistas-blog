@@ -1,0 +1,16 @@
+{
+  "name": "chtr-blog-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Herramientas del blog: portadas (OpenAI → WebP → R2).",
+  "scripts": {
+    "portada": "node portada.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

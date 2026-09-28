@@ -1,5 +1,12 @@
 # CHTR Blog CMS
 
+> **Obsoleto desde la migración a www.chiletransportistas.com (sep. 2026).**
+> Este CMS y el endpoint `/api/blog/publish` escriben en `articulos/` del
+> subdominio, que ya no existe: lo que publiquen quedaría en una ruta que
+> redirige a otra. Para publicar usa la skill `publicar-articulo`
+> (`.claude/skills/publicar-articulo/SKILL.md`) y ver `deploy/README.md`.
+> Se conserva como referencia.
+
 CMS local para **blog.chiletransportistas.com**. Un solo archivo HTML que se abre
 en el navegador y sirve para crear, editar, revisar, publicar y eliminar los
 artículos del blog sin tocar el HTML a mano y sin romper la estructura del sitio.

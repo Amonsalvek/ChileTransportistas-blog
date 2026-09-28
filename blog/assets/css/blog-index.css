@@ -18,6 +18,9 @@
 
 html{ scroll-behavior:smooth; }
 
+/* .grid y .feed fijan display: sin esto el atributo hidden no oculta nada. */
+[hidden]{ display:none !important; }
+
 html,body{
   background:var(--bg);
   margin:0;
@@ -239,6 +242,28 @@ img{ max-width:100%; height:auto; display:block; }
 /* ===============================
    🔹 Estado vacío (pista sin artículos aún)
    =============================== */
+/* Lista de artículos que siguen en Unicorn (la rellena el Worker) */
+.lista-articulos{
+  font-family:'Quicksand', system-ui, sans-serif;
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:10px 18px;
+}
+.lista-articulos a{
+  display:block;
+  padding:12px 14px;
+  border:1px solid #eceff3;
+  border-radius:10px;
+  color:#333;
+  font-weight:600;
+  text-decoration:none;
+  transition:border-color .2s ease, color .2s ease;
+}
+.lista-articulos a:hover{ border-color:var(--brand); color:var(--brand); }
+
 .empty-state{
   border:2px dashed #e2e6ea;
   border-radius:14px;

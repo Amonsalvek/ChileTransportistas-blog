@@ -1,0 +1,14 @@
+{
+  "name": "chtr-blog-router",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "deploy": "wrangler deploy",
+    "logs": "wrangler tail"
+  },
+  "devDependencies": {
+    "miniflare": "^4.20250901.0",
+    "wrangler": "^4.40.0"
+  }
+}
