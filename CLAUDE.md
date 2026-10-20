@@ -1,11 +1,13 @@
 # Blog de ChileTransportistas
 
 > **RETIRADO (oct 2026).** Los artículos ya no se publican desde este repo. Viven en
-> Unicorn como páginas dinámicas alimentadas por el Sheet "CMS artículos":
+> Unicorn como páginas dinámicas alimentadas por el Sheet "CMS artículos", que se
+> escribe con el endpoint de Apps Script `CMS articulos`:
 > `www.chiletransportistas.com/articulos/` (hub), `/transportistas/{slug}/` y
 > `/contratar-transporte/{slug}/`. El droplet solo mantiene los 301 del subdominio
-> `blog.chiletransportistas.com` hacia www (`deploy/nginx-blog.conf`) y las APIs del CMS
-> antiguo, que se retiran en una segunda etapa. El Worker `chtr-blog-router` se eliminó:
+> `blog.chiletransportistas.com` hacia www (`deploy/nginx-blog.conf`). Las APIs del CMS
+> antiguo (`chtr-blog-api`, `chtr-cms-api`) y el cron de `deploy/actualizar.sh` se
+> eliminaron: un merge a `main` ya no llega al droplet. El Worker `chtr-blog-router` se eliminó:
 > `www` es un dominio personalizado de Unicorn (Cloudflare Pages de ellos) y el tráfico
 > nunca pasaba por el Worker. Lo de abajo queda como referencia histórica.
 
